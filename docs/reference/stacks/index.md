@@ -35,7 +35,7 @@ A **stack** is the set of language-native tools wired into the task contract. Ev
 | **Status** | ✅ Available (local Blender required to render) | ✅ Available |
 | **fmt** | ruff format | prettier |
 | **lint** | ruff check | eslint |
-| **typecheck** | ty | tsc --noEmit |
+| **typecheck** | Python syntax check (`compileall`) | tsc --noEmit |
 | **test** | pytest source checks | node --test |
 | **build** | Blender render | vite build |
 | **verify** | render + reopen | build + Playwright E2E |
