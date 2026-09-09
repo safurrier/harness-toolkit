@@ -60,7 +60,18 @@ def build_blender(cwd=PROJECT_ROOT):
     if not blender:
         raise RuntimeError("Blender not found. Install Blender, add it to PATH, or set BLENDER_BIN=/path/to/blender.")
     log_step("Rendering Blender scene")
-    run([blender, "--background", "--python-exit-code", "1", "--python", "build.py"], cwd=cwd)
+    run(
+        [
+            blender,
+            "--factory-startup",
+            "--background",
+            "--python-exit-code",
+            "1",
+            "--python",
+            "build.py",
+        ],
+        cwd=cwd,
+    )
     log_ok("Blender scene render")
 
 

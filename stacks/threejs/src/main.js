@@ -67,7 +67,9 @@ if (renderer) {
     state = { apples: [], delivered: false },
     yaw = 0,
     last = performance.now(),
-    frames = 0;
+    frames = 0,
+    paused = false,
+    frameRequest = null;
   let joystickPointer = null,
     joystickOrigin = null,
     cameraPointer = null;
@@ -165,10 +167,20 @@ if (renderer) {
         delivered: state.delivered,
         frames,
         yaw,
+        paused,
       }),
     configurable: false,
   });
+  function resize() {
+    camera.aspect = innerWidth / innerHeight;
+    camera.updateProjectionMatrix();
+    renderer.setSize(innerWidth, innerHeight);
+  }
+  function scheduleFrame() {
+    frameRequest = requestAnimationFrame(frame);
+  }
   function frame(now) {
+    if (paused) return;
     frames++;
     const dt = Math.min(0.05, (now - last) / 1000);
     last = now;
@@ -196,14 +208,25 @@ if (renderer) {
       avatar.position.z + Math.cos(yaw) * 2,
     );
     renderer.render(scene, camera);
-    requestAnimationFrame(frame);
+    scheduleFrame();
   }
-  addEventListener("resize", () => {
-    camera.aspect = innerWidth / innerHeight;
-    camera.updateProjectionMatrix();
-    renderer.setSize(innerWidth, innerHeight);
+  canvas.addEventListener("webglcontextlost", (event) => {
+    event.preventDefault();
+    paused = true;
+    resetAll();
+    if (frameRequest !== null) cancelAnimationFrame(frameRequest);
+    frameRequest = null;
+    status.textContent = "Graphics context lost — recovering…";
   });
-  dispatchEvent(new Event("resize"));
+  canvas.addEventListener("webglcontextrestored", () => {
+    resize();
+    last = performance.now();
+    paused = false;
+    updateStatus();
+    scheduleFrame();
+  });
+  addEventListener("resize", resize);
+  resize();
   updateStatus();
-  requestAnimationFrame(frame);
+  scheduleFrame();
 }

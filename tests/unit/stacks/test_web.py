@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import json
 from pathlib import Path
 
 import pytest
@@ -72,6 +73,20 @@ def test_init_single_escapes_description_for_tsx(tmp_path: Path) -> None:
         '<p className="summary">{`A < B & {C} "quoted" \\`tick\\` \\${value}`}</p>'
         in app
     )
+
+
+def test_generated_web_manifest_overrides_only_transitive_sharp(tmp_path: Path) -> None:
+    from harness_toolkit.scaffold.config import Config
+    from harness_toolkit.scaffold.stacks.web import WebStack
+
+    WebStack().init_single(
+        tmp_path,
+        Config("webprobe", "A generated web app", "single", "web"),
+    )
+
+    manifest = json.loads((tmp_path / "package.json").read_text())
+    assert manifest["overrides"]["sharp"] == "0.35.4"
+    assert "sharp" not in manifest["dependencies"]
 
 
 def test_tailwind_variant_adds_tailwind_tooling(tmp_path: Path) -> None:

@@ -235,6 +235,43 @@ try {
       )
         throw new Error(`landscape control out of bounds: ${selector}`);
     }
+    const contextLoss = await page.evaluate(() => {
+      const canvas = document.querySelector("canvas");
+      const context = canvas.getContext("webgl2") || canvas.getContext("webgl");
+      const extension = context?.getExtension("WEBGL_lose_context");
+      if (!extension) return false;
+      // The extension is invalid to reacquire after loss; retain it for restoration.
+      window.__visualPrototypeLoseContextExtension = extension;
+      extension.loseContext();
+      return true;
+    });
+    if (!contextLoss) {
+      console.log(
+        "WEBGL_lose_context unavailable; context-loss recovery skipped",
+      );
+    } else {
+      await page.waitForFunction(
+        () =>
+          window.visualPrototypeTelemetry.paused &&
+          document
+            .querySelector("#status")
+            .textContent.includes("context lost"),
+        undefined,
+        { timeout: 5000 },
+      );
+      const lost = await telemetry(page);
+      await page.evaluate(() => {
+        window.__visualPrototypeLoseContextExtension.restoreContext();
+        delete window.__visualPrototypeLoseContextExtension;
+      });
+      await page.waitForFunction(
+        (frames) =>
+          !window.visualPrototypeTelemetry.paused &&
+          window.visualPrototypeTelemetry.frames > frames + 2,
+        lost.frames,
+        { timeout: 5000 },
+      );
+    }
     const desktop = await browser.newPage({
       viewport: { width: 1280, height: 720 },
     });

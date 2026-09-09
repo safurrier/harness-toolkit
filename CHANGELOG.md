@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+- Fix generated Blender `build.py` import ordering so its pinned Ruff quality gate passes after formatting.
+- Keep the `WEBGL_lose_context` extension reference through Three.js E2E context loss, because a lost context cannot reliably reacquire it for restoration.
 - Add Blender and Three.js single-project visual starters with local task dispatch, editable source seams, reproducible dependency templates, and documented render/browser prerequisites.
 - Restore the managed Python/uv runtime for generated Three.js task scripts.
 - Pin generated Web peer dependency sets and use managed npm 11.6.2 to avoid npm 10 peer-resolution failures.

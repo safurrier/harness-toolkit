@@ -1,0 +1,28 @@
+npm warn Unknown env config "min-release-age". This will stop working in the next major version of npm.
+npm warn Unknown user config "min-release-age". This will stop working in the next major version of npm.
+npm warn Unknown user config "allow-scripts". This will stop working in the next major version of npm.
+{
+  "version": "0.1.0",
+  "name": "web-default-proof",
+  "dependencies": {
+    "wrangler": {
+      "version": "4.130.0",
+      "resolved": "https://registry.npmjs.org/wrangler/-/wrangler-4.130.0.tgz",
+      "overridden": false,
+      "dependencies": {
+        "miniflare": {
+          "version": "5.20260908.0-alpha",
+          "resolved": "https://registry.npmjs.org/miniflare/-/miniflare-5.20260908.0-alpha.tgz",
+          "overridden": false,
+          "dependencies": {
+            "sharp": {
+              "version": "0.35.4",
+              "resolved": "https://registry.npmjs.org/sharp/-/sharp-0.35.4.tgz",
+              "overridden": true
+            }
+          }
+        }
+      }
+    }
+  }
+}

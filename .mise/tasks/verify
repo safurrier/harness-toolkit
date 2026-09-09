@@ -98,12 +98,34 @@ def verify_blender(cwd=PROJECT_ROOT):
     if not blender:
         raise RuntimeError("Blender not found. Install Blender, add it to PATH, or set BLENDER_BIN=/path/to/blender.")
     log_step("Rendering and reopening Blender scene")
-    run([blender, "--background", "--python-exit-code", "1", "--python", "build.py"], cwd=cwd)
     run(
         [
             blender,
+            "--factory-startup",
+            "--background",
+            "--python-exit-code",
+            "1",
+            "--python",
+            "build.py",
+        ],
+        cwd=cwd,
+    )
+    blend = cwd / "scene.blend"
+    png = cwd / "scene.png"
+    if not blend.is_file() or blend.stat().st_size == 0:
+        raise RuntimeError("Blender build did not produce a nonempty scene.blend")
+    if not png.is_file() or png.stat().st_size == 0:
+        raise RuntimeError("Blender build did not produce a nonempty scene.png")
+    if png.read_bytes()[:8] != b"\x89PNG\r\n\x1a\n":
+        raise RuntimeError("Blender scene.png is not a PNG file")
+    run(
+        [
+            blender,
+            "--factory-startup",
             "--background",
             "scene.blend",
+            "--python-exit-code",
+            "1",
             "--python-expr",
             "import bpy; assert bpy.data.filepath.endswith('.blend')",
         ],

@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import ast
 from pathlib import Path
 
 import pytest
@@ -82,6 +83,63 @@ def test_threejs_tools_include_the_managed_task_runtime() -> None:
     assert 'python = "3.12"' in tools
     assert 'uv = "latest"' in tools
     assert 'node = "22"' in tools
+
+
+def test_blender_build_requires_finished_operators_and_verify_checks_artifacts() -> (
+    None
+):
+    root = Path(__file__).resolve().parents[3]
+    build_source = (root / "stacks" / "blender" / "build.py").read_text()
+    assert build_source.startswith(
+        "import runpy\nfrom pathlib import Path\n\nimport bpy\n\n"
+    )
+    helper = next(
+        node
+        for node in ast.parse(build_source).body
+        if isinstance(node, ast.FunctionDef) and node.name == "require_finished"
+    )
+    namespace: dict[str, object] = {}
+    exec(
+        compile(ast.Module(body=[helper], type_ignores=[]), "build.py", "exec"),
+        namespace,
+    )
+    require_finished = namespace["require_finished"]
+    require_finished({"FINISHED"}, "save")  # type: ignore[operator]
+    with pytest.raises(RuntimeError, match="render"):
+        require_finished({"CANCELLED"}, "render")  # type: ignore[operator]
+
+    assert build_source.index("scene.render.filepath") < build_source.index(
+        "save_as_mainfile"
+    )
+    task = (root / ".mise" / "tasks" / "verify").read_text()
+    assert task.count('"--factory-startup"') >= 2
+    assert 'png.read_bytes()[:8] != b"\\x89PNG\\r\\n\\x1a\\n"' in task
+    assert "nonempty scene.blend" in task
+    assert "nonempty scene.png" in task
+
+
+def test_threejs_template_has_loopback_dev_and_context_recovery(tmp_path: Path) -> None:
+    ThreejsStack().init_single(
+        tmp_path,
+        Config("game-probe", "A game", "single", "threejs"),
+    )
+
+    manifest = (tmp_path / "package.json").read_text()
+    readme = (tmp_path / "README.md").read_text()
+    source = (tmp_path / "src" / "main.js").read_text()
+    e2e = (tmp_path / "test" / "e2e.mjs").read_text()
+    assert '"dev": "vite"' in manifest
+    assert '"dev:lan": "vite --host 0.0.0.0"' in manifest
+    assert "trusted-LAN" in readme
+    assert 'canvas.addEventListener("webglcontextlost"' in source
+    assert 'canvas.addEventListener("webglcontextrestored"' in source
+    assert "event.preventDefault()" in source
+    assert "paused = true" in source
+    assert "resetAll()" in source
+    assert "resize();" in source
+    assert "__visualPrototypeLoseContextExtension = extension" in e2e
+    assert "__visualPrototypeLoseContextExtension.restoreContext()" in e2e
+    assert 'getExtension("WEBGL_lose_context").restoreContext()' not in e2e
 
 
 def test_threejs_template_has_lockfile_and_mobile_safety_seams(tmp_path: Path) -> None:
