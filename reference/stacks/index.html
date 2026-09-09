@@ -6,7 +6,7 @@
       <meta charset="utf-8">
       <meta name="viewport" content="width=device-width,initial-scale=1">
       
-        <meta name="description" content="Overview of supported language stacks (Python, Go, Rust, Web), with a per-stack tool comparison table and how to select a stack at init time.
+        <meta name="description" content="Overview of supported language and visual stacks (Python, Go, Rust, Web, Blender, Three.js), with a per-stack tool comparison table and how to select a stack at init time.
 ">
       
       
@@ -1301,6 +1301,34 @@
 
               
             
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="visual/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Visual starters
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
           </ul>
         </nav>
       
@@ -1894,6 +1922,57 @@
 </tr>
 </tbody>
 </table>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>Blender</th>
+<th>Three.js</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Status</strong></td>
+<td>✅ Available (local Blender required to render)</td>
+<td>✅ Available</td>
+</tr>
+<tr>
+<td><strong>fmt</strong></td>
+<td>ruff format</td>
+<td>prettier</td>
+</tr>
+<tr>
+<td><strong>lint</strong></td>
+<td>ruff check</td>
+<td>eslint</td>
+</tr>
+<tr>
+<td><strong>typecheck</strong></td>
+<td>Python syntax check (<code>compileall</code>)</td>
+<td>tsc --noEmit</td>
+</tr>
+<tr>
+<td><strong>test</strong></td>
+<td>pytest source checks</td>
+<td>node --test</td>
+</tr>
+<tr>
+<td><strong>build</strong></td>
+<td>Blender render</td>
+<td>vite build</td>
+</tr>
+<tr>
+<td><strong>verify</strong></td>
+<td>render + reopen</td>
+<td>build + Playwright E2E</td>
+</tr>
+<tr>
+<td><strong>Tool manager</strong></td>
+<td>uv + Blender</td>
+<td>npm</td>
+</tr>
+</tbody>
+</table>
 <h2 id="stack-selection">Stack selection<a class="headerlink" href="#stack-selection" title="Permanent link">&para;</a></h2>
 <p>Set at <code>init</code> time via <code>--stack</code>:</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>mise<span class="w"> </span>run<span class="w"> </span>init<span class="w"> </span>--<span class="w"> </span>--non-interactive<span class="w"> </span>--name<span class="w"> </span>myapp<span class="w"> </span>--shape<span class="w"> </span>single<span class="w"> </span>--stack<span class="w"> </span>python
@@ -1901,6 +1980,8 @@
 <a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>mise<span class="w"> </span>run<span class="w"> </span>init<span class="w"> </span>--<span class="w"> </span>--non-interactive<span class="w"> </span>--name<span class="w"> </span>mydaemon<span class="w"> </span>--shape<span class="w"> </span>single<span class="w"> </span>--stack<span class="w"> </span>rust
 <a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>mise<span class="w"> </span>run<span class="w"> </span>init<span class="w"> </span>--<span class="w"> </span>--non-interactive<span class="w"> </span>--name<span class="w"> </span>mydashboard<span class="w"> </span>--shape<span class="w"> </span>single<span class="w"> </span>--stack<span class="w"> </span>web
 <a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>mise<span class="w"> </span>run<span class="w"> </span>init<span class="w"> </span>--<span class="w"> </span>--non-interactive<span class="w"> </span>--name<span class="w"> </span>mydashboard<span class="w"> </span>--shape<span class="w"> </span>single<span class="w"> </span>--stack<span class="w"> </span>web<span class="w"> </span>--web-ui<span class="w"> </span>shadcn<span class="w"> </span>--web-db<span class="w"> </span>drizzle-d1
+<a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>mise<span class="w"> </span>run<span class="w"> </span>init<span class="w"> </span>--<span class="w"> </span>--non-interactive<span class="w"> </span>--name<span class="w"> </span>garden-scene<span class="w"> </span>--shape<span class="w"> </span>single<span class="w"> </span>--stack<span class="w"> </span>blender
+<a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a>mise<span class="w"> </span>run<span class="w"> </span>init<span class="w"> </span>--<span class="w"> </span>--non-interactive<span class="w"> </span>--name<span class="w"> </span>visual-game<span class="w"> </span>--shape<span class="w"> </span>single<span class="w"> </span>--stack<span class="w"> </span>threejs
 </code></pre></div>
 <p>Web stack variants are opt-in. <code>--web-ui</code> accepts <code>plain</code>, <code>tailwind</code>, or
 <code>shadcn</code>; <code>--web-db</code> accepts <code>d1</code> or <code>drizzle-d1</code>.</p>
@@ -1917,6 +1998,7 @@
 <li><a href="rust/">Rust stack</a></li>
 <li><a href="web/">Web stack</a></li>
 <li><a href="web-template-summary/">Web app template summary</a></li>
+<li><a href="visual/">Visual stacks</a></li>
 </ul>
 
 

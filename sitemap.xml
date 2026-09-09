@@ -2,154 +2,158 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
     <url>
          <loc>https://safurrier.github.io/harness-toolkit/</loc>
-         <lastmod>2026-06-10</lastmod>
+         <lastmod>2026-09-09</lastmod>
     </url>
     <url>
          <loc>https://safurrier.github.io/harness-toolkit/AGENTS/</loc>
-         <lastmod>2026-06-10</lastmod>
+         <lastmod>2026-09-09</lastmod>
     </url>
     <url>
          <loc>https://safurrier.github.io/harness-toolkit/explanation/ci/</loc>
-         <lastmod>2026-06-10</lastmod>
+         <lastmod>2026-09-09</lastmod>
     </url>
     <url>
          <loc>https://safurrier.github.io/harness-toolkit/explanation/harness-kit-lifecycle-design/</loc>
-         <lastmod>2026-06-10</lastmod>
+         <lastmod>2026-09-09</lastmod>
     </url>
     <url>
          <loc>https://safurrier.github.io/harness-toolkit/explanation/harness-kit-what-and-why/</loc>
-         <lastmod>2026-06-10</lastmod>
+         <lastmod>2026-09-09</lastmod>
     </url>
     <url>
          <loc>https://safurrier.github.io/harness-toolkit/explanation/init-system/</loc>
-         <lastmod>2026-06-10</lastmod>
+         <lastmod>2026-09-09</lastmod>
     </url>
     <url>
          <loc>https://safurrier.github.io/harness-toolkit/explanation/portable-workflow/</loc>
-         <lastmod>2026-06-10</lastmod>
+         <lastmod>2026-09-09</lastmod>
     </url>
     <url>
          <loc>https://safurrier.github.io/harness-toolkit/explanation/script-contract-prototype/</loc>
-         <lastmod>2026-06-10</lastmod>
+         <lastmod>2026-09-09</lastmod>
     </url>
     <url>
          <loc>https://safurrier.github.io/harness-toolkit/explanation/shapes/</loc>
-         <lastmod>2026-06-10</lastmod>
+         <lastmod>2026-09-09</lastmod>
     </url>
     <url>
          <loc>https://safurrier.github.io/harness-toolkit/explanation/system-map-mental-model/</loc>
-         <lastmod>2026-06-10</lastmod>
+         <lastmod>2026-09-09</lastmod>
     </url>
     <url>
          <loc>https://safurrier.github.io/harness-toolkit/how-to/agent-adoption/</loc>
-         <lastmod>2026-06-10</lastmod>
+         <lastmod>2026-09-09</lastmod>
     </url>
     <url>
          <loc>https://safurrier.github.io/harness-toolkit/how-to/development/</loc>
-         <lastmod>2026-06-10</lastmod>
+         <lastmod>2026-09-09</lastmod>
     </url>
     <url>
          <loc>https://safurrier.github.io/harness-toolkit/how-to/getting-started/</loc>
-         <lastmod>2026-06-10</lastmod>
+         <lastmod>2026-09-09</lastmod>
     </url>
     <url>
          <loc>https://safurrier.github.io/harness-toolkit/how-to/profile-authoring/</loc>
-         <lastmod>2026-06-10</lastmod>
+         <lastmod>2026-09-09</lastmod>
     </url>
     <url>
          <loc>https://safurrier.github.io/harness-toolkit/how-to/profile-reviews/</loc>
-         <lastmod>2026-06-10</lastmod>
+         <lastmod>2026-09-09</lastmod>
     </url>
     <url>
          <loc>https://safurrier.github.io/harness-toolkit/how-to/release/</loc>
-         <lastmod>2026-06-10</lastmod>
+         <lastmod>2026-09-09</lastmod>
     </url>
     <url>
          <loc>https://safurrier.github.io/harness-toolkit/how-to/system-map-authoring/</loc>
-         <lastmod>2026-06-10</lastmod>
+         <lastmod>2026-09-09</lastmod>
     </url>
     <url>
          <loc>https://safurrier.github.io/harness-toolkit/reference/task-contract/</loc>
-         <lastmod>2026-06-10</lastmod>
+         <lastmod>2026-09-09</lastmod>
     </url>
     <url>
          <loc>https://safurrier.github.io/harness-toolkit/reference/decisions/0001-spec-driven-decision-loop/</loc>
-         <lastmod>2026-06-10</lastmod>
+         <lastmod>2026-09-09</lastmod>
     </url>
     <url>
          <loc>https://safurrier.github.io/harness-toolkit/reference/decisions/0002-plan-workflow/</loc>
-         <lastmod>2026-06-10</lastmod>
+         <lastmod>2026-09-09</lastmod>
     </url>
     <url>
          <loc>https://safurrier.github.io/harness-toolkit/reference/decisions/0003-deterministic-slice-contract/</loc>
-         <lastmod>2026-06-10</lastmod>
+         <lastmod>2026-09-09</lastmod>
     </url>
     <url>
          <loc>https://safurrier.github.io/harness-toolkit/reference/decisions/0004-skill-first-slice-workflow/</loc>
-         <lastmod>2026-06-10</lastmod>
+         <lastmod>2026-09-09</lastmod>
     </url>
     <url>
          <loc>https://safurrier.github.io/harness-toolkit/reference/decisions/0005-harden-sync-contract-ci/</loc>
-         <lastmod>2026-06-10</lastmod>
+         <lastmod>2026-09-09</lastmod>
     </url>
     <url>
          <loc>https://safurrier.github.io/harness-toolkit/reference/decisions/0006-followup-contract-stack-rubric/</loc>
-         <lastmod>2026-06-10</lastmod>
+         <lastmod>2026-09-09</lastmod>
     </url>
     <url>
          <loc>https://safurrier.github.io/harness-toolkit/reference/decisions/0007-harness-toolkit-naming/</loc>
-         <lastmod>2026-06-10</lastmod>
+         <lastmod>2026-09-09</lastmod>
     </url>
     <url>
          <loc>https://safurrier.github.io/harness-toolkit/reference/decisions/0008-harness-kit-ledger-first-local-assistant/</loc>
-         <lastmod>2026-06-10</lastmod>
+         <lastmod>2026-09-09</lastmod>
     </url>
     <url>
          <loc>https://safurrier.github.io/harness-toolkit/reference/decisions/0009-harness-kit-lifecycle-first-cli/</loc>
-         <lastmod>2026-06-10</lastmod>
+         <lastmod>2026-09-09</lastmod>
     </url>
     <url>
          <loc>https://safurrier.github.io/harness-toolkit/reference/decisions/0010-compact-hk-export-packages/</loc>
-         <lastmod>2026-06-10</lastmod>
+         <lastmod>2026-09-09</lastmod>
     </url>
     <url>
          <loc>https://safurrier.github.io/harness-toolkit/reference/decisions/0011-path-aware-review-freshness/</loc>
-         <lastmod>2026-06-10</lastmod>
+         <lastmod>2026-09-09</lastmod>
     </url>
     <url>
          <loc>https://safurrier.github.io/harness-toolkit/reference/decisions/0012-lifecycle-neutral-active-hk-exports/</loc>
-         <lastmod>2026-06-10</lastmod>
+         <lastmod>2026-09-09</lastmod>
     </url>
     <url>
          <loc>https://safurrier.github.io/harness-toolkit/reference/decisions/0013-web-stack-v0/</loc>
-         <lastmod>2026-06-10</lastmod>
+         <lastmod>2026-09-09</lastmod>
     </url>
     <url>
          <loc>https://safurrier.github.io/harness-toolkit/reference/stacks/</loc>
-         <lastmod>2026-06-10</lastmod>
+         <lastmod>2026-09-09</lastmod>
     </url>
     <url>
          <loc>https://safurrier.github.io/harness-toolkit/reference/stacks/acceptance-rubric/</loc>
-         <lastmod>2026-06-10</lastmod>
+         <lastmod>2026-09-09</lastmod>
     </url>
     <url>
          <loc>https://safurrier.github.io/harness-toolkit/reference/stacks/go/</loc>
-         <lastmod>2026-06-10</lastmod>
+         <lastmod>2026-09-09</lastmod>
     </url>
     <url>
          <loc>https://safurrier.github.io/harness-toolkit/reference/stacks/python/</loc>
-         <lastmod>2026-06-10</lastmod>
+         <lastmod>2026-09-09</lastmod>
     </url>
     <url>
          <loc>https://safurrier.github.io/harness-toolkit/reference/stacks/rust/</loc>
-         <lastmod>2026-06-10</lastmod>
+         <lastmod>2026-09-09</lastmod>
+    </url>
+    <url>
+         <loc>https://safurrier.github.io/harness-toolkit/reference/stacks/visual/</loc>
+         <lastmod>2026-09-09</lastmod>
     </url>
     <url>
          <loc>https://safurrier.github.io/harness-toolkit/reference/stacks/web-template-summary/</loc>
-         <lastmod>2026-06-10</lastmod>
+         <lastmod>2026-09-09</lastmod>
     </url>
     <url>
          <loc>https://safurrier.github.io/harness-toolkit/reference/stacks/web/</loc>
-         <lastmod>2026-06-10</lastmod>
+         <lastmod>2026-09-09</lastmod>
     </url>
 </urlset>
