@@ -39,6 +39,14 @@ build-backend = "hatchling.build"
 [tool.hatch.build.targets.wheel]
 packages = ["src/harness_toolkit"]
 
+# Scaffold runtime files live at the repository root during development. Map them
+# into the installed package so harness-scaffold can find every shipped template.
+[tool.hatch.build.targets.wheel.force-include]
+".mise" = "harness_toolkit/scaffold/resources/.mise"
+"scripts" = "harness_toolkit/scaffold/resources/scripts"
+"stacks" = "harness_toolkit/scaffold/resources/stacks"
+"templates" = "harness_toolkit/scaffold/resources/templates"
+
 # ── Ruff ─────────────────────────────────────
 [tool.ruff]
 extend-exclude = ["stacks/", "templates/", ".agent/skills/"]

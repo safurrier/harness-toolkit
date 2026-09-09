@@ -1,5 +1,9 @@
 # Changelog
 
+## Unreleased
+
+- Add Blender and Three.js single-project visual starters with local task dispatch, editable source seams, reproducible dependency templates, and documented render/browser prerequisites.
+
 ## v0.3.0 - 2026-06-10
 
 ### Added

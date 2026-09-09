@@ -1,4 +1,4 @@
-#!/usr/bin/env -S uv run python
+#!/usr/bin/env -S env UV_NO_CONFIG=1 uv run python
 # MISE description="Run static type analysis"
 # MISE depends=["setup"]
 import os
@@ -44,6 +44,21 @@ def typecheck_web(cwd=PROJECT_ROOT):
     log_ok("Web typecheck")
 
 
+def typecheck_blender(cwd=PROJECT_ROOT):
+    log_step("Checking Blender scene source syntax")
+    run(
+        ["uv", "run", "python", "-m", "compileall", "-q", "scene.py", "build.py"],
+        cwd=cwd,
+    )
+    log_ok("Blender syntax check")
+
+
+def typecheck_threejs(cwd=PROJECT_ROOT):
+    log_step("Type-checking Three.js source")
+    run(["npm", "run", "typecheck"], cwd=cwd)
+    log_ok("Three.js typecheck")
+
+
 if get_shape() == "apps":
     run_per_module(
         "typecheck",
@@ -53,6 +68,8 @@ if get_shape() == "apps":
                 "go": typecheck_go,
                 "rust": typecheck_rust,
                 "web": typecheck_web,
+                "blender": typecheck_blender,
+                "threejs": typecheck_threejs,
             }
         ),
     )
@@ -63,5 +80,7 @@ else:
             "go": typecheck_go,
             "rust": typecheck_rust,
             "web": typecheck_web,
+            "blender": typecheck_blender,
+            "threejs": typecheck_threejs,
         }
     )

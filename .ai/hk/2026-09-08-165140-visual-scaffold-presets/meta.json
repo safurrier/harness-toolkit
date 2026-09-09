@@ -1,0 +1,51 @@
+{
+  "attached_artifacts": [
+    {
+      "copied": true,
+      "export_path": "artifacts/artifact_15_integration-evaluation_artifact_20260909_065534_352886_integration-evaluation_harness-visual-luna-evidence.md",
+      "kind": "integration-evaluation",
+      "label": "Luna visual trials: initial and one repair",
+      "redaction": "external",
+      "seq": 15,
+      "sha256": "sha256:303a0edaab945089e4ba706fdbf0b85ad73651bd9ad37b88685073c0b9c71842",
+      "size_bytes": 5288
+    }
+  ],
+  "branch": "feat/visual-scaffold-presets",
+  "diff_hash": "sha256:a3036053738869f55dc1e8b79364b7bba4e8f1eeadda9994ad32031523d159a5",
+  "dirty": true,
+  "event_count": 13,
+  "event_seq": 15,
+  "evidence_count": 7,
+  "evidence_ids": [
+    "ev_20260908_172244_536077",
+    "ev_20260908_172245_936002",
+    "ev_20260908_172320_073713",
+    "ev_20260908_172323_752068",
+    "ev_20260908_222215_648331",
+    "ev_20260909_064156_732899",
+    "ev_20260909_064158_489741"
+  ],
+  "file_hashes": {
+    "README.md": "sha256:d1f647024d10b8f4069653ee400330c761f3e0101a7bf44a55a8824ce6593655",
+    "artifacts/README.md": "sha256:c4bad9d4652f296a7e4dcf175fe1dd0c66a99ec0b74941cd45c499e84792436c",
+    "artifacts/artifact_15_integration-evaluation_artifact_20260909_065534_352886_integration-evaluation_harness-visual-luna-evidence.md": "sha256:303a0edaab945089e4ba706fdbf0b85ad73651bd9ad37b88685073c0b9c71842"
+  },
+  "files": [
+    "README.md",
+    "meta.json",
+    "artifacts/README.md",
+    "artifacts/artifact_15_integration-evaluation_artifact_20260909_065534_352886_integration-evaluation_harness-visual-luna-evidence.md"
+  ],
+  "generated_at": "2026-09-09T13:59:27.132110+00:00",
+  "generated_by": "hk export --format handoff-dir",
+  "git_sha": "c4bde2d",
+  "output_path": ".ai/hk/2026-09-08-165140-visual-scaffold-presets",
+  "ready": false,
+  "ready_status": "not-ready",
+  "schema_version": 1,
+  "sync_status": "needs-sync",
+  "target_root": ".",
+  "target_scope": ".",
+  "work_id": "2026-09-08-165140-visual-scaffold-presets"
+}

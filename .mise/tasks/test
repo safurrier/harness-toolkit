@@ -1,4 +1,4 @@
-#!/usr/bin/env -S uv run python
+#!/usr/bin/env -S env UV_NO_CONFIG=1 uv run python
 # MISE description="Run unit tests"
 # MISE depends=["setup"]
 import os
@@ -80,14 +80,27 @@ def test_web(cwd=PROJECT_ROOT):
     log_ok("Web tests")
 
 
+
+def test_blender(cwd=PROJECT_ROOT):
+    log_step("Running Blender scene source tests")
+    run(["uv", "run", "pytest"], cwd=cwd)
+    log_ok("Blender source tests")
+
+
+def test_threejs(cwd=PROJECT_ROOT):
+    log_step("Running Three.js rules tests")
+    run(["npm", "run", "test"], cwd=cwd)
+    log_ok("Three.js rules tests")
+
+
 if get_shape() == "apps":
     run_per_module(
         "test",
         dispatch_module(
-            {"python": test_python, "go": test_go, "rust": test_rust, "web": test_web}
+            {"python": test_python, "go": test_go, "rust": test_rust, "web": test_web, "blender": test_blender, "threejs": test_threejs}
         ),
     )
 else:
     dispatch_stack(
-        {"python": test_python, "go": test_go, "rust": test_rust, "web": test_web}
+        {"python": test_python, "go": test_go, "rust": test_rust, "web": test_web, "blender": test_blender, "threejs": test_threejs}
     )

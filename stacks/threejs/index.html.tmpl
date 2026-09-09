@@ -1,0 +1,28 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, viewport-fit=cover"
+    />
+    <title>Orchard Courier</title>
+  </head>
+  <body>
+    <div id="app">
+      <canvas aria-label="Orchard courier game"></canvas>
+      <section id="hud">
+        <b>ORCHARD COURIER</b><span id="status">Gather 3 apples → basket</span
+        ><small
+          >WASD/arrows or joystick · swipe to look · E/ACTION to collect</small
+        ><button id="action">ACTION / E</button
+        ><button id="replay">REPLAY</button>
+      </section>
+      <div id="joystick" aria-label="Touch joystick"><i></i></div>
+      <div id="unsupported" hidden>
+        WebGL is unavailable. Try a browser with hardware graphics enabled.
+      </div>
+    </div>
+    <script type="module" src="/src/main.js"></script>
+  </body>
+</html>

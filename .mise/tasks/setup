@@ -1,4 +1,4 @@
-#!/usr/bin/env -S uv run python
+#!/usr/bin/env -S env UV_NO_CONFIG=1 uv run python
 # MISE description="Install dependencies and prepare the environment"
 import os
 import shutil
@@ -43,16 +43,29 @@ def setup_web(cwd=PROJECT_ROOT):
     log_ok("Web dependencies installed")
 
 
+
+def setup_blender(cwd=PROJECT_ROOT):
+    log_step("Installing Blender scene source-check dependencies")
+    run(["uv", "sync", "--locked", "--all-groups"], cwd=cwd)
+    log_ok("Blender source dependencies installed")
+
+
+def setup_threejs(cwd=PROJECT_ROOT):
+    log_step("Installing Three.js dependencies from lockfile")
+    run(["npm", "ci"], cwd=cwd)
+    log_ok("Three.js dependencies installed")
+
+
 if get_shape() == "apps":
     run_per_module(
         "setup",
         dispatch_module(
-            {"python": setup_python, "go": setup_go, "rust": setup_rust, "web": setup_web}
+            {"python": setup_python, "go": setup_go, "rust": setup_rust, "web": setup_web, "blender": setup_blender, "threejs": setup_threejs}
         ),
     )
 else:
     dispatch_stack(
-        {"python": setup_python, "go": setup_go, "rust": setup_rust, "web": setup_web}
+        {"python": setup_python, "go": setup_go, "rust": setup_rust, "web": setup_web, "blender": setup_blender, "threejs": setup_threejs}
     )
 
 # Install pre-commit hooks if available

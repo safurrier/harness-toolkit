@@ -12,6 +12,14 @@ from tests.support.hk2_repo import git_env, git_init, run_hk
 pytestmark = pytest.mark.agent_sim
 
 
+@pytest.fixture(autouse=True)
+def isolate_harness_kit_config(tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> None:
+    """Keep agent simulations independent from developer HK target bindings."""
+    config = tmp_path / "harness.toml"
+    config.write_text('version = 1\ndefault_profile = "generic"\n')
+    monkeypatch.setenv("HARNESS_KIT_CONFIG", str(config))
+
+
 def _json(result) -> dict[str, object]:
     assert result.returncode == 0, (result.stdout, result.stderr)
     return json.loads(result.stdout)

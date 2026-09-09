@@ -39,6 +39,7 @@ Agent routing index for MkDocs-managed documentation. Structure is owned by `mkd
 | `reference/stacks/go.md` | Go tooling: gofumpt, golangci-lint, go test, Dockerfile |
 | `reference/stacks/rust.md` | Rust tooling: cargo fmt, clippy, check, test, Dockerfile |
 | `reference/stacks/web.md` | Web tooling and optional variants: Vite, React, Tailwind/shadcn, Cloudflare Workers, D1/Drizzle, Prettier, ESLint, Vitest |
+| `reference/stacks/visual.md` | Blender and Three.js visual starter tooling, edit seams, and local prerequisites |
 | `reference/decisions/0001-spec-driven-decision-loop.md` | SPEC.md, docs, and ADR loop |
 | `reference/decisions/0002-plan-workflow.md` | Plan directory workflow |
 | `reference/decisions/0003-deterministic-slice-contract.md` | Plan/spec/evidence/review contract |

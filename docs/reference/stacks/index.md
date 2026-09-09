@@ -2,7 +2,7 @@
 id: stacks-overview
 title: Stacks
 description: >
-  Overview of supported language stacks (Python, Go, Rust, Web), with a
+  Overview of supported language and visual stacks (Python, Go, Rust, Web, Blender, Three.js), with a
   per-stack tool comparison table and how to select a stack at init time.
 index:
   - id: stack-comparison
@@ -30,6 +30,17 @@ A **stack** is the set of language-native tools wired into the task contract. Ev
 | **deploy check** | Package build | Docker build | Docker build | wrangler deploy dry-run |
 | **Tool manager** | uv | go toolchain | cargo | npm |
 
+| | Blender | Three.js |
+|--|---------|----------|
+| **Status** | ✅ Available (local Blender required to render) | ✅ Available |
+| **fmt** | ruff format | prettier |
+| **lint** | ruff check | eslint |
+| **typecheck** | ty | tsc --noEmit |
+| **test** | pytest source checks | node --test |
+| **build** | Blender render | vite build |
+| **verify** | render + reopen | build + Playwright E2E |
+| **Tool manager** | uv + Blender | npm |
+
 ## Stack selection
 
 Set at `init` time via `--stack`:
@@ -40,6 +51,8 @@ mise run init -- --non-interactive --name myservice --shape single --stack go
 mise run init -- --non-interactive --name mydaemon --shape single --stack rust
 mise run init -- --non-interactive --name mydashboard --shape single --stack web
 mise run init -- --non-interactive --name mydashboard --shape single --stack web --web-ui shadcn --web-db drizzle-d1
+mise run init -- --non-interactive --name garden-scene --shape single --stack blender
+mise run init -- --non-interactive --name visual-game --shape single --stack threejs
 ```
 
 Web stack variants are opt-in. `--web-ui` accepts `plain`, `tailwind`, or
@@ -62,3 +75,4 @@ All task scripts read this variable to dispatch to the correct toolchain.
 - [Rust stack](rust.md)
 - [Web stack](web.md)
 - [Web app template summary](web-template-summary.md)
+- [Visual stacks](visual.md)

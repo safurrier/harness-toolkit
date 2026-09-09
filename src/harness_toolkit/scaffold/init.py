@@ -153,11 +153,15 @@ def cleanup_scaffold(root: Path, config: Config) -> None:
     stack_owns_root_tests = config.shape == "single" and config.stack in {
         "python",
         "web",
+        "blender",
+        "threejs",
     }
     if not stack_owns_root_tests:
         to_remove.append(root / "tests")
-    if config.stack != "python":
-        to_remove.append(root / "pyproject.toml")
+    if config.stack not in {"python", "blender"} or config.shape == "apps":
+        # The root lock belongs to the scaffold project whenever its metadata is
+        # removed. Stack-owned locks (including Blender's) remain intact.
+        to_remove.extend([root / "pyproject.toml", root / "uv.lock"])
 
     for path in to_remove:
         if path.is_dir():

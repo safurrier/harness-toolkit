@@ -1,4 +1,4 @@
-#!/usr/bin/env -S uv run python
+#!/usr/bin/env -S env UV_NO_CONFIG=1 uv run python
 # MISE description="Format code"
 # MISE depends=["setup"]
 import os
@@ -87,14 +87,39 @@ def fmt_web(cwd=PROJECT_ROOT):
     log_ok("Web format")
 
 
+
+def fmt_blender(cwd=PROJECT_ROOT):
+    log_step("Checking Blender scene formatting" if check else "Formatting Blender scene source")
+    run(
+        [
+            "uv",
+            "run",
+            "ruff",
+            "format",
+            "--check" if check else "--force-exclude",
+            "scene.py",
+            "build.py",
+            "tests",
+        ],
+        cwd=cwd,
+    )
+    log_ok("Blender format")
+
+
+def fmt_threejs(cwd=PROJECT_ROOT):
+    log_step("Checking Three.js formatting" if check else "Formatting Three.js source")
+    run(["npm", "run", "fmt:check" if check else "fmt"], cwd=cwd)
+    log_ok("Three.js format")
+
+
 if get_shape() == "apps":
     run_per_module(
         "fmt",
         dispatch_module(
-            {"python": fmt_python, "go": fmt_go, "rust": fmt_rust, "web": fmt_web}
+            {"python": fmt_python, "go": fmt_go, "rust": fmt_rust, "web": fmt_web, "blender": fmt_blender, "threejs": fmt_threejs}
         ),
     )
 else:
     dispatch_stack(
-        {"python": fmt_python, "go": fmt_go, "rust": fmt_rust, "web": fmt_web}
+        {"python": fmt_python, "go": fmt_go, "rust": fmt_rust, "web": fmt_web, "blender": fmt_blender, "threejs": fmt_threejs}
     )
