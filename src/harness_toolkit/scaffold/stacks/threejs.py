@@ -11,7 +11,7 @@ from harness_toolkit.scaffold.templates import copy_tree
 
 class ThreejsStack:
     def tools_toml(self) -> str:
-        return 'node = "22"\n'
+        return 'python = "3.12"\nuv = "latest"\nnode = "22"\n'
 
     def adr_notes(self) -> str:
         return """\

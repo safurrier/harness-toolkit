@@ -16,6 +16,21 @@ def test_tools_toml_has_node_python_and_uv() -> None:
     assert 'python = "3.12"' in tools
     assert 'uv = "latest"' in tools
     assert 'node = "22"' in tools
+    assert 'npm = "11.6.2"' in tools
+
+
+def test_web_dev_dependencies_pin_compatible_peer_sets() -> None:
+    from harness_toolkit.scaffold.config import Config
+    from harness_toolkit.scaffold.stacks.web import _web_dev_dependencies
+
+    dependencies = _web_dev_dependencies(
+        Config("webprobe", "A generated web app", "single", "web")
+    )
+
+    assert dependencies["vitest"] == "4.1.11"
+    assert dependencies["@vitest/browser-playwright"] == "4.1.11"
+    assert dependencies["wrangler"] == "4.130.0"
+    assert dependencies["@cloudflare/workers-types"] == "5.20260908.1"
 
 
 def test_adr_notes_mentions_key_tools() -> None:

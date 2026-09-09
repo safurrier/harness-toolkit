@@ -76,6 +76,14 @@ def test_blender_setup_and_dev_tasks_use_locked_python_scene_execution() -> None
     assert 'command = [blender, "scene.blend"]' in dev
 
 
+def test_threejs_tools_include_the_managed_task_runtime() -> None:
+    tools = ThreejsStack().tools_toml()
+
+    assert 'python = "3.12"' in tools
+    assert 'uv = "latest"' in tools
+    assert 'node = "22"' in tools
+
+
 def test_threejs_template_has_lockfile_and_mobile_safety_seams(tmp_path: Path) -> None:
     ThreejsStack().init_single(
         tmp_path,
