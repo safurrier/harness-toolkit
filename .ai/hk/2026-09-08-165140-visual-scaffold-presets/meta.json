@@ -42,11 +42,11 @@
     }
   ],
   "branch": "feat/visual-scaffold-presets",
-  "diff_hash": "sha256:3a71953bfe3e06df46cd881eae808473cc2a02e3e1a8dd7078b3d3faa8dd26eb",
+  "diff_hash": "sha256:176b690247cdc9fd1d8f93aa7b9a6ca19e56d36189a1453f9f96c1828075aa39",
   "dirty": true,
-  "event_count": 23,
-  "event_seq": 28,
-  "evidence_count": 13,
+  "event_count": 27,
+  "event_seq": 36,
+  "evidence_count": 14,
   "evidence_ids": [
     "ev_20260908_172244_536077",
     "ev_20260908_172245_936002",
@@ -60,10 +60,11 @@
     "ev_20260909_162712_359873",
     "ev_20260909_162822_642677",
     "ev_20260909_162928_199232",
-    "ev_20260909_163400_448573"
+    "ev_20260909_163400_448573",
+    "ev_20260909_164433_760143"
   ],
   "file_hashes": {
-    "README.md": "sha256:67ea1c839caeddab5a366502fe6929f0ffae0c6cbe3f53bc168c993b34b6814e",
+    "README.md": "sha256:fbd119b6d889f739842b5c052d251edc8d7c80d498afe9d66de6c7de13a70826",
     "artifacts/README.md": "sha256:c4bad9d4652f296a7e4dcf175fe1dd0c66a99ec0b74941cd45c499e84792436c",
     "artifacts/artifact_15_integration-evaluation_artifact_20260909_065534_352886_integration-evaluation_harness-visual-luna-evidence.md": "sha256:303a0edaab945089e4ba706fdbf0b85ad73651bd9ad37b88685073c0b9c71842",
     "artifacts/artifact_16_validation-evidence_artifact_20260909_161520_285072_validation-evidence_harness-pr33-web-evidence.md": "sha256:2dd1807a18ad244efca42fb00a3cb8fc916fa6223414fa4854ca476b7507e0dd",
@@ -79,12 +80,12 @@
     "artifacts/artifact_17_npm-audit-json_artifact_20260909_161533_386174_npm-audit-json_audit.log",
     "artifacts/artifact_18_npm-tree-json_artifact_20260909_161535_462322_npm-tree-json_npm-ls.log"
   ],
-  "generated_at": "2026-09-09T23:34:56.765285+00:00",
+  "generated_at": "2026-09-09T23:47:42.192752+00:00",
   "generated_by": "hk export --format handoff-dir",
-  "git_sha": "4bf0ccd",
+  "git_sha": "8d9fbb7",
   "output_path": ".ai/hk/2026-09-08-165140-visual-scaffold-presets",
-  "ready": false,
-  "ready_status": "not-ready",
+  "ready": true,
+  "ready_status": "ready",
   "schema_version": 1,
   "sync_status": "synced",
   "target_root": ".",
