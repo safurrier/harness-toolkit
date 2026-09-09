@@ -13,7 +13,7 @@ from harness_toolkit.scaffold.templates import copy_tree, render_template
 
 class WebStack:
     def tools_toml(self) -> str:
-        return 'python = "3.12"\nuv = "latest"\nnode = "22"\n'
+        return 'python = "3.12"\nuv = "latest"\nnode = "22"\nnpm = "11.6.2"\n'
 
     def adr_notes(self) -> str:
         return """\
@@ -137,7 +137,7 @@ def _web_dependencies(config: Config) -> dict[str, str]:
 
 def _web_dev_dependencies(config: Config) -> dict[str, str]:
     dependencies = {
-        "@cloudflare/workers-types": "^4.20241230.0",
+        "@cloudflare/workers-types": "5.20260908.1",
         "@eslint/js": "^9.17.0",
         "@vitejs/plugin-react": "^6.0.2",
         "@types/node": "^22.10.2",
@@ -148,8 +148,9 @@ def _web_dev_dependencies(config: Config) -> dict[str, str]:
         "typescript": "^5.7.3",
         "typescript-eslint": "^8.19.0",
         "vite": "^8.0.16",
-        "vitest": "^4.1.8",
-        "wrangler": "^4.0.0",
+        "@vitest/browser-playwright": "4.1.11",
+        "vitest": "4.1.11",
+        "wrangler": "4.130.0",
     }
     if config.web_ui in {"tailwind", "shadcn"}:
         dependencies = {

@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import json
 from pathlib import Path
 
 import pytest
@@ -16,6 +17,21 @@ def test_tools_toml_has_node_python_and_uv() -> None:
     assert 'python = "3.12"' in tools
     assert 'uv = "latest"' in tools
     assert 'node = "22"' in tools
+    assert 'npm = "11.6.2"' in tools
+
+
+def test_web_dev_dependencies_pin_compatible_peer_sets() -> None:
+    from harness_toolkit.scaffold.config import Config
+    from harness_toolkit.scaffold.stacks.web import _web_dev_dependencies
+
+    dependencies = _web_dev_dependencies(
+        Config("webprobe", "A generated web app", "single", "web")
+    )
+
+    assert dependencies["vitest"] == "4.1.11"
+    assert dependencies["@vitest/browser-playwright"] == "4.1.11"
+    assert dependencies["wrangler"] == "4.130.0"
+    assert dependencies["@cloudflare/workers-types"] == "5.20260908.1"
 
 
 def test_adr_notes_mentions_key_tools() -> None:
@@ -57,6 +73,20 @@ def test_init_single_escapes_description_for_tsx(tmp_path: Path) -> None:
         '<p className="summary">{`A < B & {C} "quoted" \\`tick\\` \\${value}`}</p>'
         in app
     )
+
+
+def test_generated_web_manifest_overrides_only_transitive_sharp(tmp_path: Path) -> None:
+    from harness_toolkit.scaffold.config import Config
+    from harness_toolkit.scaffold.stacks.web import WebStack
+
+    WebStack().init_single(
+        tmp_path,
+        Config("webprobe", "A generated web app", "single", "web"),
+    )
+
+    manifest = json.loads((tmp_path / "package.json").read_text())
+    assert manifest["overrides"]["sharp"] == "0.35.4"
+    assert "sharp" not in manifest["dependencies"]
 
 
 def test_tailwind_variant_adds_tailwind_tooling(tmp_path: Path) -> None:

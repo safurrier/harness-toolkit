@@ -56,6 +56,7 @@ nav:
           - Go: reference/stacks/go.md
           - Rust: reference/stacks/rust.md
           - Web: reference/stacks/web.md
+          - Visual starters: reference/stacks/visual.md
       - Decisions:
           - ADR 0001 — Spec-Driven Decision Loop: reference/decisions/0001-spec-driven-decision-loop.md
           - ADR 0002 — Plan Workflow: reference/decisions/0002-plan-workflow.md

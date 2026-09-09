@@ -1,0 +1,94 @@
+{
+  "attached_artifacts": [
+    {
+      "copied": true,
+      "export_path": "artifacts/artifact_15_integration-evaluation_artifact_20260909_065534_352886_integration-evaluation_harness-visual-luna-evidence.md",
+      "kind": "integration-evaluation",
+      "label": "Luna visual trials: initial and one repair",
+      "redaction": "external",
+      "seq": 15,
+      "sha256": "sha256:303a0edaab945089e4ba706fdbf0b85ad73651bd9ad37b88685073c0b9c71842",
+      "size_bytes": 5288
+    },
+    {
+      "copied": true,
+      "export_path": "artifacts/artifact_16_validation-evidence_artifact_20260909_161520_285072_validation-evidence_harness-pr33-web-evidence.md",
+      "kind": "validation-evidence",
+      "label": "pr33-web-disposable-proof",
+      "redaction": "none",
+      "seq": 16,
+      "sha256": "sha256:2dd1807a18ad244efca42fb00a3cb8fc916fa6223414fa4854ca476b7507e0dd",
+      "size_bytes": 5864
+    },
+    {
+      "copied": true,
+      "export_path": "artifacts/artifact_17_npm-audit-json_artifact_20260909_161533_386174_npm-audit-json_audit.log",
+      "kind": "npm-audit-json",
+      "label": "pr33-web-default-audit-json",
+      "redaction": "none",
+      "seq": 17,
+      "sha256": "sha256:b5903965eb2eb2562563e9fe74fef92b63fa9c5d980797f009d8d0da1152d1a4",
+      "size_bytes": 676
+    },
+    {
+      "copied": true,
+      "export_path": "artifacts/artifact_18_npm-tree-json_artifact_20260909_161535_462322_npm-tree-json_npm-ls.log",
+      "kind": "npm-tree-json",
+      "label": "pr33-web-default-sharp-tree",
+      "redaction": "none",
+      "seq": 18,
+      "sha256": "sha256:5cf584d7ac0f7e4d82b9032ee6497918d0d1ca47de5c63c0d90d4c9856c8f663",
+      "size_bytes": 1014
+    }
+  ],
+  "branch": "feat/visual-scaffold-presets",
+  "diff_hash": "sha256:176b690247cdc9fd1d8f93aa7b9a6ca19e56d36189a1453f9f96c1828075aa39",
+  "dirty": true,
+  "event_count": 27,
+  "event_seq": 36,
+  "evidence_count": 14,
+  "evidence_ids": [
+    "ev_20260908_172244_536077",
+    "ev_20260908_172245_936002",
+    "ev_20260908_172320_073713",
+    "ev_20260908_172323_752068",
+    "ev_20260908_222215_648331",
+    "ev_20260909_064156_732899",
+    "ev_20260909_064158_489741",
+    "ev_20260909_162517_597946",
+    "ev_20260909_162531_155219",
+    "ev_20260909_162712_359873",
+    "ev_20260909_162822_642677",
+    "ev_20260909_162928_199232",
+    "ev_20260909_163400_448573",
+    "ev_20260909_164433_760143"
+  ],
+  "file_hashes": {
+    "README.md": "sha256:fbd119b6d889f739842b5c052d251edc8d7c80d498afe9d66de6c7de13a70826",
+    "artifacts/README.md": "sha256:c4bad9d4652f296a7e4dcf175fe1dd0c66a99ec0b74941cd45c499e84792436c",
+    "artifacts/artifact_15_integration-evaluation_artifact_20260909_065534_352886_integration-evaluation_harness-visual-luna-evidence.md": "sha256:303a0edaab945089e4ba706fdbf0b85ad73651bd9ad37b88685073c0b9c71842",
+    "artifacts/artifact_16_validation-evidence_artifact_20260909_161520_285072_validation-evidence_harness-pr33-web-evidence.md": "sha256:2dd1807a18ad244efca42fb00a3cb8fc916fa6223414fa4854ca476b7507e0dd",
+    "artifacts/artifact_17_npm-audit-json_artifact_20260909_161533_386174_npm-audit-json_audit.log": "sha256:b5903965eb2eb2562563e9fe74fef92b63fa9c5d980797f009d8d0da1152d1a4",
+    "artifacts/artifact_18_npm-tree-json_artifact_20260909_161535_462322_npm-tree-json_npm-ls.log": "sha256:5cf584d7ac0f7e4d82b9032ee6497918d0d1ca47de5c63c0d90d4c9856c8f663"
+  },
+  "files": [
+    "README.md",
+    "meta.json",
+    "artifacts/README.md",
+    "artifacts/artifact_15_integration-evaluation_artifact_20260909_065534_352886_integration-evaluation_harness-visual-luna-evidence.md",
+    "artifacts/artifact_16_validation-evidence_artifact_20260909_161520_285072_validation-evidence_harness-pr33-web-evidence.md",
+    "artifacts/artifact_17_npm-audit-json_artifact_20260909_161533_386174_npm-audit-json_audit.log",
+    "artifacts/artifact_18_npm-tree-json_artifact_20260909_161535_462322_npm-tree-json_npm-ls.log"
+  ],
+  "generated_at": "2026-09-09T23:47:42.192752+00:00",
+  "generated_by": "hk export --format handoff-dir",
+  "git_sha": "8d9fbb7",
+  "output_path": ".ai/hk/2026-09-08-165140-visual-scaffold-presets",
+  "ready": true,
+  "ready_status": "ready",
+  "schema_version": 1,
+  "sync_status": "synced",
+  "target_root": ".",
+  "target_scope": ".",
+  "work_id": "2026-09-08-165140-visual-scaffold-presets"
+}

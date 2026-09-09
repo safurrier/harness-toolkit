@@ -7,6 +7,9 @@ from pathlib import Path
 
 import pytest
 
+from harness_toolkit.scaffold import cli as scaffold_cli
+from harness_toolkit.scaffold.config import Config
+
 pytestmark = pytest.mark.cli
 
 ROOT = Path(__file__).resolve().parents[2]
@@ -61,6 +64,8 @@ def test_init_help() -> None:
     assert "--stack" in result.stdout
     assert "--web-ui" in result.stdout
     assert "--web-db" in result.stdout
+    assert "blender" in result.stdout
+    assert "threejs" in result.stdout
 
 
 # ── non-interactive validation ────────────────────────────────────────────────
@@ -130,6 +135,61 @@ def test_invalid_stack_rejected() -> None:
         "ruby",
     )
     assert result.returncode != 0
+
+
+@pytest.mark.parametrize("stack", ["blender", "threejs"])
+def test_visual_stacks_reject_apps_before_init(stack: str) -> None:
+    result = _run_scaffold(
+        "init",
+        "--non-interactive",
+        "--name",
+        "visualapp",
+        "--shape",
+        "apps",
+        "--stack",
+        stack,
+    )
+    assert result.returncode != 0
+    assert f"The {stack} stack supports only --shape single" in result.stderr
+
+
+@pytest.mark.parametrize("stack", ["blender", "threejs"])
+def test_interactive_visual_no_examples_rejected_before_init(
+    monkeypatch: pytest.MonkeyPatch, stack: str
+) -> None:
+    """Interactive Config validation must run before run_init can touch a target."""
+    config = Config("visualapp", "Visual app", "single", stack, keep_examples=False)
+    monkeypatch.setattr(
+        "harness_toolkit.scaffold.prompts.gather_interactive", lambda: config
+    )
+    called = False
+
+    def should_not_run(*args: object, **kwargs: object) -> None:
+        nonlocal called
+        called = True
+
+    monkeypatch.setattr("harness_toolkit.scaffold.init.run_init", should_not_run)
+    with pytest.raises(SystemExit, match="1"):
+        scaffold_cli.init()
+
+    assert not called
+
+
+@pytest.mark.parametrize("stack", ["blender", "threejs"])
+def test_visual_stacks_reject_no_examples_before_init(stack: str) -> None:
+    result = _run_scaffold(
+        "init",
+        "--non-interactive",
+        "--name",
+        "visualapp",
+        "--shape",
+        "single",
+        "--stack",
+        stack,
+        "--no-examples",
+    )
+    assert result.returncode != 0
+    assert "--no-examples is not supported" in result.stderr
 
 
 def test_web_flags_rejected_for_non_web_stack() -> None:

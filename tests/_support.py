@@ -6,6 +6,7 @@ by ty and other type checkers without relying on conftest.py resolution.
 
 from __future__ import annotations
 
+import os
 import shutil
 import subprocess
 from pathlib import Path
@@ -30,6 +31,14 @@ COPY_IGNORE = shutil.ignore_patterns(
 # ── Helpers ───────────────────────────────────────────────────────────────
 
 
+def _generated_project_env() -> dict[str, str]:
+    """Prevent root uv settings from controlling generated project setup."""
+    env = os.environ.copy()
+    for key in ("UV_LOCKED", "UV_NO_CONFIG", "UV_PROJECT_ENVIRONMENT"):
+        env.pop(key, None)
+    return env
+
+
 def mise(
     task: str, cwd: Path, *extra_args: str, timeout: int = 300
 ) -> subprocess.CompletedProcess[str]:
@@ -46,6 +55,7 @@ def mise(
         capture_output=True,
         text=True,
         timeout=timeout,
+        env=_generated_project_env(),
     )
 
 

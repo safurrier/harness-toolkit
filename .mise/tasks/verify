@@ -1,7 +1,8 @@
-#!/usr/bin/env -S uv run python
+#!/usr/bin/env -S env UV_NO_CONFIG=1 uv run python
 # MISE description="Heavy validation gate (integration, docker, security, docs)"
 # MISE depends=["setup"]
 import os
+import shutil
 import subprocess
 import sys
 
@@ -91,6 +92,55 @@ def verify_web(cwd=PROJECT_ROOT):
     log_ok("Wrangler deploy dry-run")
 
 
+
+def verify_blender(cwd=PROJECT_ROOT):
+    blender = os.environ.get("BLENDER_BIN") or shutil.which("blender")
+    if not blender:
+        raise RuntimeError("Blender not found. Install Blender, add it to PATH, or set BLENDER_BIN=/path/to/blender.")
+    log_step("Rendering and reopening Blender scene")
+    run(
+        [
+            blender,
+            "--factory-startup",
+            "--background",
+            "--python-exit-code",
+            "1",
+            "--python",
+            "build.py",
+        ],
+        cwd=cwd,
+    )
+    blend = cwd / "scene.blend"
+    png = cwd / "scene.png"
+    if not blend.is_file() or blend.stat().st_size == 0:
+        raise RuntimeError("Blender build did not produce a nonempty scene.blend")
+    if not png.is_file() or png.stat().st_size == 0:
+        raise RuntimeError("Blender build did not produce a nonempty scene.png")
+    if png.read_bytes()[:8] != b"\x89PNG\r\n\x1a\n":
+        raise RuntimeError("Blender scene.png is not a PNG file")
+    run(
+        [
+            blender,
+            "--factory-startup",
+            "--background",
+            "scene.blend",
+            "--python-exit-code",
+            "1",
+            "--python-expr",
+            "import bpy; assert bpy.data.filepath.endswith('.blend')",
+        ],
+        cwd=cwd,
+    )
+    log_ok("Blender render and reopen")
+
+
+def verify_threejs(cwd=PROJECT_ROOT):
+    log_step("Building and browser-checking Three.js app")
+    run(["npm", "run", "build"], cwd=cwd)
+    run(["npm", "run", "e2e"], cwd=cwd)
+    log_ok("Three.js browser verification")
+
+
 log_step("Running verification suite")
 log_step("Phase 1: quality gate (check)")
 _run_task("check")
@@ -100,12 +150,12 @@ if get_shape() == "apps":
     run_per_module(
         "verify",
         dispatch_module(
-            {"python": verify_python, "go": verify_go, "rust": verify_rust, "web": verify_web}
+            {"python": verify_python, "go": verify_go, "rust": verify_rust, "web": verify_web, "blender": verify_blender, "threejs": verify_threejs}
         ),
     )
 else:
     dispatch_stack(
-        {"python": verify_python, "go": verify_go, "rust": verify_rust, "web": verify_web}
+        {"python": verify_python, "go": verify_go, "rust": verify_rust, "web": verify_web, "blender": verify_blender, "threejs": verify_threejs}
     )
 
 log_ok("Verification complete")

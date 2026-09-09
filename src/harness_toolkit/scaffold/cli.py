@@ -20,7 +20,7 @@ from harness_toolkit.scaffold.config import (
 )
 
 Shape = Literal["single", "apps"]
-Stack = Literal["python", "go", "rust", "web"]
+Stack = Literal["python", "go", "rust", "web", "blender", "threejs"]
 WebUi = Literal["plain", "tailwind", "shadcn"]
 WebDb = Literal["d1", "drizzle-d1"]
 
@@ -41,7 +41,9 @@ def print_error(message: str) -> None:
         f"  {SCAFFOLD_COMMAND} init --non-interactive --name myapp --shape single --stack python\n"
         f"  {SCAFFOLD_COMMAND} init --non-interactive --name platform --shape apps --stack go --modules api,worker\n"
         f"  {SCAFFOLD_COMMAND} init --non-interactive --name dashboard --shape single --stack web\n"
-        f"  {SCAFFOLD_COMMAND} init --non-interactive --name dashboard --shape single --stack web --web-ui shadcn --web-db drizzle-d1"
+        f"  {SCAFFOLD_COMMAND} init --non-interactive --name dashboard --shape single --stack web --web-ui shadcn --web-db drizzle-d1\n"
+        f"  {SCAFFOLD_COMMAND} init --non-interactive --name garden-scene --shape single --stack blender\n"
+        f"  {SCAFFOLD_COMMAND} init --non-interactive --name visual-game --shape single --stack threejs"
     )
 )
 def init(
@@ -116,6 +118,7 @@ def init(
 
             config = gather_interactive()
 
+        _validate_init_config(config)
         root = Path(os.environ.get("MISE_PROJECT_ROOT", Path.cwd()))
 
         from harness_toolkit.scaffold.init import run_init
@@ -180,7 +183,7 @@ def _build_non_interactive_config(
     if stack == "go" and not resolved_go_module:
         resolved_go_module = f"github.com/your-org/{name}"
 
-    return Config(
+    config = Config(
         name=name,
         description=description or f"A {name} project",
         shape=shape,
@@ -194,6 +197,22 @@ def _build_non_interactive_config(
         web_ui=web_ui,
         web_db=web_db,
     )
+    _validate_init_config(config)
+    return config
+
+
+def _validate_init_config(config: Config) -> None:
+    """Reject unsupported stack/configuration combinations before init mutates.
+
+    Interactive and non-interactive paths both produce a Config, so this is the
+    single preflight boundary immediately before run_init().
+    """
+    if config.stack in {"blender", "threejs"} and config.shape != "single":
+        raise ValueError(f"The {config.stack} stack supports only --shape single")
+    if config.stack in {"blender", "threejs"} and not config.keep_examples:
+        raise ValueError(
+            f"--no-examples is not supported for the {config.stack} visual starter"
+        )
 
 
 def main() -> None:

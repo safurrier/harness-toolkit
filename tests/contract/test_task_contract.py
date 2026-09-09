@@ -64,12 +64,29 @@ def test_task_has_mise_description(task: str) -> None:
     assert has_header, f".mise/tasks/{task} is missing a MISE description header"
 
 
+UV_NO_CONFIG_TASKS = {
+    "setup",
+    "fmt",
+    "lint",
+    "typecheck",
+    "test",
+    "build",
+    "dev",
+    "verify",
+}
+
+
 @pytest.mark.parametrize("task", CONTRACT_TASKS)
 def test_task_uses_uv_shebang(task: str) -> None:
     """All task files must use the uv-managed Python shebang."""
     first_line = (TASKS_DIR / task).read_text().splitlines()[0]
-    assert first_line == "#!/usr/bin/env -S uv run python", (
-        f".mise/tasks/{task}: expected shebang '#!/usr/bin/env -S uv run python', got: {first_line!r}"
+    expected = (
+        "#!/usr/bin/env -S env UV_NO_CONFIG=1 uv run python"
+        if task in UV_NO_CONFIG_TASKS
+        else "#!/usr/bin/env -S uv run python"
+    )
+    assert first_line == expected, (
+        f".mise/tasks/{task}: expected shebang {expected!r}, got: {first_line!r}"
     )
 
 

@@ -6,8 +6,14 @@ import re
 from dataclasses import dataclass, field
 from pathlib import Path
 
-# Canonical scaffold root — src/harness_toolkit/scaffold/ is three levels below the repo root.
-SCAFFOLD_ROOT = Path(__file__).resolve().parent.parent.parent.parent
+# Source checkouts use the repository root. Wheels bundle the runtime scaffold files
+# under this package so the installed CLI still has every stack template available.
+_SOURCE_ROOT = Path(__file__).resolve().parent.parent.parent.parent
+SCAFFOLD_ROOT = (
+    _SOURCE_ROOT
+    if (_SOURCE_ROOT / "stacks").is_dir()
+    else Path(__file__).resolve().parent / "resources"
+)
 
 
 def validate_name(name: str) -> str:
@@ -36,7 +42,7 @@ def to_module_name(name: str) -> str:
     return name.replace("-", "_")
 
 
-SUPPORTED_STACKS = ("python", "go", "rust", "web")
+SUPPORTED_STACKS = ("python", "go", "rust", "web", "blender", "threejs")
 PLANNED_STACKS: tuple[str, ...] = ()
 SUPPORTED_SHAPES = ("single", "apps")
 WEB_UI_OPTIONS = ("plain", "tailwind", "shadcn")

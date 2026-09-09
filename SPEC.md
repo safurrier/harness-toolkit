@@ -83,13 +83,17 @@ harness-scaffold init [OPTIONS]
   --non-interactive     Skip prompts, require all flags
   --name TEXT           Project name (required)
   --shape [single|apps] Repo shape (required)
-  --stack [python|go|rust|web] Primary stack (required)
+  --stack [python|go|rust|web|blender|threejs] Primary stack (required)
   --modules TEXT        Comma-separated module names (apps shape)
   --go-module TEXT      Go module path (Go stack)
   --web-ui [plain|tailwind|shadcn]
                          Web UI variant (Web stack)
   --web-db [d1|drizzle-d1]
                          Cloudflare D1 access layer (Web stack)
+
+Visual starters (`blender`, `threejs`) support `--shape single` only and reject
+`--no-examples` before init because their reference scenes are intentional edit
+seams rather than removable generic examples.
   --no-hooks            Skip pre-commit hook installation
   --no-examples         Remove example code after init
 ```

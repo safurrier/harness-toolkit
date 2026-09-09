@@ -1,7 +1,8 @@
-#!/usr/bin/env -S uv run python
+#!/usr/bin/env -S env UV_NO_CONFIG=1 uv run python
 # MISE description="Start local development"
 # MISE depends=["setup"]
 import os
+import shutil
 import sys
 
 sys.path.insert(0, os.path.join(os.environ["MISE_PROJECT_ROOT"], "scripts"))
@@ -44,6 +45,25 @@ def dev_web(cwd=PROJECT_ROOT, extra_args: list[str] | None = None):
     run(["npm", "run", "dev", "--", *(extra_args or sys.argv[1:])], cwd=cwd)
 
 
+
+def dev_blender(cwd=PROJECT_ROOT):
+    blender = os.environ.get("BLENDER_BIN") or shutil.which("blender")
+    if not blender:
+        log_error("Blender not found. Install Blender, add it to PATH, or set BLENDER_BIN=/path/to/blender.")
+        sys.exit(127)
+    if (cwd / "scene.blend").exists():
+        command = [blender, "scene.blend"]
+    else:
+        command = [blender, "--python", "scene.py"]
+    log_step("Opening Blender scene")
+    run(command, cwd=cwd)
+
+
+def dev_threejs(cwd=PROJECT_ROOT, extra_args: list[str] | None = None):
+    log_step("Starting Three.js development server")
+    run(["npm", "run", "dev", "--", *(extra_args or sys.argv[1:])], cwd=cwd)
+
+
 shape = get_shape()
 
 if shape == "apps":
@@ -63,7 +83,7 @@ if shape == "apps":
     mod = modules[target]
     cwd = PROJECT_ROOT / mod["path"]
     log_step(f"[{target}] dev")
-    fn = {"python": dev_python, "go": dev_go, "rust": dev_rust, "web": dev_web}.get(
+    fn = {"python": dev_python, "go": dev_go, "rust": dev_rust, "web": dev_web, "blender": dev_blender, "threejs": dev_threejs}.get(
         mod["kind"]
     )
     if fn:
@@ -75,5 +95,5 @@ if shape == "apps":
         log_warn(f"{mod['kind']} stack: not yet implemented")
 else:
     dispatch_stack(
-        {"python": dev_python, "go": dev_go, "rust": dev_rust, "web": dev_web}
+        {"python": dev_python, "go": dev_go, "rust": dev_rust, "web": dev_web, "blender": dev_blender, "threejs": dev_threejs}
     )

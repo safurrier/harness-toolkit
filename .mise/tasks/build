@@ -1,7 +1,8 @@
-#!/usr/bin/env -S uv run python
+#!/usr/bin/env -S env UV_NO_CONFIG=1 uv run python
 # MISE description="Build artifacts"
 # MISE depends=["setup"]
 import os
+import shutil
 import subprocess
 import sys
 
@@ -49,14 +50,45 @@ def build_web(cwd=PROJECT_ROOT):
     log_ok("Web build")
 
 
+
+def _blender_bin():
+    return os.environ.get("BLENDER_BIN") or shutil.which("blender")
+
+
+def build_blender(cwd=PROJECT_ROOT):
+    blender = _blender_bin()
+    if not blender:
+        raise RuntimeError("Blender not found. Install Blender, add it to PATH, or set BLENDER_BIN=/path/to/blender.")
+    log_step("Rendering Blender scene")
+    run(
+        [
+            blender,
+            "--factory-startup",
+            "--background",
+            "--python-exit-code",
+            "1",
+            "--python",
+            "build.py",
+        ],
+        cwd=cwd,
+    )
+    log_ok("Blender scene render")
+
+
+def build_threejs(cwd=PROJECT_ROOT):
+    log_step("Building Three.js app")
+    run(["npm", "run", "build"], cwd=cwd)
+    log_ok("Three.js build")
+
+
 if get_shape() == "apps":
     run_per_module(
         "build",
         dispatch_module(
-            {"python": build_python, "go": build_go, "rust": build_rust, "web": build_web}
+            {"python": build_python, "go": build_go, "rust": build_rust, "web": build_web, "blender": build_blender, "threejs": build_threejs}
         ),
     )
 else:
     dispatch_stack(
-        {"python": build_python, "go": build_go, "rust": build_rust, "web": build_web}
+        {"python": build_python, "go": build_go, "rust": build_rust, "web": build_web, "blender": build_blender, "threejs": build_threejs}
     )

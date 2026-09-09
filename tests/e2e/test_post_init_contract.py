@@ -110,6 +110,12 @@ def test_python_apps_tasks_survive_init(py_apps_init: Path, task: str) -> None:
     )
 
 
+def test_python_apps_remove_scaffold_package_metadata(py_apps_init: Path) -> None:
+    """Apps workspaces use their module metadata, not the scaffold package."""
+    assert not (py_apps_init / "pyproject.toml").exists()
+    assert not (py_apps_init / "uv.lock").exists()
+
+
 @pytest.mark.parametrize("repo_fixture", ["py_single_init", "py_apps_init"])
 def test_scaffolded_python_projects_do_not_inherit_pages_workflow(
     request: pytest.FixtureRequest,

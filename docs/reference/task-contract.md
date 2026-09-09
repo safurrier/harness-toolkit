@@ -212,6 +212,10 @@ Unit tests only — no integration tests, no external services.
 
 ---
 
+## Visual stacks
+
+Blender projects use `mise run build` for a Blender background render and require Blender on `PATH` or `BLENDER_BIN`; `mise run verify` reopens the saved blend. Three.js projects use locked npm dependencies, native Node unit tests, and `mise run verify` for build plus optional local Playwright Chromium browser coverage. Both visual starters are single-project only.
+
 ## build
 
 Produces distributable artifacts.

@@ -30,6 +30,9 @@ def gather_interactive() -> Config:
 
     shape = _choose("Repo shape", list(SUPPORTED_SHAPES), default="single")
     stack = _choose("Language stack", list(SUPPORTED_STACKS), default="python")
+    if stack in {"blender", "threejs"} and shape != "single":
+        print(f"  The {stack} stack supports only the single-project shape.")
+        shape = "single"
     if PLANNED_STACKS:
         print(f"\n  (Planned stacks not yet available: {', '.join(PLANNED_STACKS)})")
 

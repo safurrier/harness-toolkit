@@ -1,0 +1,19 @@
+# {{ project_name }} — Blender scene starter
+
+**Reference brief:** `BRIEF` in `scene.py` is the deliberate edit slot. Change the brief and the arrangement together. The default render includes a subject, action, and garden context.
+
+## Build and inspect
+
+Edit `scene.py`, then render with:
+
+```sh
+mise run build
+```
+
+`mise run build` discovers `blender` on `PATH`; set `BLENDER_BIN=/path/to/blender` when needed. The command fails clearly when Blender is absent and uses `--python-exit-code 1`, so script failures propagate. It writes editable `scene.blend` and `scene.png`; open the blend normally in Blender. For a headless reopen check:
+
+```sh
+"${BLENDER_BIN:-blender}" --background scene.blend --python-expr "import bpy; print(bpy.data.filepath)"
+```
+
+Blender is an optional local prerequisite and is not installed by scaffold setup. `mise run test` checks the source layout without Blender; `mise run verify` renders and reopens the saved scene when Blender is available.

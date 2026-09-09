@@ -1,4 +1,4 @@
-#!/usr/bin/env -S uv run python
+#!/usr/bin/env -S env UV_NO_CONFIG=1 uv run python
 # MISE description="Run lint checks (non-modifying)"
 # MISE depends=["setup"]
 import os
@@ -57,14 +57,27 @@ def lint_web(cwd=PROJECT_ROOT):
     log_ok("Web lint")
 
 
+
+def lint_blender(cwd=PROJECT_ROOT):
+    log_step("Linting Blender scene source")
+    run(["uv", "run", "ruff", "check", "scene.py", "build.py", "tests"], cwd=cwd)
+    log_ok("Blender lint")
+
+
+def lint_threejs(cwd=PROJECT_ROOT):
+    log_step("Linting Three.js source")
+    run(["npm", "run", "lint"], cwd=cwd)
+    log_ok("Three.js lint")
+
+
 if get_shape() == "apps":
     run_per_module(
         "lint",
         dispatch_module(
-            {"python": lint_python, "go": lint_go, "rust": lint_rust, "web": lint_web}
+            {"python": lint_python, "go": lint_go, "rust": lint_rust, "web": lint_web, "blender": lint_blender, "threejs": lint_threejs}
         ),
     )
 else:
     dispatch_stack(
-        {"python": lint_python, "go": lint_go, "rust": lint_rust, "web": lint_web}
+        {"python": lint_python, "go": lint_go, "rust": lint_rust, "web": lint_web, "blender": lint_blender, "threejs": lint_threejs}
     )

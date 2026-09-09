@@ -1,0 +1,25 @@
+npm warn Unknown env config "min-release-age". This will stop working in the next major version of npm.
+npm warn Unknown user config "min-release-age". This will stop working in the next major version of npm.
+npm warn Unknown user config "allow-scripts". This will stop working in the next major version of npm.
+{
+  "auditReportVersion": 2,
+  "vulnerabilities": {},
+  "metadata": {
+    "vulnerabilities": {
+      "info": 0,
+      "low": 0,
+      "moderate": 0,
+      "high": 0,
+      "critical": 0,
+      "total": 0
+    },
+    "dependencies": {
+      "prod": 3,
+      "dev": 278,
+      "optional": 86,
+      "peer": 15,
+      "peerOptional": 0,
+      "total": 281
+    }
+  }
+}

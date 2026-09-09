@@ -1,0 +1,84 @@
+* {
+  box-sizing: border-box;
+}
+body {
+  margin: 0;
+  overflow: hidden;
+  background: #071b2c;
+  color: #fff;
+  font:
+    14px ui-monospace,
+    monospace;
+}
+canvas,
+#joystick,
+button {
+  touch-action: none;
+}
+canvas {
+  display: block;
+  width: 100vw;
+  height: 100vh;
+}
+#hud {
+  position: fixed;
+  top: max(16px, env(safe-area-inset-top));
+  left: max(16px, env(safe-area-inset-left));
+  display: grid;
+  gap: 6px;
+  background: #071b2ccc;
+  border: 1px solid #d6a54f;
+  padding: 10px;
+  max-width: min(300px, calc(100vw - 32px));
+}
+#hud small {
+  line-height: 1.35;
+}
+button {
+  background: #f0b54d;
+  border: 0;
+  padding: 8px;
+  font: inherit;
+  color: #17243e;
+  cursor: pointer;
+}
+#joystick {
+  position: fixed;
+  bottom: max(24px, env(safe-area-inset-bottom));
+  left: max(24px, env(safe-area-inset-left));
+  width: 82px;
+  height: 82px;
+  border: 2px solid #d6a54f;
+  border-radius: 50%;
+  background: #071b2c88;
+}
+#joystick i {
+  position: absolute;
+  left: 27px;
+  top: 27px;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: #f0b54d;
+}
+#unsupported {
+  position: fixed;
+  inset: 0;
+  padding: 30vh 15vw;
+  background: #071b2c;
+  font-size: 18px;
+}
+@media (orientation: landscape) {
+  #hud {
+    max-width: 250px;
+    font-size: 12px;
+  }
+  #joystick {
+    width: 68px;
+    height: 68px;
+  }
+  #joystick i {
+    left: 22px;
+    top: 22px;
+  }
+}

@@ -1,0 +1,22 @@
+# {{ project_name }} — Three.js visual starter
+
+A small local Three.js scene with an editable world and a CSS-first style override. **Edit seams:** `src/main.js` defines the world geometry and mission positions; `src/style.local.css` loads after the base CSS, so it can override HUD tokens without `!important`.
+
+## Run and validate
+
+```sh
+mise run setup
+mise run dev
+```
+
+Open the loopback-only Vite URL. For trusted-LAN phone testing only, run `npm run dev:lan`, then use `http://YOUR-LAN-IP:5173` and allow that port through any local firewall. Use WASD/arrows or the bottom-left touch joystick, swipe the world to turn the camera, use **E** or **ACTION** near objectives, and use **REPLAY** to reset.
+
+```sh
+mise run check
+mise run build
+mise run verify
+```
+
+`mise run verify` runs the browser E2E route using real keyboard and touch input plus read-only telemetry. It fails early if Vite exits before readiness. Browser checks need a compatible local Chromium; run `npx playwright install chromium` if Playwright reports it missing. This is browser emulation, not proof of real-phone performance. No runtime CDN, pointer-lock, secure-context, backend, or deployment is required.
+
+Rive is not part of this starter; it is an optional future design-tool consideration only.
