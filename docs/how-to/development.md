@@ -134,7 +134,7 @@ mise run docs    # start local MkDocs dev server at http://127.0.0.1:8000
 2. **Task scripts**: Add `<task>_<name>(cwd)` functions to each `.mise/tasks/<task>` script and register them in the `dispatch_stack` / `dispatch_module` calls
 3. **Init package**: Add the stack to `SUPPORTED_STACKS` in `src/harness_toolkit/scaffold/config.py`, add prompts/handling in `src/harness_toolkit/scaffold/prompts.py`, and add template copying in `src/harness_toolkit/scaffold/stacks/`
 4. **Docs**: Add `docs/reference/stacks/<name>.md` and link it from `docs/reference/stacks/index.md`
-5. **Tests**: Add `tests/e2e/test_<name>.py` with single/apps happy paths, setup-then-sync-check coverage, and gate tests for formatter, linter, typecheck or compile check, and test runner
+5. **Tests**: Add `tests/e2e/test_<name>.py` with single/apps happy paths, setup-then-check/verify coverage, and gate tests for formatter, linter, typecheck or compile check, test runner, and any stack-specific product verification
 6. **CI**: Add the stack to the generated-project smoke matrix once it is a supported `init --stack` value
 
 Use [the stack acceptance rubric](../reference/stacks/acceptance-rubric.md) as the reviewer

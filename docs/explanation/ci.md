@@ -43,9 +43,11 @@ jobs:
       - name: Check
         run: mise run ci
 
-  sync-check:
-    name: Sync Contract
+  verify:
+    name: Full Validation
     runs-on: ubuntu-latest
+    needs: [check]
+    if: github.event_name == 'pull_request'
     steps:
       - uses: actions/checkout@v4
         with:
@@ -54,24 +56,18 @@ jobs:
         uses: jdx/mise-action@v2
       - name: Setup
         run: mise run setup
-      - name: Sync check
-        run: |
-          if [ "${{ github.event_name }}" = "pull_request" ]; then
-            HK export integrity check -- --changed-from "origin/${{ github.base_ref }}...HEAD"
-          else
-            HK export integrity check
-          fi
+      - name: Verify selected product routes
+        run: mise run verify -- --changed-from "origin/${{ github.base_ref }}...HEAD"
 ```
 
 `mise-action` installs mise and runs `mise install` automatically, pulling tool versions from `.mise.toml`.
 
-Quality gate logic lives in `mise run ci` → `mise run check`. Handoff export
-integrity is checked with `mise run sync-check` when committed HK exports are
-present. Pull request CI runs `mise run verify -- --changed-from
-origin/<base>...HEAD` in generated projects, which selects required product
-routes for the changed paths while retaining the full quality gate. The repository
-CI also runs generated-project smoke tests across the supported stacks so Python,
-Go, Rust, and Web scaffolds prove they can initialize and pass `mise run check`.
+Quality gate logic lives in `mise run ci` → `mise run check`. Generated pull
+request CI also runs `mise run verify -- --changed-from origin/<base>...HEAD`,
+which selects required product routes for the changed paths while retaining the
+full quality gate. The Harness Toolkit source repository separately runs generated-
+project smoke tests across the standard stacks so Python, Go, Rust, and Web
+scaffolds prove they can initialize and pass `mise run check`.
 
 ## Pre-commit hooks
 
@@ -102,8 +98,8 @@ repos:
 ```
 
 This guarantees **CI parity** for the fast quality gate: if pre-commit passes,
-the `check` job should pass. `sync-check` remains the explicit handoff gate for
-slice evidence and review completeness, with PR CI using changed-plan mode.
+the `check` job should pass. The heavier pull-request job then runs applicable
+product routes selected by the changed paths.
 
 ### Installing hooks
 
@@ -124,8 +120,7 @@ pre-commit run fmt           # run a specific hook
 
 **Why keep CI YAML thin?** GitHub Actions chooses the CI context, such as
 whether a run is a pull request or a main-branch push. The validation logic
-still lives in mise tasks: CI calls `mise run ci`, HK export integrity check, or
-`HK export integrity check -- --changed-from ...`, and pre-commit calls
-`mise run <task>`.
+still lives in mise tasks: CI calls `mise run ci` and path-selected `mise run
+verify`, while pre-commit calls `mise run <task>`.
 
 **Why `always_run: true`?** The tasks (`ruff`, `ty`, `pytest`) are fast enough that running them unconditionally is cheaper than filtering by changed files. It also prevents edge cases where a change to a config file doesn't trigger re-checking source files.

@@ -41,11 +41,11 @@ Agent routing index for MkDocs-managed documentation. Structure is owned by `mkd
 | `reference/stacks/web.md` | Web tooling and optional variants: Vite, React, Tailwind/shadcn, Cloudflare Workers, D1/Drizzle, Prettier, ESLint, Vitest |
 | `reference/stacks/visual.md` | Blender and Three.js visual starter tooling, edit seams, and local prerequisites |
 | `reference/decisions/0001-spec-driven-decision-loop.md` | SPEC.md, docs, and ADR loop |
-| `reference/decisions/0002-plan-workflow.md` | Plan directory workflow |
-| `reference/decisions/0003-deterministic-slice-contract.md` | Plan/spec/evidence/review contract |
-| `reference/decisions/0004-skill-first-slice-workflow.md` | Skill-first slice workflow |
-| `reference/decisions/0005-harden-sync-contract-ci.md` | Changed-plan sync-check CI mode |
-| `reference/decisions/0006-followup-contract-stack-rubric.md` | Slice workflow CLI and stack rubric |
+| `reference/decisions/0002-plan-workflow.md` | Historical plan directory workflow (superseded by ADR 0014) |
+| `reference/decisions/0003-deterministic-slice-contract.md` | Historical plan/spec/evidence/review contract (superseded by ADR 0014) |
+| `reference/decisions/0004-skill-first-slice-workflow.md` | Historical skill-first slice workflow (superseded by ADR 0014) |
+| `reference/decisions/0005-harden-sync-contract-ci.md` | Historical changed-plan CI mode (superseded by ADR 0014) |
+| `reference/decisions/0006-followup-contract-stack-rubric.md` | Historical slice CLI decision and current stack rubric (slice contract superseded by ADR 0014) |
 | `reference/decisions/0007-harness-toolkit-naming.md` | Harness Engineering Toolkit naming split: `hk`, `harness-kit`, `harness-scaffold` |
 | `reference/decisions/0008-harness-kit-ledger-first-local-assistant.md` | Initial lifecycle decision: local ledger, sync checkpoints, evidence capture |
 | `reference/decisions/0009-harness-kit-lifecycle-first-cli.md` | Lifecycle-first CLI decision that preserves handoff-safety guarantees |
