@@ -20,15 +20,12 @@ from tests._docs_helpers import (
     ARCHITECTURE_REQUIRED_SECTIONS,
     GENERATED_ADR,
     GENERATED_ARCHITECTURE,
-    PLAN_REQUIRED_FILES,
     SPEC_REQUIRED_SECTIONS,
     find_adrs,
     find_section,
     has_frontmatter,
-    parse_meta_yaml,
     parse_sections,
     validate_adr,
-    validate_meta_yaml,
 )
 from tests._support import COPY_IGNORE, SCAFFOLD_ROOT
 
@@ -117,22 +114,19 @@ class TestPythonSingleGolden:
         content = (self._root / "README.md").read_text()
         assert "goldenapp" in content
 
-    def test_readme_includes_plan_workflow(self) -> None:
+    def test_readme_documents_quality_and_verification_workflow(self) -> None:
         content = (self._root / "README.md").read_text()
-        assert "git checkout -b feat/<slug>" in content
-        assert "mise run plan -- <slug>" in content
+        assert "mise run check" in content
+        assert "mise run verify" in content
+        assert "mise run plan" not in content
 
-    def test_agents_md_structure(self) -> None:
+    def test_agents_md_documents_verification_contract(self) -> None:
         content = (self._root / "AGENTS.md").read_text()
         assert "goldenapp" in content
-        assert "## WHY" in content
-        assert "## WHAT" in content
-        assert "## HOW" in content
-
-    def test_agents_md_includes_plan_workflow(self) -> None:
-        content = (self._root / "AGENTS.md").read_text()
-        assert "git checkout -b feat/demo-work" in content
-        assert "mise run plan -- demo-work" in content
+        assert "## Working agreement" in content
+        assert "## Skills" in content
+        assert "mise run verify" in content
+        assert "mise run plan" not in content
 
     def test_agents_md_no_frontmatter(self) -> None:
         content = (self._root / "AGENTS.md").read_text()
@@ -214,28 +208,8 @@ class TestPythonSingleGolden:
         content = (self._root / "SPEC.md").read_text()
         assert "goldenapp" in content
 
-    def test_plan_templates_generated(self) -> None:
-        plans = self._root / ".ai" / "plans"
-        assert plans.is_dir()
-        assert (plans / "AGENTS.md").exists()
-        assert (plans / "_templates").is_dir()
-        assert (plans / "_example").is_dir()
-
-    def test_plan_example_meta_valid(self) -> None:
-        meta = parse_meta_yaml(self._root / ".ai" / "plans" / "_example" / "META.yaml")
-        assert meta is not None
-        errors = validate_meta_yaml(meta)
-        assert not errors, f"Example META.yaml errors: {'; '.join(errors)}"
-
-    def test_plan_example_has_required_files(self) -> None:
-        example = self._root / ".ai" / "plans" / "_example"
-        for filename in PLAN_REQUIRED_FILES:
-            assert (example / filename).exists(), f"Example missing {filename}"
-
-    def test_plan_templates_have_required_files(self) -> None:
-        templates = self._root / ".ai" / "plans" / "_templates"
-        for filename in PLAN_REQUIRED_FILES:
-            assert (templates / filename).exists(), f"Template missing {filename}"
+    def test_retired_plan_templates_are_not_generated(self) -> None:
+        assert not (self._root / ".ai" / "plans").exists()
 
     def test_scaffold_artifacts_removed(self) -> None:
         assert not (self._root / "stacks").exists()
@@ -326,18 +300,18 @@ class TestPythonAppsGolden:
                 f"Generated SPEC.md missing section '{name}'"
             )
 
-    def test_plan_templates_generated(self) -> None:
-        assert (self._root / ".ai" / "plans" / "AGENTS.md").exists()
-        assert (self._root / ".ai" / "plans" / "_templates").is_dir()
-        assert (self._root / ".ai" / "plans" / "_example").is_dir()
+    def test_retired_plan_templates_are_not_generated(self) -> None:
+        assert not (self._root / ".ai" / "plans").exists()
 
     def test_readme_dev_command_shows_module(self) -> None:
         content = (self._root / "README.md").read_text()
         assert "mise run dev -- <module>" in content
 
-    def test_agents_md_dev_command_shows_module(self) -> None:
+    def test_agents_md_documents_verification_contract(self) -> None:
         content = (self._root / "AGENTS.md").read_text()
-        assert "mise run dev -- api" in content
+        assert "scripts/verify-routes --list" in content
+        assert "mise run verify -- --route" in content
+        assert "mise run plan" not in content
 
     def test_ci_workflow_apps_artifacts(self) -> None:
         content = (self._root / ".github" / "workflows" / "ci.yml").read_text()
@@ -420,22 +394,19 @@ class TestGoSingleGolden:
         content = (self._root / "README.md").read_text()
         assert "goldenapp" in content
 
-    def test_readme_includes_plan_workflow(self) -> None:
+    def test_readme_documents_quality_and_verification_workflow(self) -> None:
         content = (self._root / "README.md").read_text()
-        assert "git checkout -b feat/<slug>" in content
-        assert "mise run plan -- <slug>" in content
+        assert "mise run check" in content
+        assert "mise run verify" in content
+        assert "mise run plan" not in content
 
-    def test_agents_md_structure(self) -> None:
+    def test_agents_md_documents_verification_contract(self) -> None:
         content = (self._root / "AGENTS.md").read_text()
         assert "goldenapp" in content
-        assert "## WHY" in content
-        assert "## WHAT" in content
-        assert "## HOW" in content
-
-    def test_agents_md_includes_plan_workflow(self) -> None:
-        content = (self._root / "AGENTS.md").read_text()
-        assert "git checkout -b feat/demo-work" in content
-        assert "mise run plan -- demo-work" in content
+        assert "## Working agreement" in content
+        assert "## Skills" in content
+        assert "mise run verify" in content
+        assert "mise run plan" not in content
 
     def test_spec_md_has_frontmatter(self) -> None:
         assert has_frontmatter(self._root / "SPEC.md")
@@ -466,28 +437,8 @@ class TestGoSingleGolden:
         assert "mise run verify" in content
         assert "upload-artifact" in content
 
-    def test_plan_templates_generated(self) -> None:
-        plans = self._root / ".ai" / "plans"
-        assert plans.is_dir()
-        assert (plans / "AGENTS.md").exists()
-        assert (plans / "_templates").is_dir()
-        assert (plans / "_example").is_dir()
-
-    def test_plan_example_meta_valid(self) -> None:
-        meta = parse_meta_yaml(self._root / ".ai" / "plans" / "_example" / "META.yaml")
-        assert meta is not None
-        errors = validate_meta_yaml(meta)
-        assert not errors, f"Example META.yaml errors: {'; '.join(errors)}"
-
-    def test_plan_example_has_required_files(self) -> None:
-        example = self._root / ".ai" / "plans" / "_example"
-        for filename in PLAN_REQUIRED_FILES:
-            assert (example / filename).exists(), f"Example missing {filename}"
-
-    def test_plan_templates_have_required_files(self) -> None:
-        templates = self._root / ".ai" / "plans" / "_templates"
-        for filename in PLAN_REQUIRED_FILES:
-            assert (templates / filename).exists(), f"Template missing {filename}"
+    def test_retired_plan_templates_are_not_generated(self) -> None:
+        assert not (self._root / ".ai" / "plans").exists()
 
     def test_readme_dev_command_no_module(self) -> None:
         content = (self._root / "README.md").read_text()
@@ -569,36 +520,18 @@ class TestGoAppsGolden:
                 f"Generated SPEC.md missing section '{name}'"
             )
 
-    def test_plan_templates_generated(self) -> None:
-        plans = self._root / ".ai" / "plans"
-        assert plans.is_dir()
-        assert (plans / "AGENTS.md").exists()
-        assert (plans / "_templates").is_dir()
-        assert (plans / "_example").is_dir()
-
-    def test_plan_example_meta_valid(self) -> None:
-        meta = parse_meta_yaml(self._root / ".ai" / "plans" / "_example" / "META.yaml")
-        assert meta is not None
-        errors = validate_meta_yaml(meta)
-        assert not errors, f"Example META.yaml errors: {'; '.join(errors)}"
-
-    def test_plan_example_has_required_files(self) -> None:
-        example = self._root / ".ai" / "plans" / "_example"
-        for filename in PLAN_REQUIRED_FILES:
-            assert (example / filename).exists(), f"Example missing {filename}"
-
-    def test_plan_templates_have_required_files(self) -> None:
-        templates = self._root / ".ai" / "plans" / "_templates"
-        for filename in PLAN_REQUIRED_FILES:
-            assert (templates / filename).exists(), f"Template missing {filename}"
+    def test_retired_plan_templates_are_not_generated(self) -> None:
+        assert not (self._root / ".ai" / "plans").exists()
 
     def test_readme_dev_command_shows_module(self) -> None:
         content = (self._root / "README.md").read_text()
         assert "mise run dev -- <module>" in content
 
-    def test_agents_md_dev_command_shows_module(self) -> None:
+    def test_agents_md_documents_verification_contract(self) -> None:
         content = (self._root / "AGENTS.md").read_text()
-        assert "mise run dev -- api" in content
+        assert "scripts/verify-routes --list" in content
+        assert "mise run verify -- --route" in content
+        assert "mise run plan" not in content
 
     def test_ci_workflow_apps_artifacts(self) -> None:
         content = (self._root / ".github" / "workflows" / "ci.yml").read_text()
@@ -669,22 +602,19 @@ class TestRustSingleGolden:
         content = (self._root / "README.md").read_text()
         assert "goldenapp" in content
 
-    def test_readme_includes_plan_workflow(self) -> None:
+    def test_readme_documents_quality_and_verification_workflow(self) -> None:
         content = (self._root / "README.md").read_text()
-        assert "git checkout -b feat/<slug>" in content
-        assert "mise run plan -- <slug>" in content
+        assert "mise run check" in content
+        assert "mise run verify" in content
+        assert "mise run plan" not in content
 
-    def test_agents_md_structure(self) -> None:
+    def test_agents_md_documents_verification_contract(self) -> None:
         content = (self._root / "AGENTS.md").read_text()
         assert "goldenapp" in content
-        assert "## WHY" in content
-        assert "## WHAT" in content
-        assert "## HOW" in content
-
-    def test_agents_md_includes_plan_workflow(self) -> None:
-        content = (self._root / "AGENTS.md").read_text()
-        assert "git checkout -b feat/demo-work" in content
-        assert "mise run plan -- demo-work" in content
+        assert "## Working agreement" in content
+        assert "## Skills" in content
+        assert "mise run verify" in content
+        assert "mise run plan" not in content
 
     def test_spec_md_has_frontmatter(self) -> None:
         assert has_frontmatter(self._root / "SPEC.md")
@@ -725,28 +655,8 @@ class TestRustSingleGolden:
                 f"Generated SPEC.md missing section '{name}'"
             )
 
-    def test_plan_templates_generated(self) -> None:
-        plans = self._root / ".ai" / "plans"
-        assert plans.is_dir()
-        assert (plans / "AGENTS.md").exists()
-        assert (plans / "_templates").is_dir()
-        assert (plans / "_example").is_dir()
-
-    def test_plan_example_meta_valid(self) -> None:
-        meta = parse_meta_yaml(self._root / ".ai" / "plans" / "_example" / "META.yaml")
-        assert meta is not None
-        errors = validate_meta_yaml(meta)
-        assert not errors, f"Example META.yaml errors: {'; '.join(errors)}"
-
-    def test_plan_example_has_required_files(self) -> None:
-        example = self._root / ".ai" / "plans" / "_example"
-        for filename in PLAN_REQUIRED_FILES:
-            assert (example / filename).exists(), f"Example missing {filename}"
-
-    def test_plan_templates_have_required_files(self) -> None:
-        templates = self._root / ".ai" / "plans" / "_templates"
-        for filename in PLAN_REQUIRED_FILES:
-            assert (templates / filename).exists(), f"Template missing {filename}"
+    def test_retired_plan_templates_are_not_generated(self) -> None:
+        assert not (self._root / ".ai" / "plans").exists()
 
     def test_readme_dev_command_no_module(self) -> None:
         content = (self._root / "README.md").read_text()
@@ -828,36 +738,18 @@ class TestRustAppsGolden:
                 f"Generated SPEC.md missing section '{name}'"
             )
 
-    def test_plan_templates_generated(self) -> None:
-        plans = self._root / ".ai" / "plans"
-        assert plans.is_dir()
-        assert (plans / "AGENTS.md").exists()
-        assert (plans / "_templates").is_dir()
-        assert (plans / "_example").is_dir()
-
-    def test_plan_example_meta_valid(self) -> None:
-        meta = parse_meta_yaml(self._root / ".ai" / "plans" / "_example" / "META.yaml")
-        assert meta is not None
-        errors = validate_meta_yaml(meta)
-        assert not errors, f"Example META.yaml errors: {'; '.join(errors)}"
-
-    def test_plan_example_has_required_files(self) -> None:
-        example = self._root / ".ai" / "plans" / "_example"
-        for filename in PLAN_REQUIRED_FILES:
-            assert (example / filename).exists(), f"Example missing {filename}"
-
-    def test_plan_templates_have_required_files(self) -> None:
-        templates = self._root / ".ai" / "plans" / "_templates"
-        for filename in PLAN_REQUIRED_FILES:
-            assert (templates / filename).exists(), f"Template missing {filename}"
+    def test_retired_plan_templates_are_not_generated(self) -> None:
+        assert not (self._root / ".ai" / "plans").exists()
 
     def test_readme_dev_command_shows_module(self) -> None:
         content = (self._root / "README.md").read_text()
         assert "mise run dev -- <module>" in content
 
-    def test_agents_md_dev_command_shows_module(self) -> None:
+    def test_agents_md_documents_verification_contract(self) -> None:
         content = (self._root / "AGENTS.md").read_text()
-        assert "mise run dev -- api" in content
+        assert "scripts/verify-routes --list" in content
+        assert "mise run verify -- --route" in content
+        assert "mise run plan" not in content
 
     def test_ci_workflow_apps_artifacts(self) -> None:
         content = (self._root / ".github" / "workflows" / "ci.yml").read_text()

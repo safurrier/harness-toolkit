@@ -2,24 +2,24 @@
 id: {{project_name}}-decision-ledger
 title: {{project_name}} Decision Ledger
 description: >
-  Append-only ledger for durable slice decisions in {{project_name}}.
+  Append-only ledger for durable implementation decisions in {{project_name}}.
 index:
   - id: ledger
-    keywords: [decision-ledger, append-only, slice-history, audit-trail]
+    keywords: [decision-ledger, append-only, implementation-history, audit-trail]
   - id: format
-    keywords: [entry-format, reflected, evidence, plan]
+    keywords: [entry-format, reflected, evidence, implementation]
 ---
 
 # Decision Ledger
 
-Append-only record for durable slice decisions.
+Append-only record for durable implementation decisions.
 
 ## Entry Format
 
 Each entry should include:
 
-- date + slice slug
-- plan path
+- date + implementation or work identifier
+- affected public surface or component
 - what changed
 - why
 - where reflected

@@ -5,7 +5,7 @@ description: >
   Overview of the Harness Engineering Toolkit: Harness Kit for existing repos
   and harness-scaffold for new repos.
 index:
-  - id: what-it-is
+  - id: choose-your-path
     keywords: [scaffold, clone-and-init, task-contract, agent-native]
   - id: why-mise
     keywords: [mise, tool-versions, task-runner, unified]
@@ -23,32 +23,19 @@ Use **`hk` / `harness-kit`** for portable planning, validation, and handoff work
 
 For the product philosophy behind HK's lifecycle, config, and readiness model, see [Harness Kit: Dumb Tasks, Smart Agents](explanation/harness-kit-what-and-why.md).
 
-## What it is
+## Choose your path
 
-harness-scaffold is a **clone-and-init** template. You clone it, run `mise run init`, and it transforms itself into your project — removing scaffold scaffolding, applying your project name, and verifying the golden path passes before handing control over.
+| Starting point | Use | First command |
+| --- | --- | --- |
+| An existing repository | `hk` / `harness-kit` for optional lifecycle evidence and handoff | `hk --version` |
+| A new repository | `harness-scaffold` for docs, CI, and native task defaults | `harness-scaffold init` |
 
-Every generated project ships with a **three-surface split**:
-
-- **`SPEC.md`** — correctness envelope (requirements, contracts, invariants)
-- **`AGENTS.md`** — how to work here (commands, repo map, workflow)
-- **`docs/`** — routed durable docs with explanation/reference/tutorial/how-to structure
-
-The key insight: agents (and humans) benefit from a **fixed command surface**. Regardless of language, repo shape, or tooling choices, every project initialized from this scaffold exposes the same stable task contract:
-
-```bash
-mise run fmt        # format
-mise run lint       # lint
-mise run typecheck  # type checking
-mise run test       # unit tests
-mise run check      # all of the above (fast gate)
-mise run plan       # create a plan directory for a unit of work on a feature branch
-mise run sync-check # verify the slice is fully planned, evidenced, and reviewed
-mise run verify     # heavy validation (integration, docker, etc.)
-```
+`hk` does not replace the repository's commands. `harness-scaffold` creates a
+new repository contract; it does not require an HK ledger in CI.
 
 ## Why mise
 
-[mise](https://mise.jdx.dev/) manages both **tool versions** (Python, Go, uv, gofumpt, golangci-lint) and **task definitions** in one config file. It replaces Makefiles, shell scripts, and per-language task runners with a unified interface that works the same locally and in CI.
+[mise](https://mise.jdx.dev/) manages both **tool versions** (Python, Go, uv, gofumpt, golangci-lint) and **task wrappers** through one managed command surface. It replaces Makefiles, shell scripts, and per-language task runners with a unified interface that works the same locally and in CI.
 
 ## Quick start
 

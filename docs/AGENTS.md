@@ -41,11 +41,11 @@ Agent routing index for MkDocs-managed documentation. Structure is owned by `mkd
 | `reference/stacks/web.md` | Web tooling and optional variants: Vite, React, Tailwind/shadcn, Cloudflare Workers, D1/Drizzle, Prettier, ESLint, Vitest |
 | `reference/stacks/visual.md` | Blender and Three.js visual starter tooling, edit seams, and local prerequisites |
 | `reference/decisions/0001-spec-driven-decision-loop.md` | SPEC.md, docs, and ADR loop |
-| `reference/decisions/0002-plan-workflow.md` | Plan directory workflow |
-| `reference/decisions/0003-deterministic-slice-contract.md` | Plan/spec/evidence/review contract |
-| `reference/decisions/0004-skill-first-slice-workflow.md` | Skill-first slice workflow |
-| `reference/decisions/0005-harden-sync-contract-ci.md` | Changed-plan sync-check CI mode |
-| `reference/decisions/0006-followup-contract-stack-rubric.md` | Slice workflow CLI and stack rubric |
+| `reference/decisions/0002-plan-workflow.md` | Historical plan directory workflow (superseded by ADR 0014) |
+| `reference/decisions/0003-deterministic-slice-contract.md` | Historical plan/spec/evidence/review contract (superseded by ADR 0014) |
+| `reference/decisions/0004-skill-first-slice-workflow.md` | Historical skill-first slice workflow (superseded by ADR 0014) |
+| `reference/decisions/0005-harden-sync-contract-ci.md` | Historical changed-plan CI mode (superseded by ADR 0014) |
+| `reference/decisions/0006-followup-contract-stack-rubric.md` | Historical slice CLI decision and current stack rubric (slice contract superseded by ADR 0014) |
 | `reference/decisions/0007-harness-toolkit-naming.md` | Harness Engineering Toolkit naming split: `hk`, `harness-kit`, `harness-scaffold` |
 | `reference/decisions/0008-harness-kit-ledger-first-local-assistant.md` | Initial lifecycle decision: local ledger, sync checkpoints, evidence capture |
 | `reference/decisions/0009-harness-kit-lifecycle-first-cli.md` | Lifecycle-first CLI decision that preserves handoff-safety guarantees |
@@ -53,5 +53,6 @@ Agent routing index for MkDocs-managed documentation. Structure is owned by `mkd
 | `reference/decisions/0011-path-aware-review-freshness.md` | Path/content-aware HK review freshness and targeted follow-up review coverage |
 | `reference/decisions/0012-lifecycle-neutral-active-hk-exports.md` | Lifecycle-neutral active HK handoff exports and strict export integrity checks |
 | `reference/decisions/0013-web-stack-v0.md` | Web stack V0: Vite/React, optional Tailwind/shadcn, Cloudflare Workers, D1/Drizzle persistence scaffold |
+| `reference/decisions/0014-retire-slice-plans.md` | Retire generated plan directories and adopt native verification routes |
 
 <!-- generated-by: context-engineering@2.2.0 | last-updated: 2026-06-02 -->

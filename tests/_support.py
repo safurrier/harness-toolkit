@@ -32,10 +32,18 @@ COPY_IGNORE = shutil.ignore_patterns(
 
 
 def _generated_project_env() -> dict[str, str]:
-    """Prevent root uv settings from controlling generated project setup."""
+    """Prevent developer-machine package settings from controlling generated projects."""
     env = os.environ.copy()
-    for key in ("UV_LOCKED", "UV_NO_CONFIG", "UV_PROJECT_ENVIRONMENT"):
+    for key in (
+        "GIT_DIR",
+        "GIT_INDEX_FILE",
+        "GIT_WORK_TREE",
+        "UV_LOCKED",
+        "UV_NO_CONFIG",
+        "UV_PROJECT_ENVIRONMENT",
+    ):
         env.pop(key, None)
+    env["NPM_CONFIG_USERCONFIG"] = os.devnull
     return env
 
 
@@ -104,11 +112,13 @@ def trust_mise(path: Path) -> None:
 
 
 def init_git_branch(cwd: Path, branch: str) -> None:
-    """Create a git repo at *cwd* and switch to *branch*."""
-    subprocess.run(["git", "init"], cwd=cwd, check=True, capture_output=True)
+    """Create an isolated git repo at *cwd* and switch to *branch*."""
+    env = _generated_project_env()
+    subprocess.run(["git", "init"], cwd=cwd, check=True, capture_output=True, env=env)
     subprocess.run(
         ["git", "checkout", "-b", branch],
         cwd=cwd,
         check=True,
         capture_output=True,
+        env=env,
     )

@@ -84,7 +84,7 @@ The interactive flow prompts for:
 1. **Project name** — lowercase, hyphens allowed (e.g. `my-service`)
 2. **Description** — one-line project description
 3. **Shape** — `single` (one language) or `apps` (workspace with multiple apps)
-4. **Stack** — `python`, `go`, `rust`, or `web`
+4. **Stack** — `python`, `go`, `rust`, `web`, `blender`, or `threejs`
 5. **Author** name and email
 6. **Options** — pre-commit hooks, example code
 
@@ -105,7 +105,7 @@ Full flag reference:
 | `--name` | Yes | — | Project name (lowercase, hyphens) |
 | `--description` | No | `A <name> project` | One-line description |
 | `--shape` | No | `single` | `single` or `apps` |
-| `--stack` | No | `python` | `python`, `go`, `rust`, or `web` |
+| `--stack` | No | `python` | `python`, `go`, `rust`, `web`, `blender`, or `threejs` |
 | `--modules` | For apps | — | Comma-separated module names |
 | `--go-module` | For Go | `github.com/your-org/<name>` | Go module path |
 | `--web-ui` | For Web | `plain` | Web UI variant: `plain`, `tailwind`, or `shadcn` |

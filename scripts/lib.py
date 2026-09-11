@@ -61,6 +61,39 @@ def get_project_name() -> str:
     return os.environ.get("SCAFFOLD_PROJECT_NAME", "harness-toolkit")
 
 
+def product_verification_assets(root: Path) -> tuple[Path, Path] | None:
+    """Return the verification config and runner, rejecting partial or unsafe installs."""
+    config = root / ".harness" / "verification.toml"
+    runner = root / "scripts" / "verify-routes"
+    config_present = os.path.lexists(config)
+    runner_present = os.path.lexists(runner)
+    has_symlinked_parent = config.parent.is_symlink() or runner.parent.is_symlink()
+    resolves_outside_root = False
+    if config_present and runner_present:
+        resolved_root = root.resolve()
+        try:
+            config.resolve().relative_to(resolved_root)
+            runner.resolve().relative_to(resolved_root)
+        except ValueError:
+            resolves_outside_root = True
+    if config_present != runner_present or (
+        config_present
+        and (
+            has_symlinked_parent
+            or resolves_outside_root
+            or config.is_symlink()
+            or runner.is_symlink()
+            or not config.is_file()
+            or not runner.is_file()
+        )
+    ):
+        raise RuntimeError(
+            "Product verification is incomplete: verification.toml and "
+            "scripts/verify-routes must both be regular files or both be absent."
+        )
+    return (config, runner) if config_present else None
+
+
 # ── Subprocess helper ─────────────────────────────────────────────────────────
 
 

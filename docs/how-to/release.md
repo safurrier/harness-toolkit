@@ -127,7 +127,6 @@ Before tagging:
 
 ```bash
 mise run check
-mise run sync-check
 uv build
 ```
 

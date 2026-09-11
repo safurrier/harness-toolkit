@@ -1,0 +1,133 @@
+#!/usr/bin/env python3
+"""List or run explicitly selected product verification routes."""
+
+from __future__ import annotations
+
+import argparse
+import subprocess
+import tomllib
+from pathlib import Path
+
+ALLOWED_ROUTE_KEYS = {"id", "title", "script"}
+
+
+def fail(message: str) -> None:
+    raise SystemExit(f"error: {message}")
+
+
+def route_script(root: Path, route_id: str, configured_path: str) -> Path:
+    """Return a route script only when it resolves inside scripts/verify."""
+    relative_path = Path(configured_path)
+    if relative_path.is_absolute():
+        fail(f"route {route_id!r} script must be relative: {configured_path}")
+
+    repository_root = root.resolve()
+    scripts_dir = root / "scripts"
+    configured_scripts_root = scripts_dir / "verify"
+    if scripts_dir.is_symlink() or configured_scripts_root.is_symlink():
+        fail("scripts/verify must be a repository-owned directory, not a symlink")
+    scripts_root = configured_scripts_root.resolve()
+    script = (root / relative_path).resolve()
+    try:
+        scripts_root.relative_to(repository_root)
+        script.relative_to(scripts_root)
+    except ValueError:
+        fail(
+            f"route {route_id!r} script must resolve beneath scripts/verify: "
+            f"{configured_path}"
+        )
+    return script
+
+
+def load_routes(root: Path) -> list[dict[str, str]]:
+    config_parent = root / ".harness"
+    config = config_parent / "verification.toml"
+    if config_parent.is_symlink() or config.is_symlink():
+        fail(".harness/verification.toml must be a repository-owned regular file")
+    try:
+        config.resolve().relative_to(root)
+    except ValueError:
+        fail(".harness/verification.toml must resolve inside the repository")
+    if not config.is_file():
+        fail(".harness/verification.toml is missing")
+
+    try:
+        data = tomllib.loads(config.read_text())
+    except (tomllib.TOMLDecodeError, UnicodeDecodeError) as exc:
+        fail(f"malformed verification config: {exc}")
+    if set(data) - {"version", "routes"}:
+        fail("verification config contains unsupported top-level fields")
+    if data.get("version") != 1 or not isinstance(data.get("routes", []), list):
+        fail("verification config requires version = 1 and optional [[routes]] entries")
+
+    routes: list[dict[str, str]] = []
+    ids: set[str] = set()
+    for route in data.get("routes", []):
+        if not isinstance(route, dict):
+            fail("each route must be a table")
+        unknown = set(route) - ALLOWED_ROUTE_KEYS
+        if unknown:
+            fail(
+                f"route {route.get('id', '<unknown>')!r} contains unsupported fields: "
+                + ", ".join(sorted(unknown))
+            )
+        route_id = route.get("id")
+        title = route.get("title")
+        script = route.get("script")
+        if not isinstance(route_id, str) or not route_id or route_id in ids:
+            fail("route IDs must be unique non-empty strings")
+        ids.add(route_id)
+        if not isinstance(title, str) or not title:
+            fail(f"route {route_id!r} requires a non-empty title")
+        if not isinstance(script, str) or not script:
+            fail(f"route {route_id!r} requires a script")
+        route_script(root, route_id, script)
+        routes.append({"id": route_id, "title": title, "script": script})
+    return routes
+
+
+def main() -> int:
+    parser = argparse.ArgumentParser(description=__doc__)
+    mode = parser.add_mutually_exclusive_group(required=True)
+    mode.add_argument("--list", action="store_true", help="List available routes")
+    mode.add_argument("--route", action="append", help="Route ID to run (repeatable)")
+    mode.add_argument("--all", action="store_true", help="Run every registered route")
+    args = parser.parse_args()
+
+    root = Path.cwd().resolve()
+    routes = load_routes(root)
+    if args.list:
+        if not routes:
+            print("No product verification routes registered.")
+        for route in routes:
+            print(f"{route['id']}\t{route['title']}")
+        return 0
+
+    by_id = {route["id"]: route for route in routes}
+    if args.all:
+        chosen = routes
+    else:
+        requested = list(dict.fromkeys(args.route))
+        unknown = [route_id for route_id in requested if route_id not in by_id]
+        if unknown:
+            fail("unknown verification route(s): " + ", ".join(unknown))
+        chosen = [by_id[route_id] for route_id in requested]
+
+    for route in chosen:
+        script = route_script(root, route["id"], route["script"])
+        if not script.is_file() or not script.stat().st_mode & 0o111:
+            fail(
+                f"route {route['id']!r} script is missing or not executable: "
+                f"{route['script']}"
+            )
+        print(f"==> Verification route: {route['id']}")
+        result = subprocess.run([str(script)], cwd=root)
+        if result.returncode:
+            return result.returncode
+
+    print(f"Verified {len(chosen)} route(s).")
+    return 0
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())

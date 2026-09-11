@@ -72,12 +72,13 @@ def test_agents_md_exists() -> None:
     assert (DOCS_DIR / "AGENTS.md").exists()
 
 
-def test_agents_md_has_required_sections() -> None:
-    """AGENTS.md must have WHY/WHAT/HOW structure."""
+def test_agents_md_documents_verification_contract() -> None:
+    """AGENTS.md must guide agents through the generated verification contract."""
     content = (PROJECT_ROOT / "AGENTS.md").read_text()
-    assert "## WHY" in content
-    assert "## WHAT" in content
-    assert "## HOW" in content
+    assert "## Working agreement" in content
+    assert "## Skills" in content
+    assert "mise run verify" in content
+    assert "mise run plan" not in content
 
 
 def test_agents_md_has_no_frontmatter() -> None:

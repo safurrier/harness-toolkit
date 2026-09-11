@@ -26,20 +26,10 @@ CONTRACT_TASKS = [
     "test",
     "build",
     "check",
-    "plan-check",
-    "spec-check",
-    "evidence-check",
-    "review-check",
-    "sync-check",
-    "slice-plan",
-    "slice-implement",
-    "slice-review",
-    "slice-status",
     "dev",
     "ci",
     "verify",
     "docs",
-    "plan",
 ]
 
 
@@ -108,6 +98,21 @@ def test_python_apps_tasks_survive_init(py_apps_init: Path, task: str) -> None:
     assert os.access(task_file, os.X_OK), (
         f"Not executable after init: .mise/tasks/{task}"
     )
+
+
+def test_python_projects_omit_legacy_plan_workflow(py_single_init: Path) -> None:
+    assert not (py_single_init / ".ai" / "plans").exists()
+    assert (py_single_init / ".harness" / "verification.toml").exists()
+    assert (py_single_init / "scripts" / "verify-routes").exists()
+    assert (
+        py_single_init
+        / ".agent"
+        / "skills"
+        / "create-project-verification"
+        / "SKILL.md"
+    ).exists()
+    for task in ["plan", "plan-check", "sync-check", "slice-plan", "slice-review"]:
+        assert not (py_single_init / ".mise" / "tasks" / task).exists()
 
 
 def test_python_apps_remove_scaffold_package_metadata(py_apps_init: Path) -> None:

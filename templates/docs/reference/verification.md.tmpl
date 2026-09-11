@@ -1,0 +1,14 @@
+# Verification routes
+
+Use this page only after the project has more than one executable product-verification route or an operator procedure worth indexing.
+
+A route proves one behavior through **Surface, Run, Drive, Observe, Isolate**: its public interface, readiness and launch, caller action, distinguishing result or side effect, and owned cleanup. A green build or test process alone is not evidence for a user journey.
+
+Automated routes live in `.harness/verification.toml` and point to executable scripts under `scripts/verify/`. The registry contains stable route names, not a heuristic coverage map. Inspect it with `scripts/verify-routes --list`, then choose and run relevant routes explicitly:
+
+```bash
+scripts/verify-routes --route create-record
+mise run verify -- --route create-record
+```
+
+Use repeated `--route` arguments for several journeys and `--all` only for an intentional broad run. Record why the selected routes cover the change and call out material routes skipped. Keep manual or credentialed checks out of the registry; record their operator steps, actual observation, and limitations instead of calling them automated passes.

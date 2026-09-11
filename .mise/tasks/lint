@@ -18,7 +18,6 @@ from lib import (  # noqa: E402
 )
 
 SLICE_WORKFLOW_CLI_SRCS = (
-    "templates/.agent/skills/slice-workflow/cli/src",
 )
 
 

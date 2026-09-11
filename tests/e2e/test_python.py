@@ -7,8 +7,6 @@ fixtures (expensive, created once per module).  Negative-path tests use
 
 from __future__ import annotations
 
-import json
-import subprocess
 from pathlib import Path
 
 import pytest
@@ -18,7 +16,7 @@ from tests._docs_helpers import (
     GENERATED_ARCHITECTURE,
     GENERATED_DECISION_LEDGER,
 )
-from tests._support import init_git_branch, init_project, mise
+from tests._support import init_project, mise
 
 pytestmark = pytest.mark.e2e
 
@@ -53,9 +51,9 @@ class TestPythonSingleHappyPath:
         assert (py_single_ready / "AGENTS.md").exists()
         content = (py_single_ready / "AGENTS.md").read_text()
         assert "testpyapp" in content
-        assert "## WHY" in content
-        assert "## WHAT" in content
-        assert "## HOW" in content
+        assert "## Working agreement" in content
+        assert "## Skills" in content
+        assert "mise run verify" in content
 
     def test_claude_md_points_to_agents_md(self, py_single_ready: Path) -> None:
         """CLAUDE.md must be a symlink or copy of AGENTS.md."""
@@ -95,12 +93,9 @@ class TestPythonSingleHappyPath:
         assert skills.is_dir()
         assert (skills / "README.md").exists()
         assert (skills / "example-skill" / "SKILL.md").exists()
-        assert (skills / "slice-workflow" / "SKILL.md").exists()
-        assert (
-            skills / "slice-workflow" / "references" / "holdout-sample-tasks.md"
-        ).exists()
-        assert (skills / "slice-planner" / "SKILL.md").exists()
-        assert (skills / "slice-reviewer" / "SKILL.md").exists()
+        assert (skills / "create-project-verification" / "SKILL.md").exists()
+        assert (skills / "maintain-project-verification" / "SKILL.md").exists()
+        assert not (skills / "slice-workflow").exists()
 
     def test_claude_skills_symlink(self, py_single_ready: Path) -> None:
         """.claude/skills must point to .agent/skills."""
@@ -118,8 +113,9 @@ class TestPythonSingleHappyPath:
         assert ci.exists()
         content = ci.read_text()
         assert "mise run ci" in content
-        assert "mise run sync-check" in content
-        assert "--changed-plans" in content
+        assert "mise run verify" in content
+        assert "--changed-from" not in content
+        assert "sync-check" not in content
         assert "mise run verify" in content
         assert "upload-artifact" in content
 
@@ -136,39 +132,6 @@ class TestPythonSingleHappyPath:
         assert result.returncode == 0, (
             f"check failed:\nSTDOUT:\n{result.stdout}\nSTDERR:\n{result.stderr}"
         )
-
-    def test_sync_check_passes_without_active_slice(
-        self, py_single_ready: Path
-    ) -> None:
-        result = mise("sync-check", py_single_ready, timeout=60)
-        assert result.returncode == 0, result.stderr
-
-    def test_slice_prompt_tasks_render_in_generated_project(
-        self, py_single_mut: Path
-    ) -> None:
-        init_git_branch(py_single_mut, "feat/slice-demo")
-        (py_single_mut / "task.md").write_text("Add a dry-run flag.\n")
-
-        plan_result = mise("plan", py_single_mut, "slice-demo", timeout=60)
-        assert plan_result.returncode == 0, plan_result.stderr
-
-        render_result = mise(
-            "slice-plan", py_single_mut, "--task", "task.md", timeout=60
-        )
-        assert render_result.returncode == 0, render_result.stderr
-
-        status_result = subprocess.run(
-            ["mise", "-q", "run", "slice-status", "--", "--json"],
-            cwd=py_single_mut,
-            capture_output=True,
-            text=True,
-            timeout=60,
-        )
-        assert status_result.returncode == 0, status_result.stderr
-        status = json.loads(status_result.stdout)
-        prompt_path = py_single_mut / status["prompts"]["planner"]
-        assert prompt_path.exists()
-        assert "Add a dry-run flag." in prompt_path.read_text()
 
     def test_fmt_passes(self, py_single_ready: Path) -> None:
         result = mise("fmt", py_single_ready, timeout=60)

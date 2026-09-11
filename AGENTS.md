@@ -5,11 +5,10 @@ in the closest `AGENTS.md` before continuing.**
 
 harness-toolkit contains two related CLIs. `harness-scaffold` is the
 starter-template CLI: it generates projects with a stable mise task contract,
-plan/evidence/review handoff checks, provider-neutral slice workflow prompts, and
-stack templates for Python, Go, and Rust. `hk` / `harness-kit` is the portable CLI
+native quality and product-verification checks, plus stack templates. `hk` / `harness-kit` is the portable CLI
 for applying the workflow to existing repos without committing scaffold files.
-Generated repos receive a skill-local uv CLI, while `mise run slice-*` remains
-the stable operator interface.
+Generated repos receive native `mise run check` and `mise run verify` task
+surfaces, with optional explicitly selected product verification routes.
 
 ## How to Work Here
 
@@ -36,17 +35,13 @@ scaffolded/generated-repo task-surface reference.
 
 **Exported handoff**: `WORK_ID=$(hk status --target . --json | python3 -c 'import json,sys; print(json.load(sys.stdin)["active_work"])') && hk export --format handoff-dir --output ".ai/hk/$WORK_ID" --target .`.
 
-**Generated export gate**: `mise run sync-check` validates `.ai/hk` exports and
-legacy `.ai/plans` artifacts when present.
+**Generated export gate**: `mise run sync-check` validates committed `.ai/hk` exports when present.
 
 **Focused tests**: `uv run pytest -m "not slow"`.
 
 **Current HK dev CLI**: `scripts/hk-dev ...` runs this checkout's `hk` while
 preserving the caller cwd; use it for dogfood before the installed `hk` is
 updated.
-
-**Legacy scaffold slice prompt rendering**: `mise run slice-plan -- --task docs/task.md`, then
-`mise run slice-implement` and `mise run slice-review` when useful for generated-repo compatibility work.
 
 **Docs preview**: `mise run docs`.
 
@@ -66,10 +61,9 @@ use it only in a copied scaffold or throwaway init target.
 - **DO** edit `.mise/tasks/<task>` to change task behavior. **NOT** `.mise.toml`
   task definitions. **BECAUSE** the command contract is file-based task scripts.
 
-- **DO** keep `templates/.agent/skills/slice-workflow/cli` and generated-repo
-  slice task wrappers aligned. **NOT** make hand-authored `.ai/plans` the normal
-  Harness Toolkit repo workflow. **BECAUSE** generated repos still need the
-  slice contract, while this repo should dogfood HK as the canonical lifecycle.
+- **DO** keep generated verification skills, route runner, and `mise run verify` aligned. **NOT** treat a green build or unit test exit as proof of a user journey. **BECAUSE** route scripts must observe the claimed behavior.
+
+- **DO** keep deterministic verification tasks dumb: expose stable named-route and explicit all-route primitives, then let the agent choose relevant journeys from code and product context. **NOT** make brittle path matching authoritative for which product routes are required or skipped. **BECAUSE** static mappings grow stale, miss semantic dependencies, and can trigger broad verification loops that consume time without improving judgment.
 
 - **DO** update the stack registry package, stack templates, and affected mise
   task dispatch handlers together when adding stack behavior. **NOT** by editing
@@ -77,10 +71,7 @@ use it only in a copied scaffold or throwaway init target.
   owns how generated projects run stack tools.
 
 - **DO** commit generated `.ai/hk/<work-id>/` exports for meaningful PR-sized
-  Harness Toolkit work when durable review context helps. **NOT** hand-author new
-  `.ai/plans` slices for normal repo work. **BECAUSE** HK ledger state is the
-  source of truth and committed artifacts should be generated views; `.ai/plans`
-  is historical/scaffold compatibility.
+  Harness Toolkit work when durable review context helps. **NOT** recreate retired plan-directory guidance. **BECAUSE** HK ledger state is the source of truth and new scaffolded repos use native verification routes.
 
 - **DO** use Cyclopts for portable/agent-facing CLIs like `hk` and
   `harness-scaffold`. **NOT** add new Click surfaces there. **BECAUSE** typed
@@ -226,7 +217,7 @@ use it only in a copied scaffold or throwaway init target.
 | `docs/AGENTS.md` | Docs routing index, including stack and ADR docs |
 | `docs/reference/decisions/` | ADRs for scaffold workflow and contract choices |
 | `.agent/skills/hk-pr-sized-dogfood/` | Repo-local skill for PR-sized HK dogfood replay studies |
-| `templates/.agent/skills/slice-workflow/` | Skill shipped to generated repos |
-| `templates/.ai/plans/AGENTS.md` | Plan artifact contract shipped to generated repos |
+| `templates/.agent/skills/create-project-verification/` | Skill shipped to generated repos |
+| `.harness/verification.toml` | Stable registry of named product verification routes |
 
 <!-- generated-by: context-engineering@2.2.0 | last-updated: 2026-04-30 -->

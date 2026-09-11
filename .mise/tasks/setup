@@ -43,7 +43,6 @@ def setup_web(cwd=PROJECT_ROOT):
     log_ok("Web dependencies installed")
 
 
-
 def setup_blender(cwd=PROJECT_ROOT):
     log_step("Installing Blender scene source-check dependencies")
     run(["uv", "sync", "--locked", "--all-groups"], cwd=cwd)
@@ -53,19 +52,34 @@ def setup_blender(cwd=PROJECT_ROOT):
 def setup_threejs(cwd=PROJECT_ROOT):
     log_step("Installing Three.js dependencies from lockfile")
     run(["npm", "ci"], cwd=cwd)
-    log_ok("Three.js dependencies installed")
+    run(["npx", "playwright", "install", "chromium"], cwd=cwd)
+    log_ok("Three.js dependencies and Chromium installed")
 
 
 if get_shape() == "apps":
     run_per_module(
         "setup",
         dispatch_module(
-            {"python": setup_python, "go": setup_go, "rust": setup_rust, "web": setup_web, "blender": setup_blender, "threejs": setup_threejs}
+            {
+                "python": setup_python,
+                "go": setup_go,
+                "rust": setup_rust,
+                "web": setup_web,
+                "blender": setup_blender,
+                "threejs": setup_threejs,
+            }
         ),
     )
 else:
     dispatch_stack(
-        {"python": setup_python, "go": setup_go, "rust": setup_rust, "web": setup_web, "blender": setup_blender, "threejs": setup_threejs}
+        {
+            "python": setup_python,
+            "go": setup_go,
+            "rust": setup_rust,
+            "web": setup_web,
+            "blender": setup_blender,
+            "threejs": setup_threejs,
+        }
     )
 
 # Install pre-commit hooks if available

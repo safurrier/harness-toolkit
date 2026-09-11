@@ -1,0 +1,8 @@
+# Product verification routes are opt-in. Keep this registry limited to stable
+# route names and executable facts; agents choose relevant routes from context.
+version = 1
+
+# [[routes]]
+# id = "create-record"
+# title = "Create and retrieve a record"
+# script = "scripts/verify/create-record"

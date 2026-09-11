@@ -34,19 +34,21 @@ documented in the stack page and accepted in review.
 | Typecheck | `mise run typecheck` runs the stack's closest static type or compile check. |
 | Tests | `mise run test` runs generated tests and writes a CI artifact under the generated test-results directory. |
 | Build | `mise run build` performs the stack's release/build path, even if that is a lightweight package build for interpreted stacks. |
-| Handoff | A fresh generated repo passes `mise run sync-check` with no active slice after setup. |
+| Product verification | Plain `mise run verify` completes stack-specific heavy checks. Named product routes run only when explicitly requested. |
 
 ## Smoke Matrix
 
 Repository CI must include every supported stack in the generated-project smoke
-matrix. The smoke entry should init a generated repo, run setup, run the fast
-gate, and run sync-check:
+matrix. The smoke entry should initialize a generated repo, run setup, and run
+the fast gate. Add stack-specific `verify` coverage when the stack introduces a
+new runtime, browser, or artifact path:
 
 ```bash
 mise run init -- --non-interactive --name <name> --stack <stack>
 mise run setup
 mise run check
-mise run sync-check
+scripts/verify-routes --list
+mise run verify -- --route <relevant-route-id>
 ```
 
 A planned stack may stay out of the smoke matrix only while it is clearly marked
@@ -60,7 +62,7 @@ The happy path must cover:
 
 - single-project init layout and scaffold cleanup
 - generated docs, `SPEC.md`, `AGENTS.md`, skills, and generated CI contract
-- `mise run check` and `mise run sync-check` after setup
+- `mise run check` and applicable `mise run verify` behavior after setup
 - apps-shape init layout and apps-shape `mise run check`
 
 The gate tests must prove the stack tooling fails on real problems:

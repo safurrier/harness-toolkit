@@ -15,6 +15,7 @@ from lib import (  # noqa: E402
     get_shape,
     log_ok,
     log_step,
+    product_verification_assets,
     run,
     run_per_module,
 )
@@ -157,5 +158,21 @@ else:
     dispatch_stack(
         {"python": verify_python, "go": verify_go, "rust": verify_rust, "web": verify_web, "blender": verify_blender, "threejs": verify_threejs}
     )
+
+route_args = sys.argv[1:]
+if route_args:
+    log_step("Phase 3: explicitly selected product verification routes")
+    verification_assets = product_verification_assets(PROJECT_ROOT)
+    if verification_assets is None:
+        print("error: product verification assets are not configured", file=sys.stderr)
+        sys.exit(1)
+    _, route_runner = verification_assets
+    result = subprocess.run([str(route_runner), *route_args], cwd=PROJECT_ROOT)
+    if result.returncode:
+        sys.exit(result.returncode)
+    log_ok("Product verification routes")
+else:
+    log_step("Phase 3: no product verification routes requested")
+    log_ok("Use mise run verify -- --route <id> or --all when product proof is needed")
 
 log_ok("Verification complete")

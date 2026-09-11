@@ -2,6 +2,10 @@
 
 ## Unreleased
 
+- Retire generated `.ai/plans` and slice-workflow tasks for new scaffolded projects; existing generated repositories remain legacy.
+- Add named product verification routes and portable create/maintain verification skills. Agents choose relevant journeys explicitly; deterministic tasks do not infer route coverage from changed paths.
+- Clarify the HK versus scaffold product choice and document visual stacks in public onboarding.
+
 - Fix generated Blender `build.py` import ordering so its pinned Ruff quality gate passes after formatting.
 - Keep the `WEBGL_lose_context` extension reference through Three.js E2E context loss, because a lost context cannot reliably reacquire it for restoration.
 - Add Blender and Three.js single-project visual starters with local task dispatch, editable source seams, reproducible dependency templates, and documented render/browser prerequisites.

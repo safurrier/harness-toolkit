@@ -2676,6 +2676,120 @@ def _safe_export_relative(value: object) -> str | None:
     return path.as_posix()
 
 
+def check_committed_handoff_exports(target: Path) -> list[Path]:
+    """Validate committed handoff packages without requiring local HK ledger state."""
+    target = target.resolve()
+    ai_root = target / ".ai"
+    exports_root = ai_root / "hk"
+    if ai_root.is_symlink() or exports_root.is_symlink():
+        raise LocalWorkflowError(
+            f"HK export root must not have symlinked ancestors: {exports_root}"
+        )
+    if not exports_root.exists():
+        return []
+    if not exports_root.is_dir():
+        raise LocalWorkflowError(f"HK export root must be a directory: {exports_root}")
+
+    checked: list[Path] = []
+    for destination in sorted(exports_root.iterdir()):
+        if destination.is_symlink():
+            raise LocalWorkflowError(
+                f"HK export package must not be a symlink: {destination}"
+            )
+        if not destination.is_dir():
+            continue
+        meta_path = destination / "meta.json"
+        if not meta_path.is_file() or meta_path.is_symlink():
+            raise LocalWorkflowError(
+                f"HK export metadata missing or unsafe: {meta_path}"
+            )
+        try:
+            metadata = json.loads(meta_path.read_text())
+        except (OSError, UnicodeDecodeError, json.JSONDecodeError) as exc:
+            raise LocalWorkflowError(
+                f"invalid HK export metadata {meta_path}: {exc}"
+            ) from exc
+        if not isinstance(metadata, dict):
+            raise LocalWorkflowError(
+                f"invalid HK export metadata {meta_path}: expected JSON object"
+            )
+
+        expected_output = destination.relative_to(target).as_posix()
+        if (
+            metadata.get("schema_version") != 1
+            or metadata.get("generated_by") != "hk export --format handoff-dir"
+            or metadata.get("work_id") != destination.name
+            or metadata.get("output_path") != expected_output
+        ):
+            raise LocalWorkflowError(
+                f"HK export metadata identity is invalid: {meta_path}"
+            )
+
+        declared = metadata.get("files")
+        if not isinstance(declared, list):
+            raise LocalWorkflowError(
+                f"HK export metadata files field is invalid: {meta_path}"
+            )
+        safe_files = [_safe_export_relative(item) for item in declared]
+        if (
+            any(path is None for path in safe_files)
+            or len(set(safe_files)) != len(safe_files)
+            or "meta.json" not in safe_files
+        ):
+            raise LocalWorkflowError(
+                f"HK export metadata contains unsafe or duplicate files: {meta_path}"
+            )
+        expected_files = {path for path in safe_files if path is not None}
+
+        symlinks: list[str] = []
+        actual_files: set[str] = set()
+        for path in destination.rglob("*"):
+            relative = path.relative_to(destination).as_posix()
+            if path.is_symlink():
+                symlinks.append(relative)
+            elif path.is_file():
+                actual_files.add(relative)
+        if symlinks:
+            raise LocalWorkflowError(
+                "HK export package contains symlinks: " + ", ".join(symlinks)
+            )
+        if actual_files != expected_files:
+            missing = sorted(expected_files - actual_files)
+            unexpected = sorted(actual_files - expected_files)
+            details = []
+            if missing:
+                details.append("missing files: " + ", ".join(missing))
+            if unexpected:
+                details.append("unexpected files: " + ", ".join(unexpected))
+            raise LocalWorkflowError(
+                f"HK export file set is invalid at {destination}: " + "; ".join(details)
+            )
+
+        recorded_hashes = metadata.get("file_hashes")
+        expected_hashed_files = expected_files - {"meta.json"}
+        if (
+            not isinstance(recorded_hashes, dict)
+            or set(recorded_hashes) != expected_hashed_files
+        ):
+            raise LocalWorkflowError(
+                f"HK export metadata file_hashes field is incomplete: {meta_path}"
+            )
+        for relative, recorded_hash in recorded_hashes.items():
+            if _safe_export_relative(relative) != relative or not isinstance(
+                recorded_hash, str
+            ):
+                raise LocalWorkflowError(
+                    f"HK export metadata contains an unsafe file hash: {meta_path}"
+                )
+            actual_hash = _file_hash(destination / relative)
+            if recorded_hash != actual_hash:
+                raise LocalWorkflowError(
+                    f"HK export file hash mismatch: {destination / relative}"
+                )
+        checked.append(destination)
+    return checked
+
+
 def _previous_export_files(destination: Path) -> set[str]:
     generated_names = {
         "AGENTS.md",

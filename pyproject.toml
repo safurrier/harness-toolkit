@@ -76,7 +76,7 @@ markers = [
 
 # ── ty ───────────────────────────────────────
 [tool.ty.environment]
-extra-paths = ["src", ".", "templates/.agent/skills/slice-workflow/cli/src"]
+extra-paths = ["src", "."]
 
 [tool.ty.src]
 exclude = ["stacks/**", "templates/**", ".agent/skills/**"]

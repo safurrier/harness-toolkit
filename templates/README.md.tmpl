@@ -10,20 +10,31 @@ mise run setup
 
 # Run quality checks
 mise run check
-mise run sync-check
 
 # Start development
 {% if project_shape == "apps" %}mise run dev -- <module>{% else %}mise run dev{% endif %}
 ```
 
-## Starting New Work
+## Verification
+
+`mise run check` is the fast quality gate. Use `mise run verify` for product,
+integration, browser, artifact, or other claims that need more than formatting,
+static analysis, and unit tests. It runs `check` and stack-specific verification.
+Custom product routes run only when you name them.
+
+Inspect available routes, choose relevant journeys from code and product context,
+and run them explicitly:
 
 ```bash
-git checkout -b feat/<slug>
-mise run plan -- <slug>
-mise run slice-plan -- --task path/to/task.md
-mise -q run slice-status -- --json
+scripts/verify-routes --list
+scripts/verify-routes --route create-record
+mise run verify -- --route create-record
 ```
+
+Use repeated `--route` arguments for several journeys and `--all` only for an
+intentional broad run. Explain why selected routes cover the change and note
+material routes skipped. Keep manual or credentialed checks as explicit operator
+evidence; do not mark them as automated passes.
 
 ## Task Reference
 
@@ -36,19 +47,9 @@ mise -q run slice-status -- --json
 | `mise run test` | Run unit tests |
 | `mise run build` | Build artifacts |
 | `mise run check` | Fast quality gate (fmt + lint + typecheck + test) |
-| `mise run plan-check` | Validate the active plan and metadata |
-| `mise run spec-check` | Validate decision promotion and reflected docs |
-| `mise run evidence-check` | Validate declared evidence artifacts |
-| `mise run review-check` | Validate external review artifacts |
-| `mise run sync-check` | Aggregate handoff readiness checks |
-| `mise run slice-plan` | Render the planner prompt for the active slice |
-| `mise run slice-implement` | Render the implementer prompt for the active slice |
-| `mise run slice-review` | Render the reviewer prompt for the active slice |
-| `mise run slice-status` | Show active slice state; use `mise -q run slice-status -- --json` for automation |
+| `mise run verify` | Heavy quality and stack validation; add explicit product route arguments when needed |
 {% if project_shape == "apps" %}| `mise run dev -- <module>` | Start local development for a module |{% else %}| `mise run dev` | Start local development |{% endif %}
 | `mise run ci` | CI entrypoint (= check) |
-| `mise run plan -- <slug>` | Create a plan directory for a unit of work |
-| `mise run verify` | Heavy validation (integration, docker, security) |
 
 ## Project Structure
 
@@ -57,10 +58,6 @@ mise -q run slice-status -- --json
 ## Development
 
 This project uses [mise](https://mise.jdx.dev/) as the task runner. All quality gates
-are accessible via `mise run <task>`.
-
-CI calls mise entrypoints: `mise run ci` and `mise run sync-check`.
-Pull request CI uses changed-plan mode so completed plan directories are
-validated after handoff.
-Slice prompts are rendered separately via `mise run slice-*`; slice completion
-is enforced via the same `mise run sync-check` handoff gate.
+are accessible via `mise run <task>`. Pull request CI runs the fast quality gate and stack-specific verification.
+Product routes are selected explicitly during implementation and closeout rather
+than inferred from changed paths.

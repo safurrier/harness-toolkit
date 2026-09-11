@@ -33,12 +33,12 @@ nav:
   - Explanation:
       - "Harness Kit: Dumb Tasks, Smart Agents": explanation/harness-kit-what-and-why.md
       - Portable Workflow: explanation/portable-workflow.md
-      - Harness Kit Design: explanation/harness-kit-lifecycle-design.md
+      - Harness Kit Design (draft): explanation/harness-kit-lifecycle-design.md
       - System Map Mental Model: explanation/system-map-mental-model.md
       - Repo Shapes: explanation/shapes.md
       - Init System: explanation/init-system.md
       - CI & Hooks: explanation/ci.md
-      - Scripts Contract Prototype: explanation/script-contract-prototype.md
+      - Scripts Contract Prototype (draft): explanation/script-contract-prototype.md
   - How-to:
       - Getting Started: how-to/getting-started.md
       - Agent Adoption: how-to/agent-adoption.md
@@ -71,6 +71,7 @@ nav:
           - ADR 0011 — Path-Aware Review Freshness: reference/decisions/0011-path-aware-review-freshness.md
           - ADR 0012 — Lifecycle-Neutral Active HK Exports: reference/decisions/0012-lifecycle-neutral-active-hk-exports.md
           - ADR 0013 — Web Stack V0: reference/decisions/0013-web-stack-v0.md
+          - ADR 0014 — Retire generated slice plans: reference/decisions/0014-retire-slice-plans.md
 
 markdown_extensions:
   - admonition
