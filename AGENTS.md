@@ -7,8 +7,8 @@ harness-toolkit contains two related CLIs. `harness-scaffold` is the
 starter-template CLI: it generates projects with a stable mise task contract,
 native quality and product-verification checks, plus stack templates. `hk` / `harness-kit` is the portable CLI
 for applying the workflow to existing repos without committing scaffold files.
-Generated repos receive a skill-local uv CLI, while `mise run slice-*` remains
-the stable operator interface.
+Generated repos receive native `mise run check` and `mise run verify` task
+surfaces, with optional path-selected product verification routes.
 
 ## How to Work Here
 

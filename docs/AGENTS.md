@@ -53,5 +53,6 @@ Agent routing index for MkDocs-managed documentation. Structure is owned by `mkd
 | `reference/decisions/0011-path-aware-review-freshness.md` | Path/content-aware HK review freshness and targeted follow-up review coverage |
 | `reference/decisions/0012-lifecycle-neutral-active-hk-exports.md` | Lifecycle-neutral active HK handoff exports and strict export integrity checks |
 | `reference/decisions/0013-web-stack-v0.md` | Web stack V0: Vite/React, optional Tailwind/shadcn, Cloudflare Workers, D1/Drizzle persistence scaffold |
+| `reference/decisions/0014-retire-slice-plans.md` | Retire generated plan directories and adopt native verification routes |
 
 <!-- generated-by: context-engineering@2.2.0 | last-updated: 2026-06-02 -->

@@ -12,7 +12,7 @@ index:
   - id: principles-patterns
     keywords: [patterns, principles, service-layer, timeouts, logs]
   - id: cross-cutting-workflows
-    keywords: [validation-loop, check, sync-check, verify, artifacts]
+    keywords: [validation-loop, check, verify, verification-routes, artifacts]
   - id: decisions
     keywords: [ledger, adrs, decisions, truth-hierarchy]
   - id: where-human-thought-goes
@@ -54,8 +54,8 @@ index:
 
 ## 3. Invariants & Boundaries
 
-> These rules prevent catastrophic mistakes. Violating them requires a ledger
-> entry at minimum, and sometimes an ADR.
+> These rules prevent catastrophic mistakes. Violating them requires a decision
+> record at minimum, and sometimes an ADR.
 
 ### Worktree Safety
 
@@ -65,17 +65,18 @@ index:
 ### Validation Boundaries
 
 - `mise run check` stays fast and deterministic.
-- `mise run sync-check` proves a slice is not half done.
 - `mise run verify` is reserved for heavier validation that should not slow the inner loop.
+- Product routes must exercise the relevant public surface and observe the claimed output or side effect.
+- Manual or credentialed validation remains an explicit operator obligation, not an automated pass.
 
 ### Traceability
 
-- Durable behavior changes must be reflected in docs, not only in plan logs.
-- Review artifacts and validation evidence live alongside the active plan until handoff.
+- Durable behavior changes must be reflected in docs, not only in ephemeral notes.
+- Keep useful route logs, screenshots, reports, and other evidence outside disposable state.
 
 ## 4. Principles & Preferred Patterns
 
-- Prefer one active in-progress plan per branch.
+- Prefer a focused proof route over a broad test run that cannot observe the claim.
 - Prefer repo-enforced checks over purely prompt-based process.
 - Prefer append-only decision history over silent rewrites.
 - Prefer explicit evidence artifacts over "trust me, I tested it."
@@ -86,21 +87,26 @@ index:
 
 ```bash
 mise run check       # fast code quality gate
-mise run sync-check  # plan/spec/evidence/review handoff gate
-mise run verify      # heavier validation
+mise run verify      # stack-specific and selected product verification
 ```
+
+Use `scripts/verify-routes --path path/to/change` to exercise required routes
+that match an affected public surface or dependency. Without a selector,
+`mise run verify` runs every required automated route.
 
 ### Artifact-First Debugging
 
-When a slice needs screenshots, logs, reports, benchmarks, or similar proof,
-declare those artifact types in `META.yaml` first, then persist them under the
-active plan's `artifacts/` directory and list them in `artifacts/manifest.yaml`.
+When a route needs screenshots, logs, reports, benchmarks, or similar proof,
+write retained outputs under a route-owned directory such as
+`test-results/verification/<route-id>/`. Record the command, observed outcome,
+cleanup, and any external/manual limitation in the nearest validation document.
+Do not treat stale artifacts or a green exit without observation as proof.
 
 ## 6. Decisions
 
 Durable decisions have two levels:
 
-1. `docs/explanation/decision-ledger.md` for most slice-level decisions
+1. `docs/explanation/decision-ledger.md` for most implementation decisions
 2. `docs/explanation/decisions/` for ADRs when a larger invariant or boundary changes
 
 **Truth hierarchy**:
@@ -115,7 +121,7 @@ Durable decisions have two levels:
 | Decision Record | Purpose |
 |---|---|
 | [0001-stack-choice](decisions/0001-stack-choice.md) | Initial stack choice for {{project_name}} |
-| [decision-ledger](decision-ledger.md) | Append-only durable slice history |
+| [decision-ledger](decision-ledger.md) | Append-only durable implementation history |
 
 ## 7. Module Map
 
@@ -130,15 +136,16 @@ Durable decisions have two levels:
 - invariants and boundary changes
 - review standards and taste rubrics
 - what counts as durable knowledge in docs
+- meaningful journeys and convincing manual observations
 
 **Agents own**
 
 - implementing within those constraints
-- keeping the active plan current
+- maintaining affected proof routes
 - producing evidence and review artifacts before handoff
 
 **Promotion rules**
 
 - Route-specific observations live beside the route or in retained validation evidence.
-- `decision_record: ledger` means append a repo-level ledger entry before handoff
-- `decision_record: adr` means create or update an ADR before handoff
+- `decision_record: ledger` means append a repo-level ledger entry before handoff.
+- `decision_record: adr` means create or update an ADR before handoff.

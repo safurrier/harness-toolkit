@@ -15,12 +15,25 @@ mise run check
 {% if project_shape == "apps" %}mise run dev -- <module>{% else %}mise run dev{% endif %}
 ```
 
-## Starting New Work
+## Verification
+
+`mise run check` is the fast quality gate. Use `mise run verify` for product,
+integration, browser, artifact, or other claims that need more than formatting,
+static analysis, and unit tests. It runs `check`, stack-specific verification,
+and any required product routes.
+
+Add a route only after exercising a real feature or caller journey. Register its
+source and dependency paths in `.harness/verification.toml`, then use a focused
+route while iterating:
 
 ```bash
-git checkout -b feat/<slug>
-mise run plan -- <slug>
+scripts/verify-routes --path src/records/api.py
+mise run verify -- --path src/records/api.py
 ```
+
+With no path selector, `mise run verify` runs every required automated route.
+Keep manual or credentialed checks as explicit operator evidence; do not mark
+them as automated passes.
 
 ## Task Reference
 
@@ -33,13 +46,9 @@ mise run plan -- <slug>
 | `mise run test` | Run unit tests |
 | `mise run build` | Build artifacts |
 | `mise run check` | Fast quality gate (fmt + lint + typecheck + test) |
-| `mise run spec-check` | Validate decision promotion and reflected docs |
-| `mise run evidence-check` | Validate declared evidence artifacts |
-| `mise run review-check` | Validate external review artifacts |
+| `mise run verify` | Heavy validation and selected product verification routes |
 {% if project_shape == "apps" %}| `mise run dev -- <module>` | Start local development for a module |{% else %}| `mise run dev` | Start local development |{% endif %}
 | `mise run ci` | CI entrypoint (= check) |
-| `mise run plan -- <slug>` | Create a plan directory for a unit of work |
-| `mise run verify` | Heavy validation (integration, docker, security) |
 
 ## Project Structure
 
@@ -48,7 +57,5 @@ mise run plan -- <slug>
 ## Development
 
 This project uses [mise](https://mise.jdx.dev/) as the task runner. All quality gates
-are accessible via `mise run <task>`.
-
-Pull request CI uses changed-plan mode so completed plan directories are
-validated after handoff.
+are accessible via `mise run <task>`. Pull request CI runs the fast quality gate
+and uses path-selected product verification routes for affected source paths.

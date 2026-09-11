@@ -65,13 +65,13 @@ jobs:
 
 `mise-action` installs mise and runs `mise install` automatically, pulling tool versions from `.mise.toml`.
 
-Quality gate logic lives in `mise run ci` → `mise run check`. Handoff contract
-logic lives in HK export integrity check. Local runs validate the active plan. Pull
-request CI calls `HK export integrity check -- --changed-from origin/<base>...HEAD`
-so changed plans must be marked complete and their artifacts are validated. The
-repository CI also runs generated-project smoke tests across the supported
-stacks so Python, Go, Rust, and Web scaffolds prove they can initialize and pass
-`mise run check`.
+Quality gate logic lives in `mise run ci` → `mise run check`. Handoff export
+integrity is checked with `mise run sync-check` when committed HK exports are
+present. Pull request CI runs `mise run verify -- --changed-from
+origin/<base>...HEAD` in generated projects, which selects required product
+routes for the changed paths while retaining the full quality gate. The repository
+CI also runs generated-project smoke tests across the supported stacks so Python,
+Go, Rust, and Web scaffolds prove they can initialize and pass `mise run check`.
 
 ## Pre-commit hooks
 

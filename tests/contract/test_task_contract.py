@@ -71,3 +71,33 @@ def test_generated_ci_selects_changed_verification_routes() -> None:
 
 def test_no_legacy_slice_source_paths_in_quality_config() -> None:
     assert "slice-workflow" not in (SCAFFOLD_ROOT / "pyproject.toml").read_text()
+
+
+@pytest.mark.parametrize(
+    "path",
+    [
+        "templates/README.md.tmpl",
+        "templates/.agent/skills/README.md",
+        "templates/docs/explanation/architecture.md.tmpl",
+        "templates/docs/AGENTS.md.tmpl",
+        "templates/docs/explanation/decision-ledger.md.tmpl",
+        "templates/docs/reference/review-rubrics/README.md.tmpl",
+    ],
+)
+def test_generated_guidance_does_not_prescribe_retired_plan_contract(path: str) -> None:
+    content = (SCAFFOLD_ROOT / path).read_text()
+    for retired_surface in [
+        "mise run plan",
+        "mise run plan-check",
+        "mise run spec-check",
+        "mise run evidence-check",
+        "mise run review-check",
+        "mise run sync-check",
+        "mise run slice-plan",
+        "mise run slice-implement",
+        "mise run slice-review",
+        "mise run slice-status",
+        "META.yaml",
+        "artifacts/manifest.yaml",
+    ]:
+        assert retired_surface not in content, f"{path} prescribes {retired_surface}"

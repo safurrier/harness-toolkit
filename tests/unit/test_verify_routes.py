@@ -133,15 +133,49 @@ def test_routes_select_paths_from_git_ref(tmp_path: Path) -> None:
     assert (repo / "result").read_text().splitlines() == ["browser", "shared"]
 
 
+def test_empty_changed_from_runs_only_always_routes(tmp_path: Path) -> None:
+    repo = make_repo(
+        tmp_path,
+        CONFIG,
+        {
+            "scripts/verify/api": "echo api >> result",
+            "scripts/verify/browser": "echo browser >> result",
+            "scripts/verify/shared": "echo shared >> result",
+        },
+    )
+    subprocess.run(["git", "init"], cwd=repo, check=True, capture_output=True)
+    subprocess.run(["git", "add", "."], cwd=repo, check=True)
+    subprocess.run(
+        [
+            "git",
+            "-c",
+            "user.name=test",
+            "-c",
+            "user.email=test@example.com",
+            "commit",
+            "-m",
+            "base",
+        ],
+        cwd=repo,
+        check=True,
+        capture_output=True,
+    )
+
+    result = run(repo, "--changed-from", "HEAD")
+
+    assert result.returncode == 0, result.stderr
+    assert (repo / "result").read_text().splitlines() == ["shared"]
+
+
 @pytest.mark.parametrize(
     "config, expected",
     [
         (
-            "version = 1\n[[routes]]\nid='x'\npaths=[]\nscript='x'\nrequired=true\n",
+            "version = 1\n[[routes]]\nid='x'\npaths=[]\nscript='scripts/verify/x'\nrequired=true\n",
             "missing or not executable",
         ),
         (
-            "version = 1\n[[routes]]\nid='x'\npaths=['x']\nscript='scripts/missing'\nrequired=true\n",
+            "version = 1\n[[routes]]\nid='x'\npaths=['x']\nscript='scripts/verify/missing'\nrequired=true\n",
             "missing or not executable",
         ),
         (
@@ -156,6 +190,58 @@ def test_routes_reject_invalid_automated_contracts(
     repo = make_repo(tmp_path, config)
     result = run(repo)
     assert result.returncode != 0 and expected in result.stderr
+
+
+@pytest.mark.parametrize(
+    "script, expected",
+    [
+        ("/tmp/route", "must be relative"),
+        ("../outside", "must resolve beneath scripts/verify"),
+    ],
+)
+def test_routes_reject_script_paths_outside_owned_directory(
+    tmp_path: Path, script: str, expected: str
+) -> None:
+    repo = make_repo(
+        tmp_path,
+        f"""version = 1
+[[routes]]
+id = "x"
+paths = ["src/**"]
+script = "{script}"
+required = true
+kind = "runtime"
+""",
+    )
+
+    result = run(repo)
+
+    assert result.returncode != 0
+    assert expected in result.stderr
+
+
+def test_routes_reject_symlink_escape(tmp_path: Path) -> None:
+    repo = make_repo(
+        tmp_path,
+        """version = 1
+[[routes]]
+id = "x"
+paths = ["src/**"]
+script = "scripts/verify/escape"
+required = true
+kind = "runtime"
+""",
+    )
+    outside = tmp_path / "outside"
+    outside.write_text("#!/bin/sh\nexit 0\n")
+    outside.chmod(0o755)
+    (repo / "scripts" / "verify").mkdir(parents=True)
+    (repo / "scripts" / "verify" / "escape").symlink_to(outside)
+
+    result = run(repo)
+
+    assert result.returncode != 0
+    assert "must resolve beneath scripts/verify" in result.stderr
 
 
 def test_route_failure_propagates(tmp_path: Path) -> None:
