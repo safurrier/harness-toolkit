@@ -21,7 +21,7 @@ index:
 
 ## Summary
 
-harness-toolkit contains two related CLIs: `harness-scaffold`, the starter-template CLI for new agent-ready repositories, and `hk` / `harness-kit`, the portable workflow CLI for existing repositories. `harness-scaffold` transforms a cloned template into a fully configured project with a stable 22-task command surface. `hk` applies planning, validation, review, readiness, and handoff workflow state without committing scaffold files, and is evolving toward a cleaner lifecycle-first Harness Kit backed by local ledgers, sync checkpoints, captured command evidence, generated handoffs, and optional local specs. Both humans and AI agents benefit from language-agnostic, CI-parity contracts where `mise run check` is the fast local gate and handoff evidence stays inspectable.
+harness-toolkit contains two related CLIs: `harness-scaffold`, the starter-template CLI for new agent-ready repositories, and `hk` / `harness-kit`, the portable workflow CLI for existing repositories. `harness-scaffold` transforms a cloned template into a fully configured project with a stable native task contract. `hk` applies planning, validation, review, readiness, and handoff workflow state without committing scaffold files, and is evolving toward a cleaner lifecycle-first Harness Kit backed by local ledgers, sync checkpoints, captured command evidence, generated handoffs, and optional local specs. Both humans and AI agents benefit from language-agnostic, CI-parity contracts where `mise run check` is the fast local gate and handoff evidence stays inspectable.
 
 ## Goals / Non-Goals
 
@@ -46,7 +46,7 @@ harness-toolkit contains two related CLIs: `harness-scaffold`, the starter-templ
 
 - `mise run init` supports interactive and non-interactive modes
 - `mise run init -- --non-interactive` with explicit flags produces deterministic output
-- All 22 task scripts exist in `.mise/tasks/`, are executable, and have `# MISE description=` headers
+- Generated task scripts `init`, `setup`, `fmt`, `lint`, `typecheck`, `test`, `build`, `check`, `dev`, `ci`, `verify`, and `docs` exist in `.mise/tasks/`, are executable, and have `# MISE description=` headers; source-only helpers such as `hk-dev` and HK export `sync-check` are not part of the generated contract
 - `mise run check` passes on a freshly initialized project without manual intervention (golden path)
 - `mise run ci` produces identical results to `mise run check` (CI parity)
 - Pre-commit hooks call the same tasks as CI
@@ -222,7 +222,7 @@ parity with the plan-artifact workflow.
 `harness-kit` is the readable long command for the same portable CLI. `hk` is the
 short daily command.
 
-**22-task contract:**
+**Generated task contract:**
 
 | Task | Purpose | Composition |
 |------|---------|-------------|

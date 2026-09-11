@@ -5,7 +5,7 @@ description: >
   Overview of the Harness Engineering Toolkit: Harness Kit for existing repos
   and harness-scaffold for new repos.
 index:
-  - id: what-it-is
+  - id: choose-your-path
     keywords: [scaffold, clone-and-init, task-contract, agent-native]
   - id: why-mise
     keywords: [mise, tool-versions, task-runner, unified]

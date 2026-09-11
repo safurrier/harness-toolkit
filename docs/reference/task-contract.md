@@ -15,8 +15,12 @@ to it. Task wrappers remain thin adapters over language-native tools.
 
 `mise run verify` is the heavier product-validation entrypoint. It runs `check`,
 then stack-specific integration, Docker, artifact, or browser work, then
-`scripts/verify-routes` when the repository has it. The optional
-`.harness/verification.toml` map selects required routes by changed source paths.
+`scripts/verify-routes` when the repository has it.
+
+## Verification routes
+
+The optional `.harness/verification.toml` map selects required routes by changed
+source paths.
 
 ```bash
 scripts/verify-routes --path src/service.py

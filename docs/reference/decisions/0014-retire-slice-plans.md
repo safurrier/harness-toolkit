@@ -4,7 +4,7 @@ title: Retire generated slice-plan workflow
 description: Supersedes the generated .ai/plans and slice-workflow task contract.
 status: accepted
 index:
-  - id: retired-slice-workflow
+  - id: decision
     keywords: [scaffold, verification, plans, migration]
 ---
 # ADR 0014 — Retire generated slice-plan workflow

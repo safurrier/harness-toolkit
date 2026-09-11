@@ -37,10 +37,10 @@ state what future stacks must provide before they count as supported.
 
 ## Decision
 
-The `mise` tasks remain the stable agent-facing interface. Their implementation
-now delegates to the skill-local CLI at
-`templates/.agent/skills/slice-workflow/cli` in scaffold source and
-`.agent/skills/slice-workflow/cli` in generated repositories.
+The `mise` tasks remained the stable agent-facing interface. Their implementation
+then delegated to the skill-local slice-workflow CLI in scaffold source and
+generated repositories. Those CLI paths were retired with the generated
+slice-plan workflow; this is historical architecture, not a live path reference.
 
 The CLI uses a tiny uv project and the `slice_workflow_cli` package:
 

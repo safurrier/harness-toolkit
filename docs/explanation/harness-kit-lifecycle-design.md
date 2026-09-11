@@ -208,11 +208,11 @@ Adopted/scaffolded repos may configure stricter checks later.
 
 ### Readiness is separate from sync freshness
 
-The existing scaffold task contract's HK export integrity check is a handoff
-readiness gate, not only a freshness check. It aggregates `plan-check`,
-`spec-check`, `evidence-check`, and `review-check` over plan artifacts. Harness Kit
-should preserve those guarantees before the plan-artifact workflow is demoted or
-removed.
+The current scaffold task contract uses native quality and product-verification
+commands, not plan-artifact readiness checks. New generated repositories run
+`mise run check` for quality and `mise run verify` for heavier, path-selected
+product proof. Existing generated repositories that retain plan artifacts are
+legacy; Harness Kit's own `hk ready` remains the lifecycle handoff gate.
 
 The target split is:
 
@@ -266,7 +266,7 @@ The underlying lifecycle remains phase-oriented:
 
 The current scaffold artifacts map to those phases as follows:
 
-| Phase | Current plan artifact | Harness Kit target |
+| Phase | Legacy plan artifact (existing generated repos) | Harness Kit target |
 |---|---|---|
 | Context/research | `LEARNING_LOG.md` | `hk context` / learning records |
 | Plan | `TODO.md`, `IMPLEMENTATION.md` | `hk plan` plus optional task/checklist records only when useful |
@@ -471,9 +471,10 @@ hk evidence list                        # inspection/debugging
 hk export --format handoff [--target PATH]
 ```
 
-Portable plan-artifact commands have been removed from `hk`. Scaffold/task-contract
-repos still use `mise run plan` and HK export integrity check through the separate
-legacy slice-workflow CLI.
+Portable plan-artifact commands have been removed from `hk`. New scaffolded
+repositories use native `mise run check` and `mise run verify` with optional
+path-selected verification routes; only legacy generated repositories retain the
+separate slice-workflow CLI.
 
 Deferred commands also include state cleanup, deep spec impact, profile
 validation, skill validation, and compatibility link helpers.

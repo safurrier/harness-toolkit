@@ -27,8 +27,9 @@ docs current, but had no convention for **how to start work**. Agents picking up
 a task would jump straight to coding without scoping, and there was no structured
 place to capture problems, adaptations, or validation evidence during development.
 
-The user's personal AGENTS.md had a plan convention (`.ai/plans/` with SPEC, TODO,
-IMPLEMENTATION, LEARNING_LOG) but it wasn't part of harness-scaffold's generated repos.
+The user's personal AGENTS.md had a plan convention (the now-retired `.ai/plans/`
+directory with SPEC, TODO, IMPLEMENTATION, LEARNING_LOG) but it wasn't part of
+harness-scaffold's generated repos.
 
 ## Decision
 
@@ -38,8 +39,8 @@ Add a plan-based workflow to harness-scaffold:
 - **4 required files**: META.yaml (machine-readable metadata), TODO.md (task list),
   LEARNING_LOG.md (dev diary), VALIDATION.md (verification log)
 - **2 optional files**: SPEC.md (requirements), IMPLEMENTATION.md (approach)
-- **Example plan** in `templates/.ai/plans/_example/` showing the full lifecycle
-  for agent reference
+- **Example plan** in the historical, retired scaffold template directory
+  `templates/.ai/plans/_example/` showing the full lifecycle for agent reference
 - **`/plan-sync` skill** validates plan artifacts are current before pushing
 - **META.yaml** is structured YAML with required fields (slug, created, status)
   for future tooling (Groundskeeper, dashboards)

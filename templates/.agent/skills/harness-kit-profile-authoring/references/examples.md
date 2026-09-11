@@ -5,7 +5,7 @@ target repo actually exposes the same contract.
 
 ## Scaffolded Harness Toolkit Repo
 
-Pattern: native task contract with committed plan sync in CI.
+Pattern: native quality tasks with path-selected product verification.
 
 ```toml
 name = "example-scaffold-root"
@@ -13,7 +13,7 @@ title = "Example Scaffold Root"
 summary = "Validation contract for a repo initialized by harness-scaffold."
 target_hint = "Use --target <repo>."
 
-instructions = "Use this profile for a harness-scaffold repo. Commit plan evidence when repo CI requires changed plans. Use focused checks while iterating; run broad gates once implementation is stable."
+instructions = "Use this profile for a harness-scaffold repo. Use focused checks while iterating; run the heavier verification gate when changed paths select product routes or before merge-ready handoff."
 
 [[checks]]
 name = "fast-gate"
@@ -24,11 +24,11 @@ applies_when = ["src/**", "tests/**", "docs/**"]
 required_when = ["src/**", "tests/**"]
 
 [[checks]]
-name = "handoff"
-purpose = "Validate native committed plan evidence."
-command_template = "mise run sync-check"
+name = "product-verification"
+purpose = "Run heavier product verification, selecting routes from changed paths."
+command_template = "mise run verify -- --changed-from origin/main...HEAD"
 run_from = "repo-root"
-notes = ["Use repo-local plan artifacts when native CI requires them."]
+notes = ["Use after source changes that select verification routes or for merge-ready handoff."]
 ```
 
 ## Rust mise Repo

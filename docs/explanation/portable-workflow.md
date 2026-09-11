@@ -83,9 +83,10 @@ hk handoff --target . --format markdown
 ```
 
 Portable plan-artifact commands were removed from `hk`: there is no `hk
-attach`, `hk legacy plan`, or `hk legacy sync-check`. Scaffolded repos still keep
-the durable plan-package workflow through `mise run plan` and `mise run
-sync-check`, backed by the separate legacy slice-workflow CLI.
+attach`, `hk legacy plan`, or `hk legacy sync-check`. New scaffolded repositories
+use native `mise run check` and `mise run verify`, with optional path-selected
+verification routes and durable guidance in `AGENTS.md` and `docs/`. Existing
+generated repositories that retain plan packages are legacy.
 
 Conceptually, the intended agent/human lifecycle is:
 
@@ -325,8 +326,8 @@ persistent sync ignore config are deferred.
 | `hk plan <text>` | Record or refine the lifecycle implementation plan for active Harness Kit work |
 | `hk dangerously-skip review\|validation\|sync --label <name> --reason <text> --mitigation <text>` | Explicitly record an auditable dangerous skip when a lifecycle guarantee cannot be satisfied; skips render in summary, handoff, and PR handoff |
 
-Portable plan-artifact commands have been removed from `hk`. Use scaffold `mise run
-plan` and HK export integrity check for generated-repo committed plan packages. For
+Portable plan-artifact commands have been removed from `hk`. New scaffolded
+repositories use their native check/verify and verification-route contract. For
 HK-native repos that want durable review artifacts, generate compact committed
 packages with `hk export --format handoff-dir --output .ai/hk/2026-05-09-120000-demo`
 instead of hand-authoring `.ai/plans` files. The export is a projection, not a
