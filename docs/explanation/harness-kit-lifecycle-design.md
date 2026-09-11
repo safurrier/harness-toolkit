@@ -14,6 +14,8 @@ index:
 ---
 
 # Harness Kit Design
+> **Historical note:** The generated slice-plan workflow described below was retired for new projects by [ADR 0014](../reference/decisions/0014-retire-slice-plans.md). Existing generated repositories remain legacy.
+
 
 ## Status
 
@@ -206,7 +208,7 @@ Adopted/scaffolded repos may configure stricter checks later.
 
 ### Readiness is separate from sync freshness
 
-The existing scaffold task contract's `mise run sync-check` is a handoff
+The existing scaffold task contract's HK export integrity check is a handoff
 readiness gate, not only a freshness check. It aggregates `plan-check`,
 `spec-check`, `evidence-check`, and `review-check` over plan artifacts. Harness Kit
 should preserve those guarantees before the plan-artifact workflow is demoted or
@@ -271,7 +273,7 @@ The current scaffold artifacts map to those phases as follows:
 | Decisions/spec | `DECISIONS.md`, ADR/ledger links | `hk decide` and spec-impact reflection records |
 | Validation | `VALIDATION.md`, `artifacts/manifest.yaml` | `hk validate --why ... -- <command>` captured evidence |
 | Review | `REVIEW.md` | `hk review add` records with backend/reviewer/profile-review/findings/disposition |
-| Handoff gate | `mise run sync-check` | `hk ready` plus `hk sync --check` |
+| Handoff gate | HK export integrity check | `hk ready` plus `hk sync --check` |
 
 This keeps Harness Kit shell-first while making the plan package an optional
 exported view of the ledger rather than the canonical source of truth. Harness Kit is
@@ -470,8 +472,8 @@ hk export --format handoff [--target PATH]
 ```
 
 Portable plan-artifact commands have been removed from `hk`. Scaffold/task-contract
-repos still use `mise run plan` and `mise run sync-check` through the separate
-slice-workflow CLI.
+repos still use `mise run plan` and HK export integrity check through the separate
+legacy slice-workflow CLI.
 
 Deferred commands also include state cleanup, deep spec impact, profile
 validation, skill validation, and compatibility link helpers.
@@ -537,7 +539,7 @@ notes are planned follow-ups.
 
 This is a staged breaking change. Compatibility does not need to be preserved
 as a product promise, but the ledger workflow should not replace plan artifacts
-until Harness Kit closes the readiness gaps that `mise run sync-check` currently
+until Harness Kit closes the readiness gaps that HK export integrity check currently
 covers.
 
 Each phase must include behavior-focused tests and parity fixtures where

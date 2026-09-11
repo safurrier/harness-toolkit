@@ -16,6 +16,8 @@ index:
 ---
 
 # Portable Workflow
+> **Historical note:** The generated slice-plan workflow described below was retired for new projects by [ADR 0014](../reference/decisions/0014-retire-slice-plans.md). Existing generated repositories remain legacy.
+
 
 `hk` is the Harness Kit CLI for using portable planning and local-assistant
 workflow state in a repository that was not initialized from harness-scaffold. It
@@ -83,7 +85,7 @@ hk handoff --target . --format markdown
 Portable plan-artifact commands were removed from `hk`: there is no `hk
 attach`, `hk legacy plan`, or `hk legacy sync-check`. Scaffolded repos still keep
 the durable plan-package workflow through `mise run plan` and `mise run
-sync-check`, backed by the separate slice-workflow CLI.
+sync-check`, backed by the separate legacy slice-workflow CLI.
 
 Conceptually, the intended agent/human lifecycle is:
 
@@ -324,12 +326,12 @@ persistent sync ignore config are deferred.
 | `hk dangerously-skip review\|validation\|sync --label <name> --reason <text> --mitigation <text>` | Explicitly record an auditable dangerous skip when a lifecycle guarantee cannot be satisfied; skips render in summary, handoff, and PR handoff |
 
 Portable plan-artifact commands have been removed from `hk`. Use scaffold `mise run
-plan` and `mise run sync-check` for generated-repo committed plan packages. For
+plan` and HK export integrity check for generated-repo committed plan packages. For
 HK-native repos that want durable review artifacts, generate compact committed
 packages with `hk export --format handoff-dir --output .ai/hk/2026-05-09-120000-demo`
 instead of hand-authoring `.ai/plans` files. The export is a projection, not a
 second ledger: `README.md` is the human handoff, `meta.json` is machine
-freshness/integrity data, and `artifacts/` is for explicit copied attachments only; `--no-copy` attachments remain referenced by metadata. The active `.ai/hk/<work-id>/` package is generated/derived and does not by itself stale validation/review/sync freshness or readiness changed-path checks; validate export integrity with `hk export --format handoff-dir --check` or `mise run sync-check`.
+freshness/integrity data, and `artifacts/` is for explicit copied attachments only; `--no-copy` attachments remain referenced by metadata. The active `.ai/hk/<work-id>/` package is generated/derived and does not by itself stale validation/review/sync freshness or readiness changed-path checks; validate export integrity with `hk export --format handoff-dir --check` or HK export integrity check.
 
 Config diagnostics are intentionally narrower than authoring. They can inspect,
 validate, audit, and explain deterministic joins between target bindings,

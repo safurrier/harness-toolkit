@@ -158,4 +158,13 @@ else:
         {"python": verify_python, "go": verify_go, "rust": verify_rust, "web": verify_web, "blender": verify_blender, "threejs": verify_threejs}
     )
 
+log_step("Phase 3: product verification routes")
+route_runner = PROJECT_ROOT / "scripts" / "verify-routes"
+if route_runner.is_file():
+    route_args = sys.argv[1:]
+    result = subprocess.run([str(route_runner), *route_args], cwd=PROJECT_ROOT)
+    if result.returncode:
+        sys.exit(result.returncode)
+    log_ok("Product verification routes")
+
 log_ok("Verification complete")

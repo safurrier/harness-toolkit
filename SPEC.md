@@ -52,14 +52,8 @@ harness-toolkit contains two related CLIs: `harness-scaffold`, the starter-templ
 - Pre-commit hooks call the same tasks as CI
 - Non-interactive init fails fast with clear errors on missing required inputs
 - Generated projects include `AGENTS.md`, `SPEC.md`, `docs/explanation/architecture.md`, `docs/explanation/decisions/`, and CI workflow
-- All generated docs have valid YAML frontmatter with `id`, `title`, `description`, and `index` fields
+- Generated projects include optional `.harness/verification.toml` and `scripts/verify-routes` for path-selected automated product proof
 - ADRs have Status (from allowed values), Context, Decision, and Consequences sections
-- `mise run plan -- <slug>` creates a plan directory with META.yaml, TODO.md, LEARNING_LOG.md, VALIDATION.md, REVIEW.md, DECISIONS.md, and artifacts/manifest.yaml; invalid or duplicate slugs fail with clear errors
-- `mise run slice-plan`, `slice-implement`, and `slice-review` render provider-neutral prompts into the active plan's `prompts/` directory
-- `mise -q run slice-status -- --json` emits machine-readable active slice state
-- Generated projects include `.ai/plans/` with routing AGENTS.md, templates, and example
-- Generated projects include `.agent/skills/slice-workflow/` with artifact policy, handoff rubric, holdout sample tasks, and prompt templates
-- Plan META.yaml has required fields: `slug`, `created` (YYYY-MM-DD), `status` (from allowed values)
 
 ### SHOULD
 
@@ -102,8 +96,7 @@ seams rather than removable generic examples.
 
 Current `hk` commands are lifecycle-first. Portable plan-artifact
 commands (`hk attach`, `hk legacy plan`, and `hk legacy sync-check`) are removed;
-scaffold plan artifacts use `mise run plan` and `mise run sync-check` through the
-slice-workflow CLI instead.
+new scaffolded projects use native `mise run check` and path-selected `mise run verify` routes instead.
 
 ```
 hk profile list --target <repo-or-module> --json
@@ -244,16 +237,6 @@ short daily command.
 | `dev` | Local development | Stack-dependent |
 | `ci` | CI entrypoint | Delegates to `check` |
 | `docs` | Documentation server | MkDocs dev server |
-| `plan` | Create plan directory | Scaffolds `.ai/plans/<slug>/` |
-| `plan-check` | Validate plan metadata | Checks active or explicit plan files |
-| `spec-check` | Validate decision promotion | Checks ledger/ADR reflection |
-| `evidence-check` | Validate evidence artifacts | Checks validation commands and manifest |
-| `review-check` | Validate review artifact | Checks external-enough review fields |
-| `sync-check` | Handoff readiness gate | Runs active, explicit, or changed-plan checks |
-| `slice-plan` | Render planner prompt | Writes `prompts/planner.md` |
-| `slice-implement` | Render implementer prompt | Writes `prompts/implementer.md` |
-| `slice-review` | Render reviewer prompt | Writes `prompts/reviewer.md` |
-| `slice-status` | Show active slice state | Text or JSON status |
 | `verify` | Heavy validation | Integration, docker, security |
 
 **Stack Protocol:**
@@ -261,7 +244,9 @@ short daily command.
 ```python
 class Stack(Protocol):
     def init_single(self, root: Path, config: Config) -> dict[str, str]: ...
-    def init_module(self, mod_dir: Path, config: Config, mod_name: str) -> dict[str, str]: ...
+    def init_module(
+        self, mod_dir: Path, config: Config, mod_name: str
+    ) -> dict[str, str]: ...
     def remove_examples(self, root: Path, config: Config) -> None: ...
     def remove_module_examples(self, mod_dir: Path) -> None: ...
     def tools_toml(self) -> str: ...
@@ -271,7 +256,7 @@ class Stack(Protocol):
 
 ## Invariants
 
-- **CI parity**: `mise run check` locally MUST match the CI quality gate, and CI MUST also run `mise run sync-check` for handoff-contract coverage. Pull request CI MUST validate changed completed plans with `sync-check --changed-plans`. Pre-commit hooks call the same quality tasks. Violation causes green-local/red-CI divergence or missing handoff evidence.
+- **CI parity**: `mise run check` locally MUST match the CI quality gate. Pull request CI runs `mise run verify -- --changed-from origin/<base>...HEAD` so required product routes are selected by affected paths.
 - **Golden path guarantee**: A freshly initialized project (`mise run init`) MUST pass `mise run check` out of the box. Violation breaks first-run experience.
 - **Worktree safety**: All tasks must run from a clean checkout or Git worktree. No reliance on absolute paths, mutable global state, or undeclared local artifacts.
 - **Stack dispatch via env**: Tasks read `SCAFFOLD_PROJECT_STACK` from `.mise.toml` to dispatch to the correct toolchain. Wrong dispatch = wrong tools run.
@@ -283,14 +268,13 @@ class Stack(Protocol):
 - **Freshness vs readiness**: `hk sync --check` answers whether ledger work changed after the last checkpoint. `hk ready` is the ledger-backed Harness Kit lifecycle readiness gate. `mise run sync-check` validates committed handoff artifacts: legacy scaffold/task-contract plan artifacts and HK `.ai/hk/<work-id>/` export packages when present.
 - **No heuristic readiness/profile scoring**: `hk brief` and profile commands report facts and guidance, not readiness grades, confidence scores, or silent validation command selection. Planning may happen outside HK, but agents must translate the agreed intent into explicit lifecycle records; HK records those declarations and checks evidence consistency while humans/reviewers judge quality. HK does not infer whether context is non-obvious; agents record `hk context` when it improves handoff or prevents rediscovery.
 - **Profile catalog ergonomics**: user config MAY load standalone profile TOML from `profiles_dir` / `profiles_dirs` while retaining explicit target bindings. Profile resolution MUST prefer direct longest-prefix target matches, then MAY project configured target bindings across Git linked worktrees that share the same common Git directory; it MUST NOT silently select profiles for separate clones based only on matching remote URLs. Profile path rules MUST accept both Git repo-root-relative changed paths and target-relative paths for scoped module profiles, while reporting matched paths in repo-root-relative form. Profile authoring guidance SHOULD distinguish focused iteration checks, final closeout gates, CI/heavy parity checks, handoff/export checks, required reviews, and advisory reviews so agents avoid repeated broad validation/review loops without weakening readiness blockers for risk-specific paths.
-- **HK export views**: HK ledger state is the canonical lifecycle source for Harness Toolkit repo work. Committed `.ai/hk/<work-id>/` directories, when present, MUST be generated review/handoff packages from `hk export --format handoff-dir`. The default package is intentionally compact: `README.md` is the single human projection, `meta.json` stores freshness/integrity metadata (`work_id`, git SHA, diff hash, event/evidence counts, generated file hashes), and `artifacts/` is explicit-only. Hand-authored `.ai/plans` slices are legacy/scaffold-generated-repo compatibility artifacts, not the normal Harness Toolkit repo workflow.
+- **HK export views**: HK ledger state is the canonical lifecycle source for Harness Toolkit repo work. Committed `.ai/hk/<work-id>/` directories, when present, MUST be generated review/handoff packages from `hk export --format handoff-dir`. The default package is intentionally compact: `README.md` is the single human projection, `meta.json` stores freshness/integrity metadata (`work_id`, git SHA, diff hash, event/evidence counts, generated file hashes), and `artifacts/` is explicit-only. Hand-authored plan directories are retired from new generated projects; existing generated repositories remain legacy.
 - **Local-first adoption boundary**: default `hk` local assistant state stays ignored or external. Committed `.harness/`, `SPEC.md`, generated `.ai/hk` exports, or task-contract artifacts require explicit adoption/promotion.
 
 ## Acceptance
 
 ```bash
 mise run check          # fast: fmt-check + lint + typecheck + all tests
-mise run sync-check     # handoff: plan/spec/evidence/review contract
 mise run verify         # heavy: integration, e2e, docker (when applicable)
 ```
 

@@ -57,17 +57,17 @@ jobs:
       - name: Sync check
         run: |
           if [ "${{ github.event_name }}" = "pull_request" ]; then
-            mise run sync-check -- --changed-plans "origin/${{ github.base_ref }}...HEAD"
+            HK export integrity check -- --changed-from "origin/${{ github.base_ref }}...HEAD"
           else
-            mise run sync-check
+            HK export integrity check
           fi
 ```
 
 `mise-action` installs mise and runs `mise install` automatically, pulling tool versions from `.mise.toml`.
 
 Quality gate logic lives in `mise run ci` → `mise run check`. Handoff contract
-logic lives in `mise run sync-check`. Local runs validate the active plan. Pull
-request CI calls `mise run sync-check -- --changed-plans origin/<base>...HEAD`
+logic lives in HK export integrity check. Local runs validate the active plan. Pull
+request CI calls `HK export integrity check -- --changed-from origin/<base>...HEAD`
 so changed plans must be marked complete and their artifacts are validated. The
 repository CI also runs generated-project smoke tests across the supported
 stacks so Python, Go, Rust, and Web scaffolds prove they can initialize and pass
@@ -124,8 +124,8 @@ pre-commit run fmt           # run a specific hook
 
 **Why keep CI YAML thin?** GitHub Actions chooses the CI context, such as
 whether a run is a pull request or a main-branch push. The validation logic
-still lives in mise tasks: CI calls `mise run ci`, `mise run sync-check`, or
-`mise run sync-check -- --changed-plans ...`, and pre-commit calls
+still lives in mise tasks: CI calls `mise run ci`, HK export integrity check, or
+`HK export integrity check -- --changed-from ...`, and pre-commit calls
 `mise run <task>`.
 
 **Why `always_run: true`?** The tasks (`ruff`, `ty`, `pytest`) are fast enough that running them unconditionally is cheaper than filtering by changed files. It also prevents edge cases where a change to a config file doesn't trigger re-checking source files.

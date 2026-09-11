@@ -86,12 +86,9 @@ class TestGoSingleHappyPath:
         assert skills.is_dir()
         assert (skills / "README.md").exists()
         assert (skills / "example-skill" / "SKILL.md").exists()
-        assert (skills / "slice-workflow" / "SKILL.md").exists()
-        assert (
-            skills / "slice-workflow" / "references" / "holdout-sample-tasks.md"
-        ).exists()
-        assert (skills / "slice-planner" / "SKILL.md").exists()
-        assert (skills / "slice-reviewer" / "SKILL.md").exists()
+        assert (skills / "create-project-verification" / "SKILL.md").exists()
+        assert (skills / "maintain-project-verification" / "SKILL.md").exists()
+        assert not (skills / "slice-workflow").exists()
 
     def test_claude_skills_symlink(self, go_single_ready: Path) -> None:
         """.claude/skills must point to .agent/skills."""
@@ -109,8 +106,9 @@ class TestGoSingleHappyPath:
         assert ci.exists()
         content = ci.read_text()
         assert "mise run ci" in content
-        assert "mise run sync-check" in content
-        assert "--changed-plans" in content
+        assert "mise run verify" in content
+        assert "--changed-from" in content
+        assert "sync-check" not in content
         assert "mise run verify" in content
         assert "upload-artifact" in content
 
@@ -130,12 +128,6 @@ class TestGoSingleHappyPath:
         assert result.returncode == 0, (
             f"check failed:\nSTDOUT:\n{result.stdout}\nSTDERR:\n{result.stderr}"
         )
-
-    def test_sync_check_passes_without_active_slice(
-        self, go_single_ready: Path
-    ) -> None:
-        result = mise("sync-check", go_single_ready, timeout=60)
-        assert result.returncode == 0, result.stderr
 
     def test_fmt_passes(self, go_single_ready: Path) -> None:
         result = mise("fmt", go_single_ready, timeout=60)

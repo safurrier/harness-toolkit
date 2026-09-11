@@ -2,94 +2,23 @@
 
 {{project_description}}
 
-## WHY
+## Working agreement
 
-<!-- Describe the problem this project solves in 2-3 sentences -->
-
-**Done means**: `mise run check` passes, `mise run sync-check` proves the slice
-is fully documented/evidenced/reviewed, and intended behavior is covered by the
-appropriate test layer.
-
-Correctness invariants live in [`SPEC.md`](SPEC.md). Durable system design and
-decision history live under [`docs/explanation/`](docs/explanation/README.md).
-
-## WHAT
-
-{{project_structure}}
-
-Key steering files:
-- `AGENTS.md` — this file (steering index)
-- `SPEC.md` — correctness envelope (requirements, contracts, invariants)
-- `docs/AGENTS.md` — docs routing index
-- `docs/explanation/architecture.md` — system description, principles, decisions
-- `docs/explanation/decision-ledger.md` — append-only durable decision history
-- `docs/reference/review-rubrics/` — reusable review standards
-- `.agent/skills/` — vendored workflow helpers
-
-## HOW
+Run `mise run check` before committing. Run `mise run verify` for integration, browser, artifact, or other product claims that need more than the fast gate.
 
 ```bash
-mise run setup      # install tools and dependencies (one-time)
-mise run check      # fast quality gate: fmt + lint + typecheck + test  ← before committing
-mise run sync-check # plan/spec/evidence/review handoff gate            ← before handing off or pushing
-mise run verify     # heavier validation: integration, security, docker  ← before merging
-{% if project_shape == "apps" %}mise run dev -- api  # start local development for a module{% else %}mise run dev        # start local development{% endif %}
+mise run setup
+mise run check
+mise run verify
 ```
 
-CI calls `mise run ci` (= `check`) and `mise run sync-check`. Pull request CI
-uses changed-plan mode so completed plan directories are still validated.
-`sync-check` is a handoff completion gate, not a replacement for code/test
-validation.
+`check` is the fast quality gate. `verify` first runs `check`, then stack-specific work and selected product verification routes from `.harness/verification.toml`. Use `scripts/verify-routes --path path/to/change` while iterating; no selector runs every required automated route.
 
-## Stack: {{project_stack}}
-
-{{stack_notes}}
-
-## Starting Work
-
-```bash
-git checkout -b feat/demo-work
-mise run plan -- demo-work    # creates .ai/plans/YYYY-MM-DD-HHmmSS-demo-work/
-mise run slice-plan -- --task path/to/task.md # renders prompts/planner.md
-mise -q run slice-status -- --json # inspect active slice state as JSON
-```
-
-`mise run plan` refuses to run on the default branch. Slugs must be lowercase
-kebab-case and unique within `.ai/plans/`.
-
-The task scaffolds META.yaml, TODO.md, LEARNING_LOG.md, VALIDATION.md,
-REVIEW.md, DECISIONS.md, and `artifacts/manifest.yaml`. Add SPEC.md or
-IMPLEMENTATION.md if the work is complex.
-
-See `.ai/plans/AGENTS.md` for the full plan structure and `_example/` for a reference.
-
-## Before Handoff Or Push
-
-1. `mise run check` — must pass
-2. Update the active plan: TODO, LEARNING_LOG, DECISIONS, VALIDATION, REVIEW, artifacts
-3. Render phase prompts if useful: `mise run slice-implement`, then `mise run slice-review`
-4. Use vendored skills if helpful: `slice-workflow`, `/plan-sync`, `/spec-sync`, `/context-engineering update`, `/docs-workflow update`
-5. `mise run sync-check` — repo-enforced handoff gate
-6. `mise run verify` — when the slice needs heavier validation before merge
-
-The skills above are helpers. The hard contract is the `mise` task surface.
+Do not call a green build or test exit proof of a user journey without observing the relevant result or side effect. Keep manual or credentialed checks as explicit handoff obligations.
 
 ## Skills
 
-Vendored workflow helpers live in `.agent/skills/`. Each `SKILL.md` describes
-when to load it and what workflow it encodes. Skills help satisfy the repo
-contract, but canonical truth stays in `docs/` and the active plan.
+- `create-project-verification` creates a real proof route when one is missing.
+- `maintain-project-verification` updates affected routes after public surface or dependency changes.
 
-`.claude/skills` is symlinked to `.agent/skills` for Claude Code discovery. Other
-harnesses can create `<harness-config>/skills → ../.agent/skills` similarly.
-
-## Further Reading
-
-| Document | Purpose |
-|---|---|
-| `SPEC.md` | Correctness envelope — requirements, contracts, invariants |
-| `.ai/plans/` | Plan directories for units of work (see `.ai/plans/AGENTS.md`) |
-| `docs/explanation/architecture.md` | System description, principles, decisions |
-| `docs/explanation/decision-ledger.md` | Append-only durable decision trail |
-| `docs/reference/review-rubrics/` | Review standards for external review |
-| `README.md` | Human-oriented quick start |
+Use `SPEC.md` for requirements and `docs/` for durable architecture, decisions, and verification guidance.

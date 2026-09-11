@@ -1,0 +1,11 @@
+# Product verification routes are opt-in. Add an executable script only after
+# exercising the behavior it claims to prove.
+version = 1
+
+# [[routes]]
+# id = "create-record"
+# title = "Create and retrieve a record"
+# paths = ["src/records/**", "tests/verification/create-record/**"]
+# script = "scripts/verify/create-record"
+# required = true
+# kind = "runtime" # runtime | browser | artifact

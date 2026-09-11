@@ -77,13 +77,15 @@ class TestWebSingleHappyPath:
         skills = web_single_ready / ".agent" / "skills"
         assert (skills / "README.md").exists()
         assert (skills / "example-skill" / "SKILL.md").exists()
-        assert (skills / "slice-workflow" / "SKILL.md").exists()
+        assert (skills / "create-project-verification" / "SKILL.md").exists()
+        assert (skills / "maintain-project-verification" / "SKILL.md").exists()
 
     def test_ci_workflow_is_two_tier(self, web_single_ready: Path) -> None:
         ci = web_single_ready / ".github" / "workflows" / "ci.yml"
         content = ci.read_text()
         assert "mise run ci" in content
-        assert "mise run sync-check" in content
+        assert "mise run verify" in content
+        assert "sync-check" not in content
         assert "mise run verify" in content
         assert "upload-artifact" in content
 
@@ -104,10 +106,6 @@ class TestWebSingleHappyPath:
         assert result.returncode == 0, (
             f"check failed:\nSTDOUT:\n{result.stdout}\nSTDERR:\n{result.stderr}"
         )
-
-    def test_sync_check_passes_after_setup(self, web_single_ready: Path) -> None:
-        result = mise("sync-check", web_single_ready, timeout=60)
-        assert result.returncode == 0, result.stderr
 
     def test_fmt_passes(self, web_single_ready: Path) -> None:
         result = mise("fmt", web_single_ready, timeout=120)

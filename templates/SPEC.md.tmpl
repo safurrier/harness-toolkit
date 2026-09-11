@@ -63,11 +63,6 @@ index:
 | Command | Purpose |
 |---------|---------|
 | `mise run check` | Fast quality gate (fmt + lint + typecheck + test) |
-| `mise run slice-plan` | Render planner prompt for the active slice |
-| `mise run slice-implement` | Render implementer prompt for the active slice |
-| `mise run slice-review` | Render reviewer prompt for the active slice |
-| `mise run slice-status` | Show active slice status, with JSON for automation |
-| `mise run sync-check` | Handoff gate for plan/spec/evidence/review completeness |
 | `mise run verify` | Heavy validation (integration, docker, security) |
 | `mise run ci` | CI entrypoint (delegates to `check`) |
 
@@ -79,8 +74,7 @@ index:
 
 - All services must start and all tests must pass from a **clean checkout or Git worktree**.
 - CI and local checks use the **same entrypoints** — no divergence.
-- Meaningful slices are not done until `mise run sync-check` passes with a current
-  plan, validation evidence, and external-enough review.
+- Runtime and user-journey claims are not complete until the appropriate verification route observes the claimed outcome and owned cleanup completes.
 
 ## Acceptance
 
@@ -88,6 +82,5 @@ index:
 
 ```bash
 mise run check    # fast: fmt + lint + typecheck + test
-mise run sync-check   # plan/spec/evidence/review completion gate
 mise run verify   # heavy: integration, e2e, docker, security
 ```

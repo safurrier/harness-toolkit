@@ -12,6 +12,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
       - name: Install mise
         uses: jdx/mise-action@v2
@@ -32,9 +34,11 @@ jobs:
             apps/*/test-results/
           if-no-files-found: ignore
 
-  sync-check:
-    name: Sync Contract
+  verify:
+    name: Full Validation
     runs-on: ubuntu-latest
+    needs: [check]
+    if: github.event_name == 'pull_request'
     steps:
       - uses: actions/checkout@v4
         with:
@@ -46,27 +50,10 @@ jobs:
       - name: Setup
         run: mise run setup
 
-      - name: Sync check
+      - name: Verify
         run: |
           if [ "{% raw %}${{ github.event_name }}{% endraw %}" = "pull_request" ]; then
-            mise run sync-check -- --changed-plans "origin/{% raw %}${{ github.base_ref }}{% endraw %}...HEAD"
+            mise run verify -- --changed-from "origin/{% raw %}${{ github.base_ref }}{% endraw %}...HEAD"
           else
-            mise run sync-check
+            mise run verify
           fi
-
-  verify:
-    name: Full Validation
-    runs-on: ubuntu-latest
-    needs: [check, sync-check]
-    if: github.event_name == 'pull_request'
-    steps:
-      - uses: actions/checkout@v4
-
-      - name: Install mise
-        uses: jdx/mise-action@v2
-
-      - name: Setup
-        run: mise run setup
-
-      - name: Verify
-        run: mise run verify

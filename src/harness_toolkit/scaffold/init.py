@@ -77,14 +77,10 @@ def generate_docs(root: Path, context: dict[str, Any]) -> None:
         skills_dst.mkdir(parents=True, exist_ok=True)
         copy_tree(skills_src, skills_dst, context)
 
-    # .ai/plans/ (AGENTS.md routing index, templates, example)
-    plans_dst = root / ".ai" / "plans"
-    if plans_dst.is_dir():
-        shutil.rmtree(plans_dst)
-    plans_src = tmpl_dir / ".ai" / "plans"
-    if plans_src.exists():
-        plans_dst.mkdir(parents=True, exist_ok=True)
-        copy_tree(plans_src, plans_dst, context)
+    # Retire legacy plan directories even when init begins from an old checkout.
+    legacy_plans = root / ".ai" / "plans"
+    if legacy_plans.is_dir():
+        shutil.rmtree(legacy_plans)
 
     # .claude/skills → ../.agent/skills symlink
     claude_dir = root / ".claude"
@@ -168,6 +164,10 @@ def cleanup_scaffold(root: Path, config: Config) -> None:
             shutil.rmtree(path)
         elif path.is_file():
             path.unlink(missing_ok=True)
+
+    # Generated projects use the native check/verify contract; the root-only
+    # HK export integrity helper is not part of their task surface.
+    (root / ".mise" / "tasks" / "sync-check").unlink(missing_ok=True)
 
     # Remove src/ only if empty (Rust init_single writes src/main.rs there)
     src_dir = root / "src"

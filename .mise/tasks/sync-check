@@ -1,67 +1,12 @@
 #!/usr/bin/env -S uv run python
-# MISE description="Aggregate plan/spec/evidence/review checks for handoff readiness"
+# MISE description="Check committed Harness Kit handoff exports when present"
 from __future__ import annotations
-
-import os
-import subprocess
-import sys
+import os, subprocess, sys
 from pathlib import Path
-
-PROJECT_ROOT = Path(os.environ["MISE_PROJECT_ROOT"])
-SKILL_CLI_PATHS = (
-    ".agent/skills/slice-workflow/cli",
-    "templates/.agent/skills/slice-workflow/cli",
-)
-CLI_CANDIDATES = tuple(PROJECT_ROOT / path for path in SKILL_CLI_PATHS)
-
-
-def is_harness_toolkit_checkout() -> bool:
-    result = subprocess.run(
-        ["git", "remote", "get-url", "origin"],
-        cwd=PROJECT_ROOT,
-        capture_output=True,
-        check=False,
-        text=True,
-    )
-    if result.returncode != 0:
-        return False
-    remote = result.stdout.strip().lower()
-    return (
-        "safurrier/harness-toolkit" in remote
-        or remote.endswith("/harness-toolkit.git")
-        or remote.endswith("/harness-toolkit")
-        or remote.endswith(":harness-toolkit.git")
-    )
-
-
-def cli_project() -> Path:
-    for candidate in CLI_CANDIDATES:
-        if (candidate / "pyproject.toml").exists():
-            return candidate
-    print("error: slice-workflow CLI not found. Expected one of:", file=sys.stderr)
-    for candidate in CLI_CANDIDATES:
-        print(f"  - {candidate.relative_to(PROJECT_ROOT)}", file=sys.stderr)
-    raise SystemExit(1)
-
-
-def main() -> int:
-    command = [
-        "uv",
-        "run",
-        "--project",
-        str(cli_project()),
-        "slice-workflow",
-        "--repo",
-        str(PROJECT_ROOT),
-        "sync-check",
-        *(
-            sys.argv[1:]
-            or (["--hk-exports-only"] if is_harness_toolkit_checkout() else [])
-        ),
-    ]
-    env = os.environ.copy()
-    env.pop("VIRTUAL_ENV", None)
-    return subprocess.run(command, cwd=PROJECT_ROOT, env=env).returncode
-
-
-raise SystemExit(main())
+root=Path(os.environ['MISE_PROJECT_ROOT'])
+exports=root/'.ai'/'hk'
+if not exports.exists():
+    print('No committed HK exports to check.')
+    raise SystemExit(0)
+result=subprocess.run([str(root/'scripts'/'hk-dev'),'export','--format','handoff-dir','--check','--target','.'],cwd=root)
+raise SystemExit(result.returncode)

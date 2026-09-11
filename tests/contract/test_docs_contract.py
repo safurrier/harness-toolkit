@@ -18,10 +18,8 @@ from tests._docs_helpers import (
     find_section,
     has_frontmatter,
     parse_frontmatter,
-    parse_meta_yaml,
     parse_sections,
     validate_frontmatter,
-    validate_meta_yaml,
 )
 from tests._support import SCAFFOLD_ROOT
 
@@ -178,22 +176,11 @@ def test_development_guide_links_stack_rubric() -> None:
     assert "../reference/stacks/acceptance-rubric.md" in content
 
 
-def test_task_contract_docs_plan_contract_modules() -> None:
+def test_task_contract_docs_verification_routes() -> None:
     content = (DOCS_DIR / "reference" / "task-contract.md").read_text()
-    for module in [
-        "templates/.agent/skills/slice-workflow/cli",
-        ".agent/skills/slice-workflow/cli",
-        "slice_workflow_cli",
-        "contract/",
-        "workflow.py",
-        "checks.py",
-        "plans.py",
-        "git.py",
-        "markdown.py",
-        "artifacts.py",
-        "docs.py",
-    ]:
-        assert module in content
+    assert "verification.toml" in content
+    assert "verify-routes" in content
+    assert "Surface, Run, Drive, Observe, Isolate" in content
 
 
 # ── Architecture.md template structure ───────────────────────────────────
@@ -327,26 +314,4 @@ def test_spec_template_references_check_command() -> None:
     assert acc is not None
     assert "mise run check" in acc.content, (
         "SPEC.md Acceptance section should reference 'mise run check'"
-    )
-
-
-# ── Plan example META.yaml validation ────────────────────────────────────
-
-EXAMPLE_META = TEMPLATES_DIR / ".ai" / "plans" / "_example" / "META.yaml"
-
-
-def test_plan_example_meta_yaml_valid() -> None:
-    """Example plan META.yaml must have all required fields and valid values."""
-    meta = parse_meta_yaml(EXAMPLE_META)
-    assert meta is not None, "Example META.yaml not found"
-    errors = validate_meta_yaml(meta)
-    assert not errors, f"Example META.yaml errors: {'; '.join(errors)}"
-
-
-def test_plan_example_meta_yaml_is_complete() -> None:
-    """Example plan should be 'complete' status (shows full lifecycle)."""
-    meta = parse_meta_yaml(EXAMPLE_META)
-    assert meta is not None
-    assert meta.status == "complete", (
-        f"Example plan status is '{meta.status}', expected 'complete'"
     )

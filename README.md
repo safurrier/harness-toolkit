@@ -7,7 +7,7 @@ Harness Toolkit is a monorepo for two related but separate tools built around on
   state, and handoff output without forcing scaffold files into the repo.
 - **`harness-scaffold`** — a project generator for new agent-ready repositories.
   It creates a stable `mise` task contract, docs structure, CI wiring, and
-  slice-workflow defaults.
+  path-selected product-verification defaults.
 
 Use `hk` when the repository already exists and you want safer agent handoff.
 Use `harness-scaffold` when you are starting a new repository and want the
@@ -185,7 +185,7 @@ thin `mise` orchestration delegating to language-native tools:
 |---|---|
 | Setup and local loop | `setup`, `fmt`, `lint`, `typecheck`, `test`, `build`, `check`, `dev` |
 | CI and heavier validation | `ci` (= `check`), `verify` |
-| Slice handoff compatibility | `plan`, `plan-check`, `spec-check`, `evidence-check`, `review-check`, `sync-check`, `slice-plan`, `slice-implement`, `slice-review`, `slice-status` |
+| Product verification | `verify` runs stack checks and selected executable routes |
 
 Supported scaffold stacks:
 
@@ -195,6 +195,8 @@ Supported scaffold stacks:
 | Go | `gofumpt` | `golangci-lint` | `go vet` | `go test` | Available |
 | Rust | `cargo fmt` | `cargo clippy` | `cargo check` | `cargo test` | Available |
 | Web / TypeScript | `prettier` | `eslint` | `tsc --noEmit` | `vitest` | Available |
+| Blender | `ruff format` | `ruff check` | — | artifact checks | Available (single only) |
+| Three.js | `prettier` | `eslint` | `tsc --noEmit` | browser E2E | Available (single only) |
 
 The Web stack defaults to plain CSS plus raw Cloudflare D1 prepared statements.
 Opt in to app-starter opinions with `--web-ui tailwind`, `--web-ui shadcn`, or

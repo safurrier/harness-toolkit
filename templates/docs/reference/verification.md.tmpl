@@ -1,0 +1,9 @@
+# Verification routes
+
+Use this page only after the project has more than one executable product-verification route or an operator procedure worth indexing.
+
+A route proves one behavior through **Surface, Run, Drive, Observe, Isolate**: its public interface, readiness and launch, caller action, distinguishing result or side effect, and owned cleanup. A green build or test process alone is not evidence for a user journey.
+
+Automated routes live in `.harness/verification.toml` and point to executable scripts under `scripts/verify/`. `mise run verify` runs matching required routes in CI; use `scripts/verify-routes --path <changed-path>` during focused work. A route without a selector runs all required routes.
+
+Keep manual or credentialed checks out of the registry. Record their operator steps, actual observation, and limitations in validation evidence instead of calling them automated passes.

@@ -34,7 +34,7 @@ documented in the stack page and accepted in review.
 | Typecheck | `mise run typecheck` runs the stack's closest static type or compile check. |
 | Tests | `mise run test` runs generated tests and writes a CI artifact under the generated test-results directory. |
 | Build | `mise run build` performs the stack's release/build path, even if that is a lightweight package build for interpreted stacks. |
-| Handoff | A fresh generated repo passes `mise run sync-check` with no active slice after setup. |
+| Handoff | A fresh generated repo passes HK export integrity check with no active slice after setup. |
 
 ## Smoke Matrix
 
@@ -46,7 +46,7 @@ gate, and run sync-check:
 mise run init -- --non-interactive --name <name> --stack <stack>
 mise run setup
 mise run check
-mise run sync-check
+HK export integrity check
 ```
 
 A planned stack may stay out of the smoke matrix only while it is clearly marked
@@ -60,7 +60,7 @@ The happy path must cover:
 
 - single-project init layout and scaffold cleanup
 - generated docs, `SPEC.md`, `AGENTS.md`, skills, and generated CI contract
-- `mise run check` and `mise run sync-check` after setup
+- `mise run check` and HK export integrity check after setup
 - apps-shape init layout and apps-shape `mise run check`
 
 The gate tests must prove the stack tooling fails on real problems:

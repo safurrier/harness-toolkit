@@ -87,12 +87,9 @@ class TestRustSingleHappyPath:
         assert skills.is_dir()
         assert (skills / "README.md").exists()
         assert (skills / "example-skill" / "SKILL.md").exists()
-        assert (skills / "slice-workflow" / "SKILL.md").exists()
-        assert (
-            skills / "slice-workflow" / "references" / "holdout-sample-tasks.md"
-        ).exists()
-        assert (skills / "slice-planner" / "SKILL.md").exists()
-        assert (skills / "slice-reviewer" / "SKILL.md").exists()
+        assert (skills / "create-project-verification" / "SKILL.md").exists()
+        assert (skills / "maintain-project-verification" / "SKILL.md").exists()
+        assert not (skills / "slice-workflow").exists()
 
     def test_claude_skills_symlink(self, rust_single_ready: Path) -> None:
         """.claude/skills must point to .agent/skills."""
@@ -110,8 +107,9 @@ class TestRustSingleHappyPath:
         assert ci.exists()
         content = ci.read_text()
         assert "mise run ci" in content
-        assert "mise run sync-check" in content
-        assert "--changed-plans" in content
+        assert "mise run verify" in content
+        assert "--changed-from" in content
+        assert "sync-check" not in content
         assert "mise run verify" in content
         assert "upload-artifact" in content
 
@@ -129,12 +127,6 @@ class TestRustSingleHappyPath:
         assert result.returncode == 0, (
             f"check failed:\nSTDOUT:\n{result.stdout}\nSTDERR:\n{result.stderr}"
         )
-
-    def test_sync_check_passes_without_active_slice(
-        self, rust_single_ready: Path
-    ) -> None:
-        result = mise("sync-check", rust_single_ready, timeout=60)
-        assert result.returncode == 0, result.stderr
 
     def test_fmt_passes(self, rust_single_ready: Path) -> None:
         result = mise("fmt", rust_single_ready, timeout=60)
@@ -190,21 +182,6 @@ class TestRustAppsHappyPath:
             f"check failed:\nSTDOUT:\n{result.stdout}\nSTDERR:\n{result.stderr}"
         )
 
-    def test_sync_check_passes_after_setup(self, rust_apps_ready: Path) -> None:
-        """Setup-created module Cargo.lock files must not look like unplanned work."""
-        assert (rust_apps_ready / "apps" / "svc-a" / "Cargo.lock").exists()
-        assert (rust_apps_ready / "apps" / "svc-b" / "Cargo.lock").exists()
-
-        result = mise("sync-check", rust_apps_ready, timeout=60)
-        assert result.returncode == 0, (
-            f"sync-check failed:\nSTDOUT:\n{result.stdout}\nSTDERR:\n{result.stderr}"
-        )
-
-
-# ── Negative path: quality gates catch real errors ────────────────────────────
-
-
-class TestRustGatesCatchErrors:
     def test_test_fails_on_compile_error(self, rust_single_mut: Path) -> None:
         """A Rust compile error must cause the test gate to fail."""
         bad_rs = rust_single_mut / "src" / "broken.rs"
