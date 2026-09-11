@@ -51,9 +51,9 @@ class TestPythonSingleHappyPath:
         assert (py_single_ready / "AGENTS.md").exists()
         content = (py_single_ready / "AGENTS.md").read_text()
         assert "testpyapp" in content
-        assert "## WHY" in content
-        assert "## WHAT" in content
-        assert "## HOW" in content
+        assert "## Working agreement" in content
+        assert "## Skills" in content
+        assert "mise run verify" in content
 
     def test_claude_md_points_to_agents_md(self, py_single_ready: Path) -> None:
         """CLAUDE.md must be a symlink or copy of AGENTS.md."""

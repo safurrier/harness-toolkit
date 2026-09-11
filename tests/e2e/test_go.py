@@ -48,8 +48,9 @@ class TestGoSingleHappyPath:
         """AGENTS.md must be generated as the canonical steering doc."""
         assert (go_single_ready / "AGENTS.md").exists()
         content = (go_single_ready / "AGENTS.md").read_text()
-        assert "## WHY" in content
-        assert "## HOW" in content
+        assert "## Working agreement" in content
+        assert "## Skills" in content
+        assert "mise run verify" in content
 
     def test_claude_md_points_to_agents_md(self, go_single_ready: Path) -> None:
         """CLAUDE.md must be a symlink or copy of AGENTS.md."""

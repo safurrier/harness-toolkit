@@ -44,8 +44,9 @@ class TestWebSingleHappyPath:
     def test_agents_md_exists(self, web_single_ready: Path) -> None:
         content = (web_single_ready / "AGENTS.md").read_text()
         assert "testwebapp" in content
-        assert "prettier" in content
-        assert "vitest" in content
+        assert "## Working agreement" in content
+        assert "## Skills" in content
+        assert "mise run verify" in content
 
     def test_claude_md_points_to_agents_md(self, web_single_ready: Path) -> None:
         claude = web_single_ready / "CLAUDE.md"

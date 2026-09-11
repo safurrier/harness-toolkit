@@ -32,10 +32,11 @@ COPY_IGNORE = shutil.ignore_patterns(
 
 
 def _generated_project_env() -> dict[str, str]:
-    """Prevent root uv settings from controlling generated project setup."""
+    """Prevent developer-machine package settings from controlling generated projects."""
     env = os.environ.copy()
     for key in ("UV_LOCKED", "UV_NO_CONFIG", "UV_PROJECT_ENVIRONMENT"):
         env.pop(key, None)
+    env["NPM_CONFIG_USERCONFIG"] = os.devnull
     return env
 
 
