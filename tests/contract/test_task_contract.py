@@ -69,6 +69,17 @@ def test_generated_ci_selects_changed_verification_routes() -> None:
     assert "changed-plans" not in content and "sync-check" not in content
 
 
+def test_source_ci_checks_committed_hk_exports() -> None:
+    content = (SCAFFOLD_ROOT / ".github" / "workflows" / "ci.yml").read_text()
+    assert "Committed HK Export Integrity" in content
+    assert "mise run sync-check" in content
+
+
+def test_verify_requires_config_and_runner_as_a_pair() -> None:
+    content = (TASKS_DIR / "verify").read_text()
+    assert "product_verification_assets(PROJECT_ROOT)" in content
+
+
 def test_no_legacy_slice_source_paths_in_quality_config() -> None:
     assert "slice-workflow" not in (SCAFFOLD_ROOT / "pyproject.toml").read_text()
 

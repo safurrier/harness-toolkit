@@ -172,7 +172,7 @@ def test_empty_changed_from_runs_only_always_routes(tmp_path: Path) -> None:
     [
         (
             "version = 1\n[[routes]]\nid='x'\npaths=[]\nscript='scripts/verify/x'\nrequired=true\n",
-            "missing or not executable",
+            "needs paths or always = true",
         ),
         (
             "version = 1\n[[routes]]\nid='x'\npaths=['x']\nscript='scripts/verify/missing'\nrequired=true\n",
@@ -242,6 +242,31 @@ kind = "runtime"
 
     assert result.returncode != 0
     assert "must resolve beneath scripts/verify" in result.stderr
+
+
+def test_routes_reject_symlinked_verification_directory(tmp_path: Path) -> None:
+    repo = make_repo(
+        tmp_path,
+        """version = 1
+[[routes]]
+id = "x"
+paths = ["src/**"]
+script = "scripts/verify/x"
+required = true
+kind = "runtime"
+""",
+    )
+    outside = tmp_path / "outside-routes"
+    outside.mkdir()
+    script = outside / "x"
+    script.write_text("#!/bin/sh\nexit 0\n")
+    script.chmod(0o755)
+    (repo / "scripts" / "verify").symlink_to(outside)
+
+    result = run(repo)
+
+    assert result.returncode != 0
+    assert "repository-owned directory, not a symlink" in result.stderr
 
 
 def test_route_failure_propagates(tmp_path: Path) -> None:

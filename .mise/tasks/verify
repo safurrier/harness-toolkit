@@ -15,6 +15,7 @@ from lib import (  # noqa: E402
     get_shape,
     log_ok,
     log_step,
+    product_verification_assets,
     run,
     run_per_module,
 )
@@ -159,8 +160,9 @@ else:
     )
 
 log_step("Phase 3: product verification routes")
-route_runner = PROJECT_ROOT / "scripts" / "verify-routes"
-if route_runner.is_file():
+verification_assets = product_verification_assets(PROJECT_ROOT)
+if verification_assets is not None:
+    _, route_runner = verification_assets
     route_args = sys.argv[1:]
     result = subprocess.run([str(route_runner), *route_args], cwd=PROJECT_ROOT)
     if result.returncode:

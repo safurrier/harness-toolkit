@@ -38,9 +38,15 @@ def route_script(root: Path, route_id: str, configured_path: str) -> Path:
     if relative_path.is_absolute():
         fail(f"route {route_id!r} script must be relative: {configured_path}")
 
-    scripts_root = (root / "scripts" / "verify").resolve()
+    repository_root = root.resolve()
+    scripts_dir = root / "scripts"
+    configured_scripts_root = scripts_dir / "verify"
+    if scripts_dir.is_symlink() or configured_scripts_root.is_symlink():
+        fail("scripts/verify must be a repository-owned directory, not a symlink")
+    scripts_root = configured_scripts_root.resolve()
     script = (root / relative_path).resolve()
     try:
+        scripts_root.relative_to(repository_root)
         script.relative_to(scripts_root)
     except ValueError:
         fail(
@@ -101,10 +107,14 @@ def main() -> int:
             or not all(isinstance(pattern, str) and pattern for pattern in patterns)
         ):
             fail(f"route {route_id!r} requires script and paths")
-        if route.get("always") is True and patterns:
+        always = route.get("always") is True
+        required = route.get("required", False)
+        if always and patterns:
             fail(f"route {route_id!r} cannot combine always with paths")
+        if required and not always and not patterns:
+            fail(f"required route {route_id!r} needs paths or always = true")
         route_script(root, route_id, script)
-        if route.get("required", False):
+        if required:
             routes.append(route)
 
     chosen = [

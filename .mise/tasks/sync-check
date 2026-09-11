@@ -1,12 +1,22 @@
 #!/usr/bin/env -S uv run python
 # MISE description="Check committed Harness Kit handoff exports when present"
 from __future__ import annotations
-import os, subprocess, sys
+
+import os
 from pathlib import Path
-root=Path(os.environ['MISE_PROJECT_ROOT'])
-exports=root/'.ai'/'hk'
-if not exports.exists():
-    print('No committed HK exports to check.')
-    raise SystemExit(0)
-result=subprocess.run([str(root/'scripts'/'hk-dev'),'export','--format','handoff-dir','--check','--target','.'],cwd=root)
-raise SystemExit(result.returncode)
+
+from harness_toolkit.kit.local import (
+    LocalWorkflowError,
+    check_committed_handoff_exports,
+)
+
+root = Path(os.environ["MISE_PROJECT_ROOT"])
+try:
+    checked = check_committed_handoff_exports(root)
+except LocalWorkflowError as exc:
+    raise SystemExit(f"error: {exc}") from exc
+
+if not checked:
+    print("No committed HK exports to check.")
+else:
+    print(f"Validated {len(checked)} committed HK export package(s).")

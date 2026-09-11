@@ -39,6 +39,21 @@ jobs:
           path: test-results/
           if-no-files-found: ignore
 
+  sync-check:
+    name: Committed HK Export Integrity
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install mise
+        uses: jdx/mise-action@v2
+
+      - name: Setup
+        run: mise run setup
+
+      - name: Check committed HK exports
+        run: mise run sync-check
+
   smoke-test:
     name: Init Smoke Test (${{ matrix.stack }})
     runs-on: ubuntu-latest
