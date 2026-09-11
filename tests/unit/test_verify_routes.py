@@ -233,6 +233,66 @@ def test_routes_reject_invalid_automated_contracts(
     assert result.returncode != 0 and expected in result.stderr
 
 
+def test_selector_rejects_unmatched_required_route_with_missing_script(
+    tmp_path: Path,
+) -> None:
+    repo = make_repo(
+        tmp_path,
+        """version = 1
+[[routes]]
+id = "selected"
+paths = ["src/**"]
+script = "scripts/verify/selected"
+required = true
+kind = "runtime"
+[[routes]]
+id = "unmatched"
+paths = ["web/**"]
+script = "scripts/verify/missing"
+required = true
+kind = "browser"
+""",
+        {"scripts/verify/selected": "exit 0"},
+    )
+
+    result = run(repo, "--path", "src/app.py")
+
+    assert result.returncode != 0
+    assert "route 'unmatched' script is missing or not executable" in result.stderr
+
+
+def test_selector_rejects_unmatched_required_route_with_non_executable_script(
+    tmp_path: Path,
+) -> None:
+    repo = make_repo(
+        tmp_path,
+        """version = 1
+[[routes]]
+id = "selected"
+paths = ["src/**"]
+script = "scripts/verify/selected"
+required = true
+kind = "runtime"
+[[routes]]
+id = "unmatched"
+paths = ["web/**"]
+script = "scripts/verify/unmatched"
+required = true
+kind = "browser"
+""",
+        {
+            "scripts/verify/selected": "exit 0",
+            "scripts/verify/unmatched": "exit 0",
+        },
+    )
+    (repo / "scripts" / "verify" / "unmatched").chmod(0o644)
+
+    result = run(repo, "--path", "src/app.py")
+
+    assert result.returncode != 0
+    assert "route 'unmatched' script is missing or not executable" in result.stderr
+
+
 @pytest.mark.parametrize(
     "script, expected",
     [

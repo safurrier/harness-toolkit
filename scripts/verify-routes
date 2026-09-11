@@ -125,8 +125,15 @@ def main() -> int:
             fail(f"route {route_id!r} cannot combine always with paths")
         if required and not always and not patterns:
             fail(f"required route {route_id!r} needs paths or always = true")
-        route_script(root, route_id, script)
+        validated_script = route_script(root, route_id, script)
         if required:
+            if (
+                not validated_script.is_file()
+                or not validated_script.stat().st_mode & 0o111
+            ):
+                fail(
+                    f"route {route_id!r} script is missing or not executable: {script}"
+                )
             routes.append(route)
 
     chosen = [
