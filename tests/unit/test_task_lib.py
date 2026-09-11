@@ -54,3 +54,19 @@ def test_product_verification_assets_rejects_symlinked_runner(tmp_path: Path) ->
 
     with pytest.raises(RuntimeError, match="must both be regular files"):
         product_verification_assets(tmp_path)
+
+
+@pytest.mark.parametrize("linked_parent", [".harness", "scripts"])
+def test_product_verification_assets_rejects_symlinked_parent(
+    tmp_path: Path, linked_parent: str
+) -> None:
+    external = tmp_path / f"external-{linked_parent.removeprefix('.')}"
+    external.mkdir()
+    (tmp_path / linked_parent).symlink_to(external)
+    other_parent = "scripts" if linked_parent == ".harness" else ".harness"
+    (tmp_path / other_parent).mkdir()
+    (tmp_path / ".harness" / "verification.toml").write_text("version = 1\n")
+    (tmp_path / "scripts" / "verify-routes").write_text("#!/bin/sh\n")
+
+    with pytest.raises(RuntimeError, match="must both be regular files"):
+        product_verification_assets(tmp_path)

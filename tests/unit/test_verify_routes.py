@@ -9,7 +9,7 @@ from pathlib import Path
 
 import pytest
 
-from tests._support import SCAFFOLD_ROOT
+from tests._support import SCAFFOLD_ROOT, _generated_project_env
 
 pytestmark = pytest.mark.unit
 
@@ -65,6 +65,16 @@ def run(repo: Path, *args: str) -> subprocess.CompletedProcess[str]:
     )
 
 
+def run_git(repo: Path, *args: str) -> None:
+    subprocess.run(
+        ["git", *args],
+        cwd=repo,
+        check=True,
+        capture_output=True,
+        env=_generated_project_env(),
+    )
+
+
 def test_routes_select_matching_and_always_paths(tmp_path: Path) -> None:
     repo = make_repo(
         tmp_path,
@@ -98,7 +108,9 @@ def test_routes_without_selector_run_all_required(tmp_path: Path) -> None:
     }
 
 
-def test_routes_select_paths_from_git_ref(tmp_path: Path) -> None:
+def test_routes_select_paths_from_git_ref(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
     repo = make_repo(
         tmp_path,
         CONFIG,
@@ -108,29 +120,63 @@ def test_routes_select_paths_from_git_ref(tmp_path: Path) -> None:
             "scripts/verify/shared": "echo shared >> result",
         },
     )
-    subprocess.run(["git", "init"], cwd=repo, check=True, capture_output=True)
-    subprocess.run(["git", "add", "."], cwd=repo, check=True)
-    subprocess.run(
-        [
-            "git",
-            "-c",
-            "user.name=test",
-            "-c",
-            "user.email=test@example.com",
-            "commit",
-            "-m",
-            "base",
-        ],
-        cwd=repo,
-        check=True,
-        capture_output=True,
+    run_git(repo, "init")
+    run_git(repo, "add", ".")
+    run_git(
+        repo,
+        "-c",
+        "user.name=test",
+        "-c",
+        "user.email=test@example.com",
+        "commit",
+        "-m",
+        "base",
     )
     (repo / "web" / "page.ts").parent.mkdir()
     (repo / "web" / "page.ts").write_text("changed")
-    subprocess.run(["git", "add", "web/page.ts"], cwd=repo, check=True)
+    run_git(repo, "add", "web/page.ts")
+    monkeypatch.setenv("GIT_DIR", str(tmp_path / "hostile.git"))
+    monkeypatch.setenv("GIT_WORK_TREE", str(tmp_path / "hostile-worktree"))
+    monkeypatch.setenv("GIT_INDEX_FILE", str(tmp_path / "hostile.index"))
     result = run(repo, "--changed-from", "HEAD")
     assert result.returncode == 0, result.stderr
     assert (repo / "result").read_text().splitlines() == ["browser", "shared"]
+
+
+def test_renamed_path_selects_routes_for_old_and_new_locations(tmp_path: Path) -> None:
+    repo = make_repo(
+        tmp_path,
+        CONFIG,
+        {
+            "scripts/verify/api": "echo api >> result",
+            "scripts/verify/browser": "echo browser >> result",
+            "scripts/verify/shared": "echo shared >> result",
+        },
+    )
+    source = repo / "src" / "api" / "page.ts"
+    source.parent.mkdir(parents=True)
+    source.write_text("original")
+    run_git(repo, "init")
+    run_git(repo, "add", ".")
+    run_git(
+        repo,
+        "-c",
+        "user.name=test",
+        "-c",
+        "user.email=test@example.com",
+        "commit",
+        "-m",
+        "base",
+    )
+    destination = repo / "web" / "page.ts"
+    destination.parent.mkdir()
+    source.rename(destination)
+    run_git(repo, "add", "-A")
+
+    result = run(repo, "--changed-from", "HEAD")
+
+    assert result.returncode == 0, result.stderr
+    assert (repo / "result").read_text().splitlines() == ["api", "browser", "shared"]
 
 
 def test_empty_changed_from_runs_only_always_routes(tmp_path: Path) -> None:
@@ -143,22 +189,17 @@ def test_empty_changed_from_runs_only_always_routes(tmp_path: Path) -> None:
             "scripts/verify/shared": "echo shared >> result",
         },
     )
-    subprocess.run(["git", "init"], cwd=repo, check=True, capture_output=True)
-    subprocess.run(["git", "add", "."], cwd=repo, check=True)
-    subprocess.run(
-        [
-            "git",
-            "-c",
-            "user.name=test",
-            "-c",
-            "user.email=test@example.com",
-            "commit",
-            "-m",
-            "base",
-        ],
-        cwd=repo,
-        check=True,
-        capture_output=True,
+    run_git(repo, "init")
+    run_git(repo, "add", ".")
+    run_git(
+        repo,
+        "-c",
+        "user.name=test",
+        "-c",
+        "user.email=test@example.com",
+        "commit",
+        "-m",
+        "base",
     )
 
     result = run(repo, "--changed-from", "HEAD")
@@ -244,6 +285,29 @@ kind = "runtime"
     assert "must resolve beneath scripts/verify" in result.stderr
 
 
+def test_routes_reject_symlinked_config_directory(tmp_path: Path) -> None:
+    repo = make_repo(
+        tmp_path,
+        """version = 1
+[[routes]]
+id = "x"
+paths = ["src/**"]
+script = "scripts/verify/x"
+required = true
+kind = "runtime"
+""",
+        {"scripts/verify/x": "exit 0"},
+    )
+    external = tmp_path / "outside-config"
+    (repo / ".harness").rename(external)
+    (repo / ".harness").symlink_to(external)
+
+    result = run(repo)
+
+    assert result.returncode != 0
+    assert "repository-owned regular file" in result.stderr
+
+
 def test_routes_reject_symlinked_verification_directory(tmp_path: Path) -> None:
     repo = make_repo(
         tmp_path,
@@ -262,6 +326,29 @@ kind = "runtime"
     script.write_text("#!/bin/sh\nexit 0\n")
     script.chmod(0o755)
     (repo / "scripts" / "verify").symlink_to(outside)
+
+    result = run(repo)
+
+    assert result.returncode != 0
+    assert "repository-owned directory, not a symlink" in result.stderr
+
+
+def test_routes_reject_symlinked_scripts_directory(tmp_path: Path) -> None:
+    repo = make_repo(
+        tmp_path,
+        """version = 1
+[[routes]]
+id = "x"
+paths = ["src/**"]
+script = "scripts/verify/x"
+required = true
+kind = "runtime"
+""",
+        {"scripts/verify/x": "exit 0"},
+    )
+    external = tmp_path / "outside-scripts"
+    (repo / "scripts").rename(external)
+    (repo / "scripts").symlink_to(external)
 
     result = run(repo)
 

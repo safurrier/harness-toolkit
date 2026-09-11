@@ -5,6 +5,7 @@ from __future__ import annotations
 
 import argparse
 import fnmatch
+import os
 import subprocess
 import tomllib
 from pathlib import Path
@@ -15,9 +16,13 @@ def fail(message: str) -> None:
 
 
 def paths_from_ref(root: Path, ref: str) -> list[str]:
+    env = os.environ.copy()
+    for name in ("GIT_DIR", "GIT_WORK_TREE", "GIT_INDEX_FILE"):
+        env.pop(name, None)
     result = subprocess.run(
-        ["git", "diff", "--name-only", ref],
+        ["git", "diff", "--name-only", "--no-renames", ref],
         cwd=root,
+        env=env,
         text=True,
         capture_output=True,
     )
@@ -69,8 +74,15 @@ def main() -> int:
     )
     args = parser.parse_args()
 
-    root = Path.cwd()
-    config = root / ".harness" / "verification.toml"
+    root = Path.cwd().resolve()
+    config_parent = root / ".harness"
+    config = config_parent / "verification.toml"
+    if config_parent.is_symlink() or config.is_symlink():
+        fail(".harness/verification.toml must be a repository-owned regular file")
+    try:
+        config.resolve().relative_to(root)
+    except ValueError:
+        fail(".harness/verification.toml must resolve inside the repository")
     if not config.is_file():
         fail(".harness/verification.toml is missing")
 

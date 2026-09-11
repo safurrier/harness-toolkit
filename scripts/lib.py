@@ -67,10 +67,21 @@ def product_verification_assets(root: Path) -> tuple[Path, Path] | None:
     runner = root / "scripts" / "verify-routes"
     config_present = os.path.lexists(config)
     runner_present = os.path.lexists(runner)
+    has_symlinked_parent = config.parent.is_symlink() or runner.parent.is_symlink()
+    resolves_outside_root = False
+    if config_present and runner_present:
+        resolved_root = root.resolve()
+        try:
+            config.resolve().relative_to(resolved_root)
+            runner.resolve().relative_to(resolved_root)
+        except ValueError:
+            resolves_outside_root = True
     if config_present != runner_present or (
         config_present
         and (
-            config.is_symlink()
+            has_symlinked_parent
+            or resolves_outside_root
+            or config.is_symlink()
             or runner.is_symlink()
             or not config.is_file()
             or not runner.is_file()
