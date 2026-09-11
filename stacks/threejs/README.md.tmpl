@@ -17,6 +17,6 @@ mise run build
 mise run verify
 ```
 
-`mise run verify` runs the browser E2E route using real keyboard and touch input plus read-only telemetry. It fails early if Vite exits before readiness. Browser checks need a compatible local Chromium; run `npx playwright install chromium` if Playwright reports it missing. This is browser emulation, not proof of real-phone performance. No runtime CDN, pointer-lock, secure-context, backend, or deployment is required.
+`mise run setup` installs the Chromium build used by Playwright. `mise run verify` then runs the browser E2E route using real keyboard and touch input plus read-only telemetry. It fails early if Vite exits before readiness. This is browser emulation, not proof of real-phone performance. No runtime CDN, pointer-lock, secure-context, backend, or deployment is required.
 
 Rive is not part of this starter; it is an optional future design-tool consideration only.
