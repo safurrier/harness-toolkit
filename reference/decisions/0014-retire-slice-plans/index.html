@@ -6,36 +6,33 @@
       <meta charset="utf-8">
       <meta name="viewport" content="width=device-width,initial-scale=1">
       
-        <meta name="description" content="How to make Harness Kit the default agent workflow from a user-level AGENTS.md.
-">
+        <meta name="description" content="Supersedes the generated .ai/plans and slice-workflow task contract.">
       
       
       
-        <link rel="canonical" href="https://safurrier.github.io/harness-toolkit/how-to/agent-adoption/">
+        <link rel="canonical" href="https://safurrier.github.io/harness-toolkit/reference/decisions/0014-retire-slice-plans/">
       
       
-        <link rel="prev" href="../getting-started/">
+        <link rel="prev" href="../0013-web-stack-v0/">
       
-      
-        <link rel="next" href="../profile-reviews/">
       
       
         
       
       
-      <link rel="icon" href="../../assets/images/favicon.png">
+      <link rel="icon" href="../../../assets/images/favicon.png">
       <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.3">
     
     
       
-        <title>Agent Adoption - harness-toolkit</title>
+        <title>Retire generated slice-plan workflow - harness-toolkit</title>
       
     
     
-      <link rel="stylesheet" href="../../assets/stylesheets/main.484c7ddc.min.css">
+      <link rel="stylesheet" href="../../../assets/stylesheets/main.484c7ddc.min.css">
       
         
-        <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
+        <link rel="stylesheet" href="../../../assets/stylesheets/palette.ab4e12ef.min.css">
       
       
 
@@ -54,7 +51,7 @@
       
     
     
-    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    <script>__md_scope=new URL("../../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
     
       
 
@@ -79,7 +76,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#agent-adoption" class="md-skip">
+        <a href="#adr-0014-retire-generated-slice-plan-workflow" class="md-skip">
           Skip to content
         </a>
       
@@ -93,7 +90,7 @@
 
 <header class="md-header" data-md-component="header">
   <nav class="md-header__inner md-grid" aria-label="Header">
-    <a href="../.." title="harness-toolkit" class="md-header__button md-logo" aria-label="harness-toolkit" data-md-component="logo">
+    <a href="../../.." title="harness-toolkit" class="md-header__button md-logo" aria-label="harness-toolkit" data-md-component="logo">
       
   
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
@@ -113,7 +110,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Agent Adoption
+              Retire generated slice-plan workflow
             
           </span>
         </div>
@@ -226,7 +223,7 @@
   
   
     <li class="md-tabs__item">
-      <a href="../.." class="md-tabs__link">
+      <a href="../../.." class="md-tabs__link">
         
   
   
@@ -247,11 +244,31 @@
     
     
       <li class="md-tabs__item">
-        <a href="../../explanation/harness-kit-what-and-why/" class="md-tabs__link">
+        <a href="../../../explanation/harness-kit-what-and-why/" class="md-tabs__link">
           
   
   
   Explanation
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../how-to/getting-started/" class="md-tabs__link">
+          
+  
+  
+  How-to
 
         </a>
       </li>
@@ -269,27 +286,7 @@
     
     
       <li class="md-tabs__item md-tabs__item--active">
-        <a href="../getting-started/" class="md-tabs__link">
-          
-  
-  
-  How-to
-
-        </a>
-      </li>
-    
-  
-
-      
-        
-  
-  
-  
-  
-    
-    
-      <li class="md-tabs__item">
-        <a href="../../reference/task-contract/" class="md-tabs__link">
+        <a href="../../task-contract/" class="md-tabs__link">
           
   
   
@@ -323,7 +320,7 @@
 
 <nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
   <label class="md-nav__title" for="__drawer">
-    <a href="../.." title="harness-toolkit" class="md-nav__button md-logo" aria-label="harness-toolkit" data-md-component="logo">
+    <a href="../../.." title="harness-toolkit" class="md-nav__button md-logo" aria-label="harness-toolkit" data-md-component="logo">
       
   
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
@@ -353,7 +350,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../.." class="md-nav__link">
+      <a href="../../.." class="md-nav__link">
         
   
   
@@ -432,7 +429,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../explanation/harness-kit-what-and-why/" class="md-nav__link">
+      <a href="../../../explanation/harness-kit-what-and-why/" class="md-nav__link">
         
   
   
@@ -460,7 +457,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../explanation/portable-workflow/" class="md-nav__link">
+      <a href="../../../explanation/portable-workflow/" class="md-nav__link">
         
   
   
@@ -488,7 +485,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../explanation/harness-kit-lifecycle-design/" class="md-nav__link">
+      <a href="../../../explanation/harness-kit-lifecycle-design/" class="md-nav__link">
         
   
   
@@ -516,7 +513,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../explanation/system-map-mental-model/" class="md-nav__link">
+      <a href="../../../explanation/system-map-mental-model/" class="md-nav__link">
         
   
   
@@ -544,7 +541,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../explanation/shapes/" class="md-nav__link">
+      <a href="../../../explanation/shapes/" class="md-nav__link">
         
   
   
@@ -572,7 +569,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../explanation/init-system/" class="md-nav__link">
+      <a href="../../../explanation/init-system/" class="md-nav__link">
         
   
   
@@ -600,7 +597,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../explanation/ci/" class="md-nav__link">
+      <a href="../../../explanation/ci/" class="md-nav__link">
         
   
   
@@ -628,7 +625,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../explanation/script-contract-prototype/" class="md-nav__link">
+      <a href="../../../explanation/script-contract-prototype/" class="md-nav__link">
         
   
   
@@ -636,6 +633,261 @@
     
   
     Scripts Contract Prototype (draft)
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    How-to
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    How-to
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../how-to/getting-started/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Getting Started
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../how-to/agent-adoption/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Agent Adoption
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../how-to/profile-reviews/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Profile Reviews
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../how-to/profile-authoring/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Profile Authoring
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../how-to/system-map-authoring/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    System Map Authoring
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../how-to/development/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Development
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../how-to/release/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Release and Installation
   
 
     
@@ -681,17 +933,17 @@
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" checked>
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" checked>
         
           
-          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="">
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="">
             
   
   
   <span class="md-ellipsis">
     
   
-    How-to
+    Reference
   
 
     
@@ -702,12 +954,12 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="true">
-          <label class="md-nav__title" for="__nav_3">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_4">
             <span class="md-nav__icon md-icon"></span>
             
   
-    How-to
+    Reference
   
 
           </label>
@@ -720,14 +972,694 @@
   
   
     <li class="md-nav__item">
-      <a href="../getting-started/" class="md-nav__link">
+      <a href="../../task-contract/" class="md-nav__link">
         
   
   
   <span class="md-ellipsis">
     
   
-    Getting Started
+    Task Contract
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+          
+          
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_4_2" id="__nav_4_2_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Stacks
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_4_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Stacks
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../stacks/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Overview
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../stacks/acceptance-rubric/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Acceptance Rubric
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../stacks/python/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Python
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../stacks/go/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Go
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../stacks/rust/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Rust
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../stacks/web/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Web
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../stacks/visual/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Visual starters
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+          
+          
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_3" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_4_3" id="__nav_4_3_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Decisions
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_4_3_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_4_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Decisions
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../0001-spec-driven-decision-loop/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    ADR 0001 — Spec-Driven Decision Loop
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../0002-plan-workflow/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    ADR 0002 — Plan Workflow
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../0003-deterministic-slice-contract/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    ADR 0003 — Deterministic Slice Contract
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../0004-skill-first-slice-workflow/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    ADR 0004 — Skill-First Slice Workflow
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../0005-harden-sync-contract-ci/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    ADR 0005 — Harden Sync Contract CI
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../0006-followup-contract-stack-rubric/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    ADR 0006 — Plan Contract Modules and Stack Rubric
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../0007-harness-toolkit-naming/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    ADR 0007 — Harness Engineering Toolkit Naming
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../0008-harness-kit-ledger-first-local-assistant/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    ADR 0008 — Harness Kit Ledger-First Local Assistant
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../0009-harness-kit-lifecycle-first-cli/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    ADR 0009 — Harness Kit Lifecycle-First CLI
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../0010-compact-hk-export-packages/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    ADR 0010 — Compact HK Export Packages
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../0011-path-aware-review-freshness/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    ADR 0011 — Path-Aware Review Freshness
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../0012-lifecycle-neutral-active-hk-exports/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    ADR 0012 — Lifecycle-Neutral Active HK Exports
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../0013-web-stack-v0/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    ADR 0013 — Web Stack V0
   
 
     
@@ -764,1042 +1696,25 @@
   <span class="md-ellipsis">
     
   
-    Agent Adoption
+    ADR 0014 — Retire generated slice plans
   
 
     
   </span>
   
+  
+    
+  
+  
+    <span class="md-status md-status--accepted"></span>
+  
+
   
 
           <span class="md-nav__icon md-icon"></span>
         </label>
       
       <a href="./" class="md-nav__link md-nav__link--active">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Agent Adoption
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-      
-        
-
-<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
-  
-  
-  
-    
-  
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#user-level-agentsmd" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        User-level AGENTS.md
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#if-an-agent-was-pointed-here" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        If an agent was pointed here
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#choosing-target" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Choosing --target
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#validation-and-checks" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Validation and checks
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#review" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Review
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#commit-hygiene" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Commit hygiene
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#repo-local-snippet" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Repo-local snippet
-      
-    </span>
-  </a>
-  
-</li>
-      
-    </ul>
-  
-</nav>
-      
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../profile-reviews/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Profile Reviews
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../profile-authoring/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Profile Authoring
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../system-map-authoring/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    System Map Authoring
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../development/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Development
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../release/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Release and Installation
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-          </ul>
-        </nav>
-      
-    </li>
-  
-
-    
-      
-      
-  
-  
-  
-  
-    
-    
-    
-    
-      
-      
-        
-      
-    
-    
-    <li class="md-nav__item md-nav__item--nested">
-      
-        
-        
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
-        
-          
-          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
-            
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Reference
-  
-
-    
-  </span>
-  
-  
-
-            <span class="md-nav__icon md-icon"></span>
-          </label>
-        
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
-          <label class="md-nav__title" for="__nav_4">
-            <span class="md-nav__icon md-icon"></span>
-            
-  
-    Reference
-  
-
-          </label>
-          <ul class="md-nav__list" data-md-scrollfix>
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../reference/task-contract/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Task Contract
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    
-    
-    
-    
-      
-      
-        
-      
-    
-    
-    <li class="md-nav__item md-nav__item--nested">
-      
-        
-        
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_2" >
-        
-          
-          <label class="md-nav__link" for="__nav_4_2" id="__nav_4_2_label" tabindex="0">
-            
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Stacks
-  
-
-    
-  </span>
-  
-  
-
-            <span class="md-nav__icon md-icon"></span>
-          </label>
-        
-        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_4_2_label" aria-expanded="false">
-          <label class="md-nav__title" for="__nav_4_2">
-            <span class="md-nav__icon md-icon"></span>
-            
-  
-    Stacks
-  
-
-          </label>
-          <ul class="md-nav__list" data-md-scrollfix>
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../reference/stacks/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Overview
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../reference/stacks/acceptance-rubric/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Acceptance Rubric
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../reference/stacks/python/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Python
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../reference/stacks/go/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Go
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../reference/stacks/rust/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Rust
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../reference/stacks/web/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Web
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../reference/stacks/visual/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Visual starters
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-          </ul>
-        </nav>
-      
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    
-    
-    
-    
-      
-      
-        
-      
-    
-    
-    <li class="md-nav__item md-nav__item--nested">
-      
-        
-        
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_3" >
-        
-          
-          <label class="md-nav__link" for="__nav_4_3" id="__nav_4_3_label" tabindex="0">
-            
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Decisions
-  
-
-    
-  </span>
-  
-  
-
-            <span class="md-nav__icon md-icon"></span>
-          </label>
-        
-        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_4_3_label" aria-expanded="false">
-          <label class="md-nav__title" for="__nav_4_3">
-            <span class="md-nav__icon md-icon"></span>
-            
-  
-    Decisions
-  
-
-          </label>
-          <ul class="md-nav__list" data-md-scrollfix>
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../reference/decisions/0001-spec-driven-decision-loop/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    ADR 0001 — Spec-Driven Decision Loop
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../reference/decisions/0002-plan-workflow/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    ADR 0002 — Plan Workflow
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../reference/decisions/0003-deterministic-slice-contract/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    ADR 0003 — Deterministic Slice Contract
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../reference/decisions/0004-skill-first-slice-workflow/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    ADR 0004 — Skill-First Slice Workflow
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../reference/decisions/0005-harden-sync-contract-ci/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    ADR 0005 — Harden Sync Contract CI
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../reference/decisions/0006-followup-contract-stack-rubric/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    ADR 0006 — Plan Contract Modules and Stack Rubric
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../reference/decisions/0007-harness-toolkit-naming/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    ADR 0007 — Harness Engineering Toolkit Naming
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../reference/decisions/0008-harness-kit-ledger-first-local-assistant/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    ADR 0008 — Harness Kit Ledger-First Local Assistant
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../reference/decisions/0009-harness-kit-lifecycle-first-cli/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    ADR 0009 — Harness Kit Lifecycle-First CLI
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../reference/decisions/0010-compact-hk-export-packages/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    ADR 0010 — Compact HK Export Packages
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../reference/decisions/0011-path-aware-review-freshness/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    ADR 0011 — Path-Aware Review Freshness
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../reference/decisions/0012-lifecycle-neutral-active-hk-exports/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    ADR 0012 — Lifecycle-Neutral Active HK Exports
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../reference/decisions/0013-web-stack-v0/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    ADR 0013 — Web Stack V0
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../../reference/decisions/0014-retire-slice-plans/" class="md-nav__link">
         
   
   
@@ -1822,6 +1737,48 @@
   
 
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#decision" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Decision
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#consequences" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Consequences
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
     </li>
   
 
@@ -1869,10 +1826,10 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#user-level-agentsmd" class="md-nav__link">
+  <a href="#decision" class="md-nav__link">
     <span class="md-ellipsis">
       
-        User-level AGENTS.md
+        Decision
       
     </span>
   </a>
@@ -1880,65 +1837,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#if-an-agent-was-pointed-here" class="md-nav__link">
+  <a href="#consequences" class="md-nav__link">
     <span class="md-ellipsis">
       
-        If an agent was pointed here
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#choosing-target" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Choosing --target
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#validation-and-checks" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Validation and checks
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#review" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Review
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#commit-hygiene" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Commit hygiene
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#repo-local-snippet" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Repo-local snippet
+        Consequences
       
     </span>
   </a>
@@ -1965,114 +1867,20 @@
   
 
 
-<h1 id="agent-adoption">Agent Adoption<a class="headerlink" href="#agent-adoption" title="Permanent link">&para;</a></h1>
-<p>Harness Kit works best when implementation agents know to use it before they
-start meaningful repo work. The durable instruction should stay small: tell the
-agent to use <code>hk</code>, give it one starting command, and point it here when it needs
-more detail.</p>
-<h2 id="user-level-agentsmd">User-level AGENTS.md<a class="headerlink" href="#user-level-agentsmd" title="Permanent link">&para;</a></h2>
-<p>Add this block to your user-level <code>AGENTS.md</code>:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="gu">## Harness Kit</span>
-<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>
-<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>For meaningful code changes, use Harness Kit (<span class="sb">`hk`</span>) for planning, validation evidence, review, sync, and handoff unless stronger repo-specific instructions supersede it.
-<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>
-<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>Start by resolving the repo/module workflow:
-<a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>
-<a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a><span class="sb">```bash</span>
-<a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a>hk<span class="w"> </span>profile<span class="w"> </span>resolve<span class="w"> </span>--target<span class="w"> </span>.<span class="w"> </span>--json
-<a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a><span class="sb">```</span>
-<a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a>
-<a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a>Use the repo or module that owns the work as <span class="sb">`--target`</span>. Profile flags are only for discovery commands such as <span class="sb">`hk profile`</span>, <span class="sb">`hk checks`</span>, and repo-scope <span class="sb">`hk instructions`</span>; do not pass <span class="sb">`--profile`</span> or <span class="sb">`--profiles-dir`</span> to lifecycle commands unless that command&#39;s help shows those options. Then start work with <span class="sb">`hk start demo-work --plan &quot;...&quot;`</span>, record validation with <span class="sb">`hk validate --why`</span>, and follow <span class="sb">`hk status --target .`</span>.
-<a id="__codelineno-0-12" name="__codelineno-0-12" href="#__codelineno-0-12"></a>
-<a id="__codelineno-0-13" name="__codelineno-0-13" href="#__codelineno-0-13"></a>If <span class="sb">`hk`</span> is unavailable or you are unfamiliar with the workflow, read the Harness Kit agent adoption guide before proceeding:
-<a id="__codelineno-0-14" name="__codelineno-0-14" href="#__codelineno-0-14"></a>https://safurrier.github.io/harness-toolkit/agent-adoption/
-</code></pre></div>
-<p>You can print the current version from the CLI:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>hk<span class="w"> </span>instructions
-<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>hk<span class="w"> </span>instructions<span class="w"> </span>--scope<span class="w"> </span>user<span class="w"> </span>--json
-</code></pre></div>
-<h2 id="if-an-agent-was-pointed-here">If an agent was pointed here<a class="headerlink" href="#if-an-agent-was-pointed-here" title="Permanent link">&para;</a></h2>
-<p>First check whether <code>hk</code> is available:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>hk<span class="w"> </span>--version
-</code></pre></div>
-<p>If it is missing, stop and tell the user. Suggest installing Harness Toolkit as a
-uv tool:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>uv<span class="w"> </span>tool<span class="w"> </span>install<span class="w"> </span>git+https://github.com/safurrier/harness-toolkit.git
-</code></pre></div>
-<p>After installation, start from the target repo or module:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>hk<span class="w"> </span>profile<span class="w"> </span>resolve<span class="w"> </span>--target<span class="w"> </span>.<span class="w"> </span>--json
-<a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a>hk<span class="w"> </span>start<span class="w"> </span>demo-work<span class="w"> </span>--plan<span class="w"> </span><span class="s2">&quot;Adopted implementation intent&quot;</span><span class="w"> </span>--target<span class="w"> </span>.
-</code></pre></div>
-<p>Then work normally in the repository. If you accidentally retry <code>hk start</code> with
-the same slug while that work item is still active, HK resumes it instead of
-creating duplicate retry state. Use a new slug only for a separate work item.
-<code>hk start --plan</code> is a convenient seed, not a requirement to predict every step
-up front; use <code>hk plan "..."</code> again as the plan becomes clearer. Use the repo's
-own commands for tests, linters, type checks, builds, or other validation.</p>
-<p>Record validation evidence with the exact native command:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>hk<span class="w"> </span>validate<span class="w"> </span>--why<span class="w"> </span><span class="s2">&quot;Fast gate passes&quot;</span><span class="w"> </span>--target<span class="w"> </span>.<span class="w"> </span>--<span class="w"> </span>mise<span class="w"> </span>run<span class="w"> </span>check
-</code></pre></div>
-<p>Let <code>hk status</code> guide the rest:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>hk<span class="w"> </span>status<span class="w"> </span>--target<span class="w"> </span>.
-<a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a>hk<span class="w"> </span>ready<span class="w"> </span>--target<span class="w"> </span>.
-<a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a>hk<span class="w"> </span>summary<span class="w"> </span>--target<span class="w"> </span>.
-</code></pre></div>
-<h2 id="choosing-target">Choosing <code>--target</code><a class="headerlink" href="#choosing-target" title="Permanent link">&para;</a></h2>
-<p>Use the path that owns the lifecycle state for the work:</p>
-<ul>
-<li>single repo: usually <code>.</code></li>
-<li>monorepo: the module, package, crate, or app directory</li>
-<li>nested work: the smallest stable path whose docs and validation commands apply</li>
-</ul>
-<p>Keep the same target across <code>hk</code> commands. If you realize the target was wrong,
-tell the user and restart or repair the HK work item rather than mixing targets.</p>
-<p>Do not carry profile flags into lifecycle commands. Use <code>hk profile ...</code>,
-<code>hk checks ...</code>, or <code>hk instructions --scope repo ...</code> to inspect profile guidance,
-then continue with plain lifecycle commands such as <code>hk start</code>, <code>hk validate</code>,
-<code>hk status</code>, <code>hk ready</code>, and <code>hk handoff</code>.</p>
-<h2 id="validation-and-checks">Validation and checks<a class="headerlink" href="#validation-and-checks" title="Permanent link">&para;</a></h2>
-<p><code>hk</code> does not replace repo-native commands. It records what you ran and why.</p>
-<p>To choose validation, inspect:</p>
-<ul>
-<li>repo <code>AGENTS.md</code> and nested <code>AGENTS.md</code> files</li>
-<li>README and docs</li>
-<li>CI config, task runners, package manifests, and Makefiles</li>
-<li><code>hk checks --target . --changed --json</code></li>
-</ul>
-<p>Run the native command directly, then record it with <code>hk validate --why</code>.</p>
-<h2 id="review">Review<a class="headerlink" href="#review" title="Permanent link">&para;</a></h2>
-<p>Review is required by default before handoff. Prefer an independent AI/tool
-reviewer. A fresh-context subagent is the minimum fallback. Same-context
-implementation-agent self-review does not satisfy readiness.</p>
-<p>Useful flows:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="c1"># Generic review when no profile-specific review applies.</span>
-<a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a>hk<span class="w"> </span>review<span class="w"> </span>prompt<span class="w"> </span>--target<span class="w"> </span>.
-<a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a><span class="c1"># Dispatch the prompt using the current harness if available, then record it.</span>
-<a id="__codelineno-7-4" name="__codelineno-7-4" href="#__codelineno-7-4"></a>hk<span class="w"> </span>review<span class="w"> </span>add<span class="w"> </span>--backend<span class="w"> </span>subagent<span class="w"> </span>--reviewer<span class="w"> </span>reviewer-fresh-context<span class="w"> </span>--summary<span class="w"> </span><span class="s2">&quot;Review summary&quot;</span><span class="w"> </span>--target<span class="w"> </span>.
-<a id="__codelineno-7-5" name="__codelineno-7-5" href="#__codelineno-7-5"></a>
-<a id="__codelineno-7-6" name="__codelineno-7-6" href="#__codelineno-7-6"></a><span class="c1"># Profile-named review suggested by hk checks --changed or hk status.</span>
-<a id="__codelineno-7-7" name="__codelineno-7-7" href="#__codelineno-7-7"></a>hk<span class="w"> </span>review<span class="w"> </span>prompt<span class="w"> </span>REVIEW_NAME<span class="w"> </span>--target<span class="w"> </span>.
-<a id="__codelineno-7-8" name="__codelineno-7-8" href="#__codelineno-7-8"></a>hk<span class="w"> </span>review<span class="w"> </span>add<span class="w"> </span>--review<span class="w"> </span>REVIEW_NAME<span class="w"> </span>--backend<span class="w"> </span>subagent<span class="w"> </span>--reviewer<span class="w"> </span>reviewer-fresh-context<span class="w"> </span>--summary<span class="w"> </span><span class="s2">&quot;Review summary&quot;</span><span class="w"> </span>--target<span class="w"> </span>.
-<a id="__codelineno-7-9" name="__codelineno-7-9" href="#__codelineno-7-9"></a>hk<span class="w"> </span>status<span class="w"> </span>--target<span class="w"> </span>.
-</code></pre></div>
-<p>If review, validation, or sync cannot be completed, record an explicit exception with a mitigation:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a>hk<span class="w"> </span>dangerously-skip<span class="w"> </span>review<span class="w"> </span>--label<span class="w"> </span>no-review<span class="w"> </span>--reason<span class="w"> </span><span class="s2">&quot;Why this is acceptable&quot;</span><span class="w"> </span>--mitigation<span class="w"> </span><span class="s2">&quot;How this will be covered&quot;</span><span class="w"> </span>--target<span class="w"> </span>.
-</code></pre></div>
-<h2 id="commit-hygiene">Commit hygiene<a class="headerlink" href="#commit-hygiene" title="Permanent link">&para;</a></h2>
-<p>Do not infer that HK or agent-generated local state should be committed. Commit
-only files that are part of the requested code, docs, tests, or configuration
-change, or files that repo instructions or the user explicitly ask you to commit.</p>
-<p>When unsure, ask before adding workflow/state files to git.</p>
-<h2 id="repo-local-snippet">Repo-local snippet<a class="headerlink" href="#repo-local-snippet" title="Permanent link">&para;</a></h2>
-<p>For a repo-local <code>AGENTS.md</code>, use the fuller profile-specific snippet:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a>hk<span class="w"> </span>instructions<span class="w"> </span>--scope<span class="w"> </span>repo<span class="w"> </span>--profile<span class="w"> </span>generic
-</code></pre></div>
-<p>Prefer a more specific profile when one exists:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a>hk<span class="w"> </span>profile<span class="w"> </span>resolve<span class="w"> </span>--target<span class="w"> </span>.<span class="w"> </span>--json
-<a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a>hk<span class="w"> </span>instructions<span class="w"> </span>--scope<span class="w"> </span>repo<span class="w"> </span>--profile<span class="w"> </span>python
-</code></pre></div>
-<p>See <a href="../../explanation/portable-workflow/">Portable Workflow</a> for profiles, checks, and the
-longer command reference.</p>
+<h1 id="adr-0014-retire-generated-slice-plan-workflow">ADR 0014 — Retire generated slice-plan workflow<a class="headerlink" href="#adr-0014-retire-generated-slice-plan-workflow" title="Permanent link">&para;</a></h1>
+<h2 id="decision">Decision<a class="headerlink" href="#decision" title="Permanent link">&para;</a></h2>
+<p>New projects no longer receive <code>.ai/plans</code>, slice prompt skills, plan-directory
+checks, or plan-specific mise tasks. The stable generated contract is native
+quality tasks plus optional named product verification routes selected explicitly
+from code and product context.</p>
+<p>Harness Kit remains an optional lifecycle and handoff tool; it is not required in
+generated CI because its ledger can be local or external. Existing generated
+repositories retain their old files as legacy projects and are not mutated.</p>
+<h2 id="consequences">Consequences<a class="headerlink" href="#consequences" title="Permanent link">&para;</a></h2>
+<p>ADRs 0002–0006 describe the historical plan contract and remain evidence of why
+it existed. ADR 0009's generated-repository plan compatibility is superseded for
+new projects by this decision. Product behavior is proved by route scripts that
+observe real outcomes, not by plan-directory completeness.</p>
 
 
 
@@ -2131,10 +1939,10 @@ longer command reference.</p>
     
       
       
-      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.tabs", "navigation.sections", "navigation.top", "search.suggest", "search.highlight", "content.code.copy", "content.code.annotate"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+      <script id="__config" type="application/json">{"annotate": null, "base": "../../..", "features": ["navigation.tabs", "navigation.sections", "navigation.top", "search.suggest", "search.highlight", "content.code.copy", "content.code.annotate"], "search": "../../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
     
     
-      <script src="../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      <script src="../../../assets/javascripts/bundle.79ae519e.min.js"></script>
       
     
   </body>

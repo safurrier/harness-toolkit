@@ -495,7 +495,7 @@
   <span class="md-ellipsis">
     
   
-    Harness Kit Design
+    Harness Kit Design (draft)
   
 
     
@@ -635,7 +635,7 @@
   <span class="md-ellipsis">
     
   
-    Scripts Contract Prototype
+    Scripts Contract Prototype (draft)
   
 
     
@@ -1831,6 +1831,41 @@
 
               
             
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../reference/decisions/0014-retire-slice-plans/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    ADR 0014 — Retire generated slice plans
+  
+
+    
+  </span>
+  
+  
+    
+  
+  
+    <span class="md-status md-status--accepted"></span>
+  
+
+  
+
+      </a>
+    </li>
+  
+
+              
+            
           </ul>
         </nav>
       
@@ -2062,7 +2097,7 @@
 <li>Every task file has a <code># MISE description=</code> header</li>
 <li>Every task file uses <code>#!/usr/bin/env -S uv run python</code> shebang</li>
 <li><code>scripts/lib.py</code> exists</li>
-<li>CI workflow calls <code>mise run ci</code> and <code>mise run sync-check</code></li>
+<li>CI workflow calls <code>mise run ci</code> and HK export integrity check</li>
 <li>Pre-commit config calls <code>mise run</code> tasks</li>
 </ul>
 <p><strong><code>test_docs_contract.py</code></strong> — documentation structure:</p>
@@ -2086,7 +2121,7 @@ per test module:</p>
 <a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a>    <span class="n">shutil</span><span class="o">.</span><span class="n">copytree</span><span class="p">(</span><span class="n">SCAFFOLD_ROOT</span><span class="p">,</span> <span class="n">dest</span><span class="p">,</span> <span class="n">ignore</span><span class="o">=</span><span class="n">_COPY_IGNORE</span><span class="p">)</span>
 <a id="__codelineno-4-6" name="__codelineno-4-6" href="#__codelineno-4-6"></a>    <span class="n">_trust_mise</span><span class="p">(</span><span class="n">dest</span><span class="p">)</span>
 <a id="__codelineno-4-7" name="__codelineno-4-7" href="#__codelineno-4-7"></a>    <span class="n">init_project</span><span class="p">(</span><span class="n">dest</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;testpyapp&quot;</span><span class="p">,</span> <span class="n">shape</span><span class="o">=</span><span class="s2">&quot;single&quot;</span><span class="p">,</span> <span class="n">stack</span><span class="o">=</span><span class="s2">&quot;python&quot;</span><span class="p">)</span>
-<a id="__codelineno-4-8" name="__codelineno-4-8" href="#__codelineno-4-8"></a>    <span class="n">_trust_mise</span><span class="p">(</span><span class="n">dest</span><span class="p">)</span>   <span class="c1"># init rewrites .mise.toml — trust it again</span>
+<a id="__codelineno-4-8" name="__codelineno-4-8" href="#__codelineno-4-8"></a>    <span class="n">_trust_mise</span><span class="p">(</span><span class="n">dest</span><span class="p">)</span>  <span class="c1"># init rewrites .mise.toml — trust it again</span>
 <a id="__codelineno-4-9" name="__codelineno-4-9" href="#__codelineno-4-9"></a>    <span class="n">mise</span><span class="p">(</span><span class="s2">&quot;setup&quot;</span><span class="p">,</span> <span class="n">dest</span><span class="p">,</span> <span class="n">timeout</span><span class="o">=</span><span class="mi">180</span><span class="p">)</span>
 <a id="__codelineno-4-10" name="__codelineno-4-10" href="#__codelineno-4-10"></a>    <span class="k">return</span> <span class="n">dest</span>
 </code></pre></div>
@@ -2100,7 +2135,7 @@ per test module:</p>
 <li><strong>Task scripts</strong>: Add <code>&lt;task&gt;_&lt;name&gt;(cwd)</code> functions to each <code>.mise/tasks/&lt;task&gt;</code> script and register them in the <code>dispatch_stack</code> / <code>dispatch_module</code> calls</li>
 <li><strong>Init package</strong>: Add the stack to <code>SUPPORTED_STACKS</code> in <code>src/harness_toolkit/scaffold/config.py</code>, add prompts/handling in <code>src/harness_toolkit/scaffold/prompts.py</code>, and add template copying in <code>src/harness_toolkit/scaffold/stacks/</code></li>
 <li><strong>Docs</strong>: Add <code>docs/reference/stacks/&lt;name&gt;.md</code> and link it from <code>docs/reference/stacks/index.md</code></li>
-<li><strong>Tests</strong>: Add <code>tests/e2e/test_&lt;name&gt;.py</code> with single/apps happy paths, setup-then-sync-check coverage, and gate tests for formatter, linter, typecheck or compile check, and test runner</li>
+<li><strong>Tests</strong>: Add <code>tests/e2e/test_&lt;name&gt;.py</code> with single/apps happy paths, setup-then-check/verify coverage, and gate tests for formatter, linter, typecheck or compile check, test runner, and any stack-specific product verification</li>
 <li><strong>CI</strong>: Add the stack to the generated-project smoke matrix once it is a supported <code>init --stack</code> value</li>
 </ol>
 <p>Use <a href="../../reference/stacks/acceptance-rubric/">the stack acceptance rubric</a> as the reviewer

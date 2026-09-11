@@ -411,10 +411,10 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#what-it-is" class="md-nav__link">
+  <a href="#choose-your-path" class="md-nav__link">
     <span class="md-ellipsis">
       
-        What it is
+        Choose your path
       
     </span>
   </a>
@@ -584,7 +584,7 @@
   <span class="md-ellipsis">
     
   
-    Harness Kit Design
+    Harness Kit Design (draft)
   
 
     
@@ -724,7 +724,7 @@
   <span class="md-ellipsis">
     
   
-    Scripts Contract Prototype
+    Scripts Contract Prototype (draft)
   
 
     
@@ -1752,6 +1752,41 @@
 
               
             
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="reference/decisions/0014-retire-slice-plans/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    ADR 0014 — Retire generated slice plans
+  
+
+    
+  </span>
+  
+  
+    
+  
+  
+    <span class="md-status md-status--accepted"></span>
+  
+
+  
+
+      </a>
+    </li>
+  
+
+              
+            
           </ul>
         </nav>
       
@@ -1794,10 +1829,10 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#what-it-is" class="md-nav__link">
+  <a href="#choose-your-path" class="md-nav__link">
     <span class="md-ellipsis">
       
-        What it is
+        Choose your path
       
     </span>
   </a>
@@ -1861,44 +1896,50 @@
 <p><strong>Harness Engineering Toolkit</strong> for agent-ready repositories.</p>
 <p>Use <strong><code>hk</code> / <code>harness-kit</code></strong> for portable planning, validation, and handoff workflow in existing repos. Use <strong><code>harness-scaffold</code></strong> to start a new repo with the workflow, docs, CI, and stack defaults already wired in.</p>
 <p>For the product philosophy behind HK's lifecycle, config, and readiness model, see <a href="explanation/harness-kit-what-and-why/">Harness Kit: Dumb Tasks, Smart Agents</a>.</p>
-<h2 id="what-it-is">What it is<a class="headerlink" href="#what-it-is" title="Permanent link">&para;</a></h2>
-<p>harness-scaffold is a <strong>clone-and-init</strong> template. You clone it, run <code>mise run init</code>, and it transforms itself into your project — removing scaffold scaffolding, applying your project name, and verifying the golden path passes before handing control over.</p>
-<p>Every generated project ships with a <strong>three-surface split</strong>:</p>
-<ul>
-<li><strong><code>SPEC.md</code></strong> — correctness envelope (requirements, contracts, invariants)</li>
-<li><strong><code>AGENTS.md</code></strong> — how to work here (commands, repo map, workflow)</li>
-<li><strong><code>docs/</code></strong> — routed durable docs with explanation/reference/tutorial/how-to structure</li>
-</ul>
-<p>The key insight: agents (and humans) benefit from a <strong>fixed command surface</strong>. Regardless of language, repo shape, or tooling choices, every project initialized from this scaffold exposes the same stable task contract:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>mise<span class="w"> </span>run<span class="w"> </span>fmt<span class="w">        </span><span class="c1"># format</span>
-<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>mise<span class="w"> </span>run<span class="w"> </span>lint<span class="w">       </span><span class="c1"># lint</span>
-<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>mise<span class="w"> </span>run<span class="w"> </span>typecheck<span class="w">  </span><span class="c1"># type checking</span>
-<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>mise<span class="w"> </span>run<span class="w"> </span><span class="nb">test</span><span class="w">       </span><span class="c1"># unit tests</span>
-<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>mise<span class="w"> </span>run<span class="w"> </span>check<span class="w">      </span><span class="c1"># all of the above (fast gate)</span>
-<a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>mise<span class="w"> </span>run<span class="w"> </span>plan<span class="w">       </span><span class="c1"># create a plan directory for a unit of work on a feature branch</span>
-<a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a>mise<span class="w"> </span>run<span class="w"> </span>sync-check<span class="w"> </span><span class="c1"># verify the slice is fully planned, evidenced, and reviewed</span>
-<a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a>mise<span class="w"> </span>run<span class="w"> </span>verify<span class="w">     </span><span class="c1"># heavy validation (integration, docker, etc.)</span>
-</code></pre></div>
+<h2 id="choose-your-path">Choose your path<a class="headerlink" href="#choose-your-path" title="Permanent link">&para;</a></h2>
+<table>
+<thead>
+<tr>
+<th>Starting point</th>
+<th>Use</th>
+<th>First command</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>An existing repository</td>
+<td><code>hk</code> / <code>harness-kit</code> for optional lifecycle evidence and handoff</td>
+<td><code>hk --version</code></td>
+</tr>
+<tr>
+<td>A new repository</td>
+<td><code>harness-scaffold</code> for docs, CI, and native task defaults</td>
+<td><code>harness-scaffold init</code></td>
+</tr>
+</tbody>
+</table>
+<p><code>hk</code> does not replace the repository's commands. <code>harness-scaffold</code> creates a
+new repository contract; it does not require an HK ledger in CI.</p>
 <h2 id="why-mise">Why mise<a class="headerlink" href="#why-mise" title="Permanent link">&para;</a></h2>
-<p><a href="https://mise.jdx.dev/">mise</a> manages both <strong>tool versions</strong> (Python, Go, uv, gofumpt, golangci-lint) and <strong>task definitions</strong> in one config file. It replaces Makefiles, shell scripts, and per-language task runners with a unified interface that works the same locally and in CI.</p>
+<p><a href="https://mise.jdx.dev/">mise</a> manages both <strong>tool versions</strong> (Python, Go, uv, gofumpt, golangci-lint) and <strong>task wrappers</strong> through one managed command surface. It replaces Makefiles, shell scripts, and per-language task runners with a unified interface that works the same locally and in CI.</p>
 <h2 id="quick-start">Quick start<a class="headerlink" href="#quick-start" title="Permanent link">&para;</a></h2>
 <p>Install the CLIs for portable use in existing repos:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>uv<span class="w"> </span>tool<span class="w"> </span>install<span class="w"> </span>git+https://github.com/safurrier/harness-toolkit.git
-<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>hk<span class="w"> </span>--version
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>uv<span class="w"> </span>tool<span class="w"> </span>install<span class="w"> </span>git+https://github.com/safurrier/harness-toolkit.git
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>hk<span class="w"> </span>--version
 </code></pre></div>
 <p>Initialize a new repo from the scaffold:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="c1"># 1. Install mise (only prerequisite)</span>
-<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>curl<span class="w"> </span>https://mise.run<span class="w"> </span><span class="p">|</span><span class="w"> </span>sh
-<a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a>
-<a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a><span class="c1"># 2. Clone</span>
-<a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a>git<span class="w"> </span>clone<span class="w"> </span>https://github.com/safurrier/harness-toolkit.git<span class="w"> </span>my-project
-<a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a><span class="nb">cd</span><span class="w"> </span>my-project
-<a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a>
-<a id="__codelineno-2-8" name="__codelineno-2-8" href="#__codelineno-2-8"></a><span class="c1"># 3. Install tools</span>
-<a id="__codelineno-2-9" name="__codelineno-2-9" href="#__codelineno-2-9"></a>mise<span class="w"> </span>install
-<a id="__codelineno-2-10" name="__codelineno-2-10" href="#__codelineno-2-10"></a>
-<a id="__codelineno-2-11" name="__codelineno-2-11" href="#__codelineno-2-11"></a><span class="c1"># 4. Initialize</span>
-<a id="__codelineno-2-12" name="__codelineno-2-12" href="#__codelineno-2-12"></a>mise<span class="w"> </span>run<span class="w"> </span>init
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="c1"># 1. Install mise (only prerequisite)</span>
+<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>curl<span class="w"> </span>https://mise.run<span class="w"> </span><span class="p">|</span><span class="w"> </span>sh
+<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>
+<a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a><span class="c1"># 2. Clone</span>
+<a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a>git<span class="w"> </span>clone<span class="w"> </span>https://github.com/safurrier/harness-toolkit.git<span class="w"> </span>my-project
+<a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a><span class="nb">cd</span><span class="w"> </span>my-project
+<a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a>
+<a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a><span class="c1"># 3. Install tools</span>
+<a id="__codelineno-1-9" name="__codelineno-1-9" href="#__codelineno-1-9"></a>mise<span class="w"> </span>install
+<a id="__codelineno-1-10" name="__codelineno-1-10" href="#__codelineno-1-10"></a>
+<a id="__codelineno-1-11" name="__codelineno-1-11" href="#__codelineno-1-11"></a><span class="c1"># 4. Initialize</span>
+<a id="__codelineno-1-12" name="__codelineno-1-12" href="#__codelineno-1-12"></a>mise<span class="w"> </span>run<span class="w"> </span>init
 </code></pre></div>
 <p>See <a href="how-to/getting-started/">Getting Started</a> for the full walkthrough and
 <a href="how-to/release/">Release and Installation</a> for uv tool installs and tag releases.</p>

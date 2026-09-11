@@ -6,8 +6,7 @@
       <meta charset="utf-8">
       <meta name="viewport" content="width=device-width,initial-scale=1">
       
-        <meta name="description" content="Reference for the stable mise run task contract exposed by harness-scaffold projects, including both the fast engineering loop and the deterministic slice-handoff checks.
-">
+        <meta name="description" content="Stable native mise task surface for generated repositories.">
       
       
       
@@ -28,7 +27,7 @@
     
     
       
-        <title>Task Contract - harness-toolkit</title>
+        <title>Scaffold task contract - harness-toolkit</title>
       
     
     
@@ -79,7 +78,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#task-contract" class="md-skip">
+        <a href="#scaffold-task-contract" class="md-skip">
           Skip to content
         </a>
       
@@ -113,7 +112,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Task Contract
+              Scaffold task contract
             
           </span>
         </div>
@@ -495,7 +494,7 @@
   <span class="md-ellipsis">
     
   
-    Harness Kit Design
+    Harness Kit Design (draft)
   
 
     
@@ -635,7 +634,7 @@
   <span class="md-ellipsis">
     
   
-    Scripts Contract Prototype
+    Scripts Contract Prototype (draft)
   
 
     
@@ -1035,280 +1034,10 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#contract-tasks" class="md-nav__link">
+  <a href="#verification-routes" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Contract tasks
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#init" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        init
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#setup" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        setup
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#fmt" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        fmt
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#lint" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        lint
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#typecheck" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        typecheck
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#test" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        test
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#visual-stacks" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Visual stacks
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#build" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        build
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#check" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        check
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#plan-check" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        plan-check
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#spec-check" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        spec-check
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#evidence-check" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        evidence-check
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#review-check" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        review-check
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#sync-check" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        sync-check
-      
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="sync-check">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#implementation-boundary" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Implementation Boundary
-      
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#slice-plan" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        slice-plan
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#slice-implement" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        slice-implement
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#slice-review" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        slice-review
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#slice-status" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        slice-status
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#dev" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        dev
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#ci" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        ci
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#docs" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        docs
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#plan" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        plan
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#verify" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        verify
+        Verification routes
       
     </span>
   </a>
@@ -2002,6 +1731,41 @@
 
               
             
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../decisions/0014-retire-slice-plans/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    ADR 0014 — Retire generated slice plans
+  
+
+    
+  </span>
+  
+  
+    
+  
+  
+    <span class="md-status md-status--accepted"></span>
+  
+
+  
+
+      </a>
+    </li>
+  
+
+              
+            
           </ul>
         </nav>
       
@@ -2044,280 +1808,10 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#contract-tasks" class="md-nav__link">
+  <a href="#verification-routes" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Contract tasks
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#init" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        init
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#setup" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        setup
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#fmt" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        fmt
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#lint" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        lint
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#typecheck" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        typecheck
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#test" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        test
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#visual-stacks" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Visual stacks
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#build" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        build
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#check" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        check
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#plan-check" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        plan-check
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#spec-check" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        spec-check
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#evidence-check" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        evidence-check
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#review-check" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        review-check
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#sync-check" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        sync-check
-      
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="sync-check">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#implementation-boundary" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Implementation Boundary
-      
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#slice-plan" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        slice-plan
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#slice-implement" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        slice-implement
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#slice-review" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        slice-review
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#slice-status" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        slice-status
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#dev" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        dev
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#ci" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        ci
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#docs" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        docs
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#plan" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        plan
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#verify" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        verify
+        Verification routes
       
     </span>
   </a>
@@ -2344,504 +1838,34 @@
   
 
 
-<h1 id="task-contract">Task Contract<a class="headerlink" href="#task-contract" title="Permanent link">&para;</a></h1>
-<p>Every project initialized from harness-scaffold exposes these tasks. The contract is <strong>stable</strong> — same command names regardless of stack or shape.</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>mise<span class="w"> </span>run<span class="w"> </span>&lt;task&gt;
+<h1 id="scaffold-task-contract">Scaffold task contract<a class="headerlink" href="#scaffold-task-contract" title="Permanent link">&para;</a></h1>
+<p>Every generated repository exposes <code>setup</code>, <code>fmt</code>, <code>lint</code>, <code>typecheck</code>, <code>test</code>,
+<code>build</code>, <code>check</code>, <code>dev</code>, <code>ci</code>, <code>verify</code>, and <code>docs</code> as executable files under
+<code>.mise/tasks/</code>. <code>mise run check</code> is the fast quality gate; <code>mise run ci</code> delegates
+to it. Task wrappers remain thin adapters over language-native tools.</p>
+<p><code>mise run verify</code> is the heavier product-validation entrypoint. It runs <code>check</code>
+and then stack-specific integration, Docker, artifact, or browser work. Product
+routes run only when the caller explicitly passes route arguments.</p>
+<h2 id="verification-routes">Verification routes<a class="headerlink" href="#verification-routes" title="Permanent link">&para;</a></h2>
+<p>The optional <code>.harness/verification.toml</code> registry gives executable product
+journeys stable names. It does not infer coverage from changed paths.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>scripts/verify-routes<span class="w"> </span>--list
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>scripts/verify-routes<span class="w"> </span>--route<span class="w"> </span>create-record
+<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>scripts/verify-routes<span class="w"> </span>--route<span class="w"> </span>import-records<span class="w"> </span>--route<span class="w"> </span>export-records
+<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>scripts/verify-routes<span class="w"> </span>--all
+<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>mise<span class="w"> </span>run<span class="w"> </span>verify<span class="w"> </span>--<span class="w"> </span>--route<span class="w"> </span>create-record
 </code></pre></div>
-<h2 id="contract-tasks">Contract tasks<a class="headerlink" href="#contract-tasks" title="Permanent link">&para;</a></h2>
-<table>
-<thead>
-<tr>
-<th>Task</th>
-<th>Purpose</th>
-<th>Speed</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td><a href="#init"><code>init</code></a></td>
-<td>Transform scaffold into a project</td>
-<td>One-time</td>
-</tr>
-<tr>
-<td><a href="#setup"><code>setup</code></a></td>
-<td>Install deps, prepare environment</td>
-<td>Fast</td>
-</tr>
-<tr>
-<td><a href="#fmt"><code>fmt</code></a></td>
-<td>Auto-format code</td>
-<td>Fast</td>
-</tr>
-<tr>
-<td><a href="#lint"><code>lint</code></a></td>
-<td>Non-modifying lint checks</td>
-<td>Fast</td>
-</tr>
-<tr>
-<td><a href="#typecheck"><code>typecheck</code></a></td>
-<td>Static type analysis</td>
-<td>Fast</td>
-</tr>
-<tr>
-<td><a href="#test"><code>test</code></a></td>
-<td>Unit tests</td>
-<td>Fast</td>
-</tr>
-<tr>
-<td><a href="#build"><code>build</code></a></td>
-<td>Produce artifacts</td>
-<td>Medium</td>
-</tr>
-<tr>
-<td><a href="#check"><code>check</code></a></td>
-<td>fmt-check + lint + typecheck + test</td>
-<td>Fast</td>
-</tr>
-<tr>
-<td><a href="#plan-check"><code>plan-check</code></a></td>
-<td>Validate active slice metadata and required files</td>
-<td>Fast</td>
-</tr>
-<tr>
-<td><a href="#spec-check"><code>spec-check</code></a></td>
-<td>Validate decision promotion and reflected docs</td>
-<td>Fast</td>
-</tr>
-<tr>
-<td><a href="#evidence-check"><code>evidence-check</code></a></td>
-<td>Validate declared evidence and artifact paths</td>
-<td>Fast</td>
-</tr>
-<tr>
-<td><a href="#review-check"><code>review-check</code></a></td>
-<td>Validate external review artifacts</td>
-<td>Fast</td>
-</tr>
-<tr>
-<td><a href="#sync-check"><code>sync-check</code></a></td>
-<td>Aggregate active or changed-plan handoff checks</td>
-<td>Fast</td>
-</tr>
-<tr>
-<td><a href="#slice-plan"><code>slice-plan</code></a></td>
-<td>Render planner prompt for the active slice</td>
-<td>Fast</td>
-</tr>
-<tr>
-<td><a href="#slice-implement"><code>slice-implement</code></a></td>
-<td>Render implementer prompt for the active slice</td>
-<td>Fast</td>
-</tr>
-<tr>
-<td><a href="#slice-review"><code>slice-review</code></a></td>
-<td>Render reviewer prompt for the active slice</td>
-<td>Fast</td>
-</tr>
-<tr>
-<td><a href="#slice-status"><code>slice-status</code></a></td>
-<td>Show active slice status</td>
-<td>Fast</td>
-</tr>
-<tr>
-<td><a href="#dev"><code>dev</code></a></td>
-<td>Start local development</td>
-<td>Long-running</td>
-</tr>
-<tr>
-<td><a href="#ci"><code>ci</code></a></td>
-<td>CI entrypoint (= check)</td>
-<td>Fast</td>
-</tr>
-<tr>
-<td><a href="#docs"><code>docs</code></a></td>
-<td>Documentation server</td>
-<td>Long-running</td>
-</tr>
-<tr>
-<td><a href="#plan"><code>plan</code></a></td>
-<td>Create a plan directory</td>
-<td>Fast</td>
-</tr>
-<tr>
-<td><a href="#verify"><code>verify</code></a></td>
-<td>Heavy validation</td>
-<td>Slow</td>
-</tr>
-</tbody>
-</table>
-<hr />
-<h2 id="init">init<a class="headerlink" href="#init" title="Permanent link">&para;</a></h2>
-<p>Transforms the scaffold into your project. Run once after cloning.</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>mise<span class="w"> </span>run<span class="w"> </span>init<span class="w">                                      </span><span class="c1"># interactive</span>
-<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>mise<span class="w"> </span>run<span class="w"> </span>init<span class="w"> </span>--<span class="w"> </span>--non-interactive<span class="w"> </span>--name<span class="w"> </span>myapp<span class="w">    </span><span class="c1"># scripted</span>
-</code></pre></div>
-<p>See <a href="../../how-to/getting-started/">Getting Started</a> and <a href="../../explanation/init-system/">Init System</a>.</p>
-<hr />
-<h2 id="setup">setup<a class="headerlink" href="#setup" title="Permanent link">&para;</a></h2>
-<p>Installs all project dependencies. Safe to re-run.</p>
-<div class="tabbed-set tabbed-alternate" data-tabs="1:4"><input checked="checked" id="__tabbed_1_1" name="__tabbed_1" type="radio" /><input id="__tabbed_1_2" name="__tabbed_1" type="radio" /><input id="__tabbed_1_3" name="__tabbed_1" type="radio" /><input id="__tabbed_1_4" name="__tabbed_1" type="radio" /><div class="tabbed-labels"><label for="__tabbed_1_1">Python</label><label for="__tabbed_1_2">Go</label><label for="__tabbed_1_3">Rust</label><label for="__tabbed_1_4">Web</label></div>
-<div class="tabbed-content">
-<div class="tabbed-block">
-<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>uv<span class="w"> </span>sync<span class="w"> </span>--all-extras
-</code></pre></div>
-</div>
-<div class="tabbed-block">
-<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>go<span class="w"> </span>mod<span class="w"> </span>download
-</code></pre></div>
-</div>
-<div class="tabbed-block">
-<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a>cargo<span class="w"> </span>fetch
-</code></pre></div>
-</div>
-<div class="tabbed-block">
-<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a>npm<span class="w"> </span>install<span class="w"> </span>--package-lock<span class="o">=</span><span class="nb">false</span>
-</code></pre></div>
-</div>
-</div>
-</div>
-<p>For the apps workspace shape, <code>setup</code> iterates <code>workspace.toml</code> and runs the appropriate install per module.</p>
-<hr />
-<h2 id="fmt">fmt<a class="headerlink" href="#fmt" title="Permanent link">&para;</a></h2>
-<p>Auto-formats code in-place. Pass <code>--check</code> to fail without modifying (used by <code>check</code>).</p>
-<div class="tabbed-set tabbed-alternate" data-tabs="2:4"><input checked="checked" id="__tabbed_2_1" name="__tabbed_2" type="radio" /><input id="__tabbed_2_2" name="__tabbed_2" type="radio" /><input id="__tabbed_2_3" name="__tabbed_2" type="radio" /><input id="__tabbed_2_4" name="__tabbed_2" type="radio" /><div class="tabbed-labels"><label for="__tabbed_2_1">Python</label><label for="__tabbed_2_2">Go</label><label for="__tabbed_2_3">Rust</label><label for="__tabbed_2_4">Web</label></div>
-<div class="tabbed-content">
-<div class="tabbed-block">
-<div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a>uv<span class="w"> </span>run<span class="w"> </span>ruff<span class="w"> </span>format<span class="w"> </span>.<span class="w">          </span><span class="c1"># format</span>
-<a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a>uv<span class="w"> </span>run<span class="w"> </span>ruff<span class="w"> </span>format<span class="w"> </span>--check<span class="w"> </span>.<span class="w">  </span><span class="c1"># check only</span>
-</code></pre></div>
-</div>
-<div class="tabbed-block">
-<div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a>gofumpt<span class="w"> </span>-w<span class="w"> </span>.<span class="w">   </span><span class="c1"># format</span>
-<a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a>gofumpt<span class="w"> </span>-l<span class="w"> </span>.<span class="w">   </span><span class="c1"># check only</span>
-</code></pre></div>
-</div>
-<div class="tabbed-block">
-<div class="highlight"><pre><span></span><code><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a>cargo<span class="w"> </span>fmt<span class="w">          </span><span class="c1"># format</span>
-<a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a>cargo<span class="w"> </span>fmt<span class="w"> </span>--check<span class="w">  </span><span class="c1"># check only</span>
-</code></pre></div>
-</div>
-<div class="tabbed-block">
-<div class="highlight"><pre><span></span><code><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a>npm<span class="w"> </span>run<span class="w"> </span>fmt<span class="w">        </span><span class="c1"># format</span>
-<a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a>npm<span class="w"> </span>run<span class="w"> </span>fmt:check<span class="w">  </span><span class="c1"># check only</span>
-</code></pre></div>
-</div>
-</div>
-</div>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a>mise<span class="w"> </span>run<span class="w"> </span>fmt<span class="w">           </span><span class="c1"># format in-place</span>
-<a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a>mise<span class="w"> </span>run<span class="w"> </span>fmt<span class="w"> </span>--check<span class="w">   </span><span class="c1"># check only (used by CI)</span>
-</code></pre></div>
-<hr />
-<h2 id="lint">lint<a class="headerlink" href="#lint" title="Permanent link">&para;</a></h2>
-<p>Non-modifying lint checks. Fails on any violation.</p>
-<div class="tabbed-set tabbed-alternate" data-tabs="3:4"><input checked="checked" id="__tabbed_3_1" name="__tabbed_3" type="radio" /><input id="__tabbed_3_2" name="__tabbed_3" type="radio" /><input id="__tabbed_3_3" name="__tabbed_3" type="radio" /><input id="__tabbed_3_4" name="__tabbed_3" type="radio" /><div class="tabbed-labels"><label for="__tabbed_3_1">Python</label><label for="__tabbed_3_2">Go</label><label for="__tabbed_3_3">Rust</label><label for="__tabbed_3_4">Web</label></div>
-<div class="tabbed-content">
-<div class="tabbed-block">
-<div class="highlight"><pre><span></span><code><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a>uv<span class="w"> </span>run<span class="w"> </span>ruff<span class="w"> </span>check<span class="w"> </span>.
-</code></pre></div>
-</div>
-<div class="tabbed-block">
-<div class="highlight"><pre><span></span><code><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a>golangci-lint<span class="w"> </span>run<span class="w"> </span>./...
-</code></pre></div>
-</div>
-<div class="tabbed-block">
-<div class="highlight"><pre><span></span><code><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a>cargo<span class="w"> </span>clippy<span class="w"> </span>--all-targets<span class="w"> </span>--all-features<span class="w"> </span>--<span class="w"> </span>-D<span class="w"> </span>warnings
-</code></pre></div>
-</div>
-<div class="tabbed-block">
-<div class="highlight"><pre><span></span><code><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a>npm<span class="w"> </span>run<span class="w"> </span>lint
-</code></pre></div>
-</div>
-</div>
-</div>
-<hr />
-<h2 id="typecheck">typecheck<a class="headerlink" href="#typecheck" title="Permanent link">&para;</a></h2>
-<p>Static type analysis.</p>
-<div class="tabbed-set tabbed-alternate" data-tabs="4:4"><input checked="checked" id="__tabbed_4_1" name="__tabbed_4" type="radio" /><input id="__tabbed_4_2" name="__tabbed_4" type="radio" /><input id="__tabbed_4_3" name="__tabbed_4" type="radio" /><input id="__tabbed_4_4" name="__tabbed_4" type="radio" /><div class="tabbed-labels"><label for="__tabbed_4_1">Python</label><label for="__tabbed_4_2">Go</label><label for="__tabbed_4_3">Rust</label><label for="__tabbed_4_4">Web</label></div>
-<div class="tabbed-content">
-<div class="tabbed-block">
-<div class="highlight"><pre><span></span><code><a id="__codelineno-15-1" name="__codelineno-15-1" href="#__codelineno-15-1"></a>uv<span class="w"> </span>run<span class="w"> </span>ty<span class="w"> </span>check
-</code></pre></div>
-</div>
-<div class="tabbed-block">
-<div class="highlight"><pre><span></span><code><a id="__codelineno-16-1" name="__codelineno-16-1" href="#__codelineno-16-1"></a>go<span class="w"> </span>vet<span class="w"> </span>./...
-</code></pre></div>
-</div>
-<div class="tabbed-block">
-<div class="highlight"><pre><span></span><code><a id="__codelineno-17-1" name="__codelineno-17-1" href="#__codelineno-17-1"></a>cargo<span class="w"> </span>check<span class="w"> </span>--all-targets<span class="w"> </span>--all-features
-</code></pre></div>
-</div>
-<div class="tabbed-block">
-<div class="highlight"><pre><span></span><code><a id="__codelineno-18-1" name="__codelineno-18-1" href="#__codelineno-18-1"></a>npm<span class="w"> </span>run<span class="w"> </span>typecheck
-</code></pre></div>
-</div>
-</div>
-</div>
-<div class="admonition note">
-<p class="admonition-title">Go typecheck</p>
-<p>Go's type system is enforced at compile time. <code>go vet</code> provides the closest equivalent to a standalone type-check pass.</p>
-</div>
-<hr />
-<h2 id="test">test<a class="headerlink" href="#test" title="Permanent link">&para;</a></h2>
-<p>Unit tests only — no integration tests, no external services.</p>
-<div class="tabbed-set tabbed-alternate" data-tabs="5:4"><input checked="checked" id="__tabbed_5_1" name="__tabbed_5" type="radio" /><input id="__tabbed_5_2" name="__tabbed_5" type="radio" /><input id="__tabbed_5_3" name="__tabbed_5" type="radio" /><input id="__tabbed_5_4" name="__tabbed_5" type="radio" /><div class="tabbed-labels"><label for="__tabbed_5_1">Python</label><label for="__tabbed_5_2">Go</label><label for="__tabbed_5_3">Rust</label><label for="__tabbed_5_4">Web</label></div>
-<div class="tabbed-content">
-<div class="tabbed-block">
-<div class="highlight"><pre><span></span><code><a id="__codelineno-19-1" name="__codelineno-19-1" href="#__codelineno-19-1"></a>uv<span class="w"> </span>run<span class="w"> </span>pytest
-</code></pre></div>
-</div>
-<div class="tabbed-block">
-<div class="highlight"><pre><span></span><code><a id="__codelineno-20-1" name="__codelineno-20-1" href="#__codelineno-20-1"></a><span class="nv">CGO_ENABLED</span><span class="o">=</span><span class="m">0</span><span class="w"> </span>go<span class="w"> </span><span class="nb">test</span><span class="w"> </span>./...
-</code></pre></div>
-</div>
-<div class="tabbed-block">
-<div class="highlight"><pre><span></span><code><a id="__codelineno-21-1" name="__codelineno-21-1" href="#__codelineno-21-1"></a>cargo<span class="w"> </span><span class="nb">test</span><span class="w"> </span>--all-features
-</code></pre></div>
-</div>
-<div class="tabbed-block">
-<div class="highlight"><pre><span></span><code><a id="__codelineno-22-1" name="__codelineno-22-1" href="#__codelineno-22-1"></a>npm<span class="w"> </span>run<span class="w"> </span><span class="nb">test</span>
-</code></pre></div>
-</div>
-</div>
-</div>
-<hr />
-<h2 id="visual-stacks">Visual stacks<a class="headerlink" href="#visual-stacks" title="Permanent link">&para;</a></h2>
-<p>Blender projects use <code>mise run build</code> for a Blender background render and require Blender on <code>PATH</code> or <code>BLENDER_BIN</code>; <code>mise run verify</code> reopens the saved blend. Three.js projects use locked npm dependencies, native Node unit tests, and <code>mise run verify</code> for build plus optional local Playwright Chromium browser coverage. Both visual starters are single-project only.</p>
-<h2 id="build">build<a class="headerlink" href="#build" title="Permanent link">&para;</a></h2>
-<p>Produces distributable artifacts.</p>
-<div class="tabbed-set tabbed-alternate" data-tabs="6:4"><input checked="checked" id="__tabbed_6_1" name="__tabbed_6" type="radio" /><input id="__tabbed_6_2" name="__tabbed_6" type="radio" /><input id="__tabbed_6_3" name="__tabbed_6" type="radio" /><input id="__tabbed_6_4" name="__tabbed_6" type="radio" /><div class="tabbed-labels"><label for="__tabbed_6_1">Python</label><label for="__tabbed_6_2">Go</label><label for="__tabbed_6_3">Rust</label><label for="__tabbed_6_4">Web</label></div>
-<div class="tabbed-content">
-<div class="tabbed-block">
-<div class="highlight"><pre><span></span><code><a id="__codelineno-23-1" name="__codelineno-23-1" href="#__codelineno-23-1"></a>uv<span class="w"> </span>build
-</code></pre></div>
-</div>
-<div class="tabbed-block">
-<div class="highlight"><pre><span></span><code><a id="__codelineno-24-1" name="__codelineno-24-1" href="#__codelineno-24-1"></a><span class="nv">CGO_ENABLED</span><span class="o">=</span><span class="m">0</span><span class="w"> </span>go<span class="w"> </span>build<span class="w"> </span>-o<span class="w"> </span>bin/<span class="w"> </span>./cmd/...
-</code></pre></div>
-</div>
-<div class="tabbed-block">
-<div class="highlight"><pre><span></span><code><a id="__codelineno-25-1" name="__codelineno-25-1" href="#__codelineno-25-1"></a>cargo<span class="w"> </span>build<span class="w"> </span>--release
-</code></pre></div>
-</div>
-<div class="tabbed-block">
-<div class="highlight"><pre><span></span><code><a id="__codelineno-26-1" name="__codelineno-26-1" href="#__codelineno-26-1"></a>npm<span class="w"> </span>run<span class="w"> </span>build
-</code></pre></div>
-</div>
-</div>
-</div>
-<hr />
-<h2 id="check">check<a class="headerlink" href="#check" title="Permanent link">&para;</a></h2>
-<p><strong>The primary quality gate.</strong> Runs fmt (check mode), lint, typecheck, and test sequentially. Fails fast on the first error.</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-27-1" name="__codelineno-27-1" href="#__codelineno-27-1"></a>mise<span class="w"> </span>run<span class="w"> </span>check
-</code></pre></div>
-<p>This is what you run before every commit and what CI runs. It must be:</p>
-<ul>
-<li><strong>Fast</strong> — deterministic, no network, no external services</li>
-<li><strong>Non-interactive</strong> — safe in CI and pre-commit hooks</li>
-<li><strong>Comprehensive</strong> — catches formatting, lint, type, and test failures</li>
-</ul>
-<hr />
-<h2 id="plan-check">plan-check<a class="headerlink" href="#plan-check" title="Permanent link">&para;</a></h2>
-<p>Validates that the active slice has a current plan and required slice-local files.
-When called with <code>--plan-dir</code>, validates that specific plan even if it is
-already complete.</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-28-1" name="__codelineno-28-1" href="#__codelineno-28-1"></a>mise<span class="w"> </span>run<span class="w"> </span>plan-check
-<a id="__codelineno-28-2" name="__codelineno-28-2" href="#__codelineno-28-2"></a>mise<span class="w"> </span>run<span class="w"> </span>plan-check<span class="w"> </span>--<span class="w"> </span>--plan-dir<span class="w"> </span>.ai/plans/2026-04-29-134035-example
-</code></pre></div>
-<p>Checks for:</p>
-<ul>
-<li>one active in-progress plan at most</li>
-<li>required plan files</li>
-<li>valid <code>META.yaml</code> contract fields</li>
-<li>current checklist-style TODOs and learning-log coverage</li>
-</ul>
-<hr />
-<h2 id="spec-check">spec-check<a class="headerlink" href="#spec-check" title="Permanent link">&para;</a></h2>
-<p>Validates that durable contract and decision updates were promoted out of the
-active plan, or a specific plan when called with <code>--plan-dir</code>.</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-29-1" name="__codelineno-29-1" href="#__codelineno-29-1"></a>mise<span class="w"> </span>run<span class="w"> </span>spec-check
-<a id="__codelineno-29-2" name="__codelineno-29-2" href="#__codelineno-29-2"></a>mise<span class="w"> </span>run<span class="w"> </span>spec-check<span class="w"> </span>--<span class="w"> </span>--plan-dir<span class="w"> </span>.ai/plans/2026-04-29-134035-example
-</code></pre></div>
-<p>Uses the active plan's <code>decision_record</code>:</p>
-<ul>
-<li><code>none</code> → slice-local notes only</li>
-<li><code>ledger</code> -&gt; append to generated path docs/explanation/decision-ledger.md</li>
-<li><code>adr</code> -&gt; create or update a generated ADR under docs/explanation/decisions/</li>
-</ul>
-<p>On the scaffold repo itself, the validator also accepts the legacy ADR location
-under <code>docs/reference/decisions/</code>.</p>
-<hr />
-<h2 id="evidence-check">evidence-check<a class="headerlink" href="#evidence-check" title="Permanent link">&para;</a></h2>
-<p>Validates that declared evidence exists and points to real files.</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-30-1" name="__codelineno-30-1" href="#__codelineno-30-1"></a>mise<span class="w"> </span>run<span class="w"> </span>evidence-check
-<a id="__codelineno-30-2" name="__codelineno-30-2" href="#__codelineno-30-2"></a>mise<span class="w"> </span>run<span class="w"> </span>evidence-check<span class="w"> </span>--<span class="w"> </span>--plan-dir<span class="w"> </span>.ai/plans/2026-04-29-134035-example
-</code></pre></div>
-<p>Checks:</p>
-<ul>
-<li><code>VALIDATION.md</code> contains explicit command records, not prose reminders</li>
-<li>every artifact path in artifacts/manifest.yaml exists</li>
-<li>every artifact path stays inside the active plan directory</li>
-<li>every artifact path is not ignored by git and is tracked or staged</li>
-<li>every <code>evidence_required</code> type in <code>META.yaml</code> is satisfied</li>
-<li>small committed evidence summaries are preferred over raw scratch artifacts</li>
-</ul>
-<hr />
-<h2 id="review-check">review-check<a class="headerlink" href="#review-check" title="Permanent link">&para;</a></h2>
-<p>Validates that the active slice has an external-enough review artifact, or a
-specific plan when called with <code>--plan-dir</code>.</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-31-1" name="__codelineno-31-1" href="#__codelineno-31-1"></a>mise<span class="w"> </span>run<span class="w"> </span>review-check
-<a id="__codelineno-31-2" name="__codelineno-31-2" href="#__codelineno-31-2"></a>mise<span class="w"> </span>run<span class="w"> </span>review-check<span class="w"> </span>--<span class="w"> </span>--plan-dir<span class="w"> </span>.ai/plans/2026-04-29-134035-example
-</code></pre></div>
-<p>Checks:</p>
-<ul>
-<li><code>REVIEW.md</code> exists and is not placeholder-only</li>
-<li>the recorded review mode is external when required</li>
-<li>the recorded backend is not self-review</li>
-<li>the recorded reviewer is not placeholder text</li>
-<li>the required rubrics were applied</li>
-</ul>
-<hr />
-<h2 id="sync-check">sync-check<a class="headerlink" href="#sync-check" title="Permanent link">&para;</a></h2>
-<p>Aggregates the non-code handoff checks.</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-32-1" name="__codelineno-32-1" href="#__codelineno-32-1"></a>mise<span class="w"> </span>run<span class="w"> </span>sync-check
-<a id="__codelineno-32-2" name="__codelineno-32-2" href="#__codelineno-32-2"></a>mise<span class="w"> </span>run<span class="w"> </span>sync-check<span class="w"> </span>--<span class="w"> </span>--plan-dir<span class="w"> </span>.ai/plans/2026-04-29-134035-example
-<a id="__codelineno-32-3" name="__codelineno-32-3" href="#__codelineno-32-3"></a>mise<span class="w"> </span>run<span class="w"> </span>sync-check<span class="w"> </span>--<span class="w"> </span>--changed-plans<span class="w"> </span>origin/main...HEAD
-</code></pre></div>
-<p>Default local mode runs:</p>
-<ol>
-<li><code>mise run plan-check</code></li>
-<li><code>mise run spec-check</code></li>
-<li><code>mise run evidence-check</code></li>
-<li><code>mise run review-check</code></li>
-</ol>
-<p><code>--plan-dir</code> runs those same checks against one explicit plan directory,
-including completed plans. <code>--changed-plans</code> is intended for PR CI: it finds
-changed <code>.ai/plans/&lt;timestamp&gt;-&lt;slug&gt;/</code> directories in the supplied git diff,
-requires each changed plan to be <code>status: complete</code>, and validates each one. If
-meaningful branch changes exist without a changed plan, the PR-mode check fails.</p>
-<h3 id="implementation-boundary">Implementation Boundary<a class="headerlink" href="#implementation-boundary" title="Permanent link">&para;</a></h3>
-<p>The task wrappers stay in <code>.mise/tasks/</code> because those files are the stable
-agent-facing interface. The implementation for planning, prompt rendering,
-status, and deterministic slice checks lives inside the <code>slice-workflow</code> skill:</p>
-<ul>
-<li>scaffold source: <code>templates/.agent/skills/slice-workflow/cli</code></li>
-<li>generated repos: <code>.agent/skills/slice-workflow/cli</code></li>
-</ul>
-<p>The skill-local CLI is a small uv project with a <code>slice-workflow</code> console
-command. Its package is <code>slice_workflow_cli</code>:</p>
-<ul>
-<li><code>plan.py</code> — plan directory creation from repo templates</li>
-<li><code>workflow.py</code> — prompt rendering and slice status output</li>
-<li><code>checks.py</code> — <code>plan-check</code>, <code>spec-check</code>, <code>evidence-check</code>, <code>review-check</code>,
-  and <code>sync-check</code> orchestration</li>
-<li><code>templates/.agent/skills/slice-workflow/cli/src/slice_workflow_cli/contract/plans.py</code> — plan discovery, metadata validation, changed-plan
-  selection</li>
-<li><code>templates/.agent/skills/slice-workflow/cli/src/slice_workflow_cli/contract/git.py</code> — changed paths, branch names, ignored-path and tracked-path
-  checks</li>
-<li><code>templates/.agent/skills/slice-workflow/cli/src/slice_workflow_cli/contract/markdown.py</code> — frontmatter stripping, section parsing, placeholder
-  checks</li>
-<li><code>templates/.agent/skills/slice-workflow/cli/src/slice_workflow_cli/contract/artifacts.py</code> — manifest parsing and validation evidence detection</li>
-<li><code>templates/.agent/skills/slice-workflow/cli/src/slice_workflow_cli/contract/docs.py</code> — repo path safety and decision-record lookup</li>
-</ul>
-<p>The wrappers delegate to that CLI instead of importing repo-local helper
-scripts. This keeps the workflow capability with the skill while preserving the
-stable <code>mise run ...</code> interface.</p>
-<hr />
-<h2 id="slice-plan">slice-plan<a class="headerlink" href="#slice-plan" title="Permanent link">&para;</a></h2>
-<p>Renders the planner prompt for the active slice. The task snapshots the incoming
-task into <code>TASK.md</code> and writes the rendered prompt to prompts/planner.md in the
-active plan.</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-33-1" name="__codelineno-33-1" href="#__codelineno-33-1"></a>mise<span class="w"> </span>run<span class="w"> </span>slice-plan<span class="w"> </span>--<span class="w"> </span>--task<span class="w"> </span>path/to/task.md
-<a id="__codelineno-33-2" name="__codelineno-33-2" href="#__codelineno-33-2"></a>mise<span class="w"> </span>run<span class="w"> </span>slice-plan<span class="w"> </span>--<span class="w"> </span>--task-text<span class="w"> </span><span class="s2">&quot;Add --dry-run to the init command&quot;</span>
-</code></pre></div>
-<p>This task does not launch an agent. Paste the rendered prompt into the Codex,
-Claude, or other harness session you already have open.</p>
-<hr />
-<h2 id="slice-implement">slice-implement<a class="headerlink" href="#slice-implement" title="Permanent link">&para;</a></h2>
-<p>Renders the implementer prompt for the active slice.</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-34-1" name="__codelineno-34-1" href="#__codelineno-34-1"></a>mise<span class="w"> </span>run<span class="w"> </span>slice-implement
-</code></pre></div>
-<p>Writes prompts/implementer.md using the current plan files as context.</p>
-<hr />
-<h2 id="slice-review">slice-review<a class="headerlink" href="#slice-review" title="Permanent link">&para;</a></h2>
-<p>Renders the reviewer prompt for the active slice.</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-35-1" name="__codelineno-35-1" href="#__codelineno-35-1"></a>mise<span class="w"> </span>run<span class="w"> </span>slice-review
-</code></pre></div>
-<p>Writes prompts/reviewer.md and points the reviewer at the plan, validation
-log, durable decision notes, and configured rubrics.</p>
-<hr />
-<h2 id="slice-status">slice-status<a class="headerlink" href="#slice-status" title="Permanent link">&para;</a></h2>
-<p>Shows active slice state in human-readable text or JSON.</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-36-1" name="__codelineno-36-1" href="#__codelineno-36-1"></a>mise<span class="w"> </span>run<span class="w"> </span>slice-status
-<a id="__codelineno-36-2" name="__codelineno-36-2" href="#__codelineno-36-2"></a>mise<span class="w"> </span>-q<span class="w"> </span>run<span class="w"> </span>slice-status<span class="w"> </span>--<span class="w"> </span>--json
-</code></pre></div>
-<p>The JSON mode is intended for agents, CI experiments, and wrapper scripts.</p>
-<hr />
-<h2 id="dev">dev<a class="headerlink" href="#dev" title="Permanent link">&para;</a></h2>
-<p>Starts local development. Long-running — stays in the foreground.</p>
-<div class="tabbed-set tabbed-alternate" data-tabs="7:4"><input checked="checked" id="__tabbed_7_1" name="__tabbed_7" type="radio" /><input id="__tabbed_7_2" name="__tabbed_7" type="radio" /><input id="__tabbed_7_3" name="__tabbed_7" type="radio" /><input id="__tabbed_7_4" name="__tabbed_7" type="radio" /><div class="tabbed-labels"><label for="__tabbed_7_1">Python</label><label for="__tabbed_7_2">Go</label><label for="__tabbed_7_3">Rust</label><label for="__tabbed_7_4">Web</label></div>
-<div class="tabbed-content">
-<div class="tabbed-block">
-<div class="highlight"><pre><span></span><code><a id="__codelineno-37-1" name="__codelineno-37-1" href="#__codelineno-37-1"></a>uv<span class="w"> </span>run<span class="w"> </span>python<span class="w"> </span>-m<span class="w"> </span>&lt;module&gt;<span class="w">   </span><span class="c1"># requires __main__.py</span>
-</code></pre></div>
-</div>
-<div class="tabbed-block">
-<div class="highlight"><pre><span></span><code><a id="__codelineno-38-1" name="__codelineno-38-1" href="#__codelineno-38-1"></a>go<span class="w"> </span>run<span class="w"> </span>./cmd/...
-</code></pre></div>
-</div>
-<div class="tabbed-block">
-<div class="highlight"><pre><span></span><code><a id="__codelineno-39-1" name="__codelineno-39-1" href="#__codelineno-39-1"></a>cargo<span class="w"> </span>run
-</code></pre></div>
-</div>
-<div class="tabbed-block">
-<div class="highlight"><pre><span></span><code><a id="__codelineno-40-1" name="__codelineno-40-1" href="#__codelineno-40-1"></a>npm<span class="w"> </span>run<span class="w"> </span>dev
-</code></pre></div>
-</div>
-</div>
-</div>
-<p>For the apps workspace shape:
-<div class="highlight"><pre><span></span><code><a id="__codelineno-41-1" name="__codelineno-41-1" href="#__codelineno-41-1"></a>mise<span class="w"> </span>run<span class="w"> </span>dev<span class="w"> </span>--<span class="w"> </span>api<span class="w">      </span><span class="c1"># start the &#39;api&#39; module</span>
-</code></pre></div></p>
-<hr />
-<h2 id="ci">ci<a class="headerlink" href="#ci" title="Permanent link">&para;</a></h2>
-<p>CI entrypoint. Currently an alias for <code>check</code>.</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-42-1" name="__codelineno-42-1" href="#__codelineno-42-1"></a>mise<span class="w"> </span>run<span class="w"> </span>ci
-</code></pre></div>
-<p>GitHub Actions calls exactly this — nothing else. All quality gate logic lives in <code>check</code> which <code>ci</code> delegates to.</p>
-<hr />
-<h2 id="docs">docs<a class="headerlink" href="#docs" title="Permanent link">&para;</a></h2>
-<p>Starts the MkDocs documentation server locally.</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-43-1" name="__codelineno-43-1" href="#__codelineno-43-1"></a>mise<span class="w"> </span>run<span class="w"> </span>docs<span class="w">    </span><span class="c1"># serves at http://127.0.0.1:8000</span>
-</code></pre></div>
-<hr />
-<h2 id="plan">plan<a class="headerlink" href="#plan" title="Permanent link">&para;</a></h2>
-<p>Creates a plan directory for a new unit of work. Scaffolds META.yaml, TODO.md,
-LEARNING_LOG.md, VALIDATION.md, REVIEW.md, DECISIONS.md,
-artifacts/manifest.yaml, and optional SPEC.md / IMPLEMENTATION.md.</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-44-1" name="__codelineno-44-1" href="#__codelineno-44-1"></a>git<span class="w"> </span>checkout<span class="w"> </span>-b<span class="w"> </span>feat/&lt;slug&gt;
-<a id="__codelineno-44-2" name="__codelineno-44-2" href="#__codelineno-44-2"></a>mise<span class="w"> </span>run<span class="w"> </span>plan<span class="w"> </span>--<span class="w"> </span>&lt;slug&gt;<span class="w">    </span><span class="c1"># e.g., mise run plan -- add-user-auth</span>
-</code></pre></div>
-<p>Creates <code>.ai/plans/YYYY-MM-DD-HHmmSS-&lt;slug&gt;/</code> with templates auto-filled (date,
-branch). Refuses to run on the default branch. Slugs must be lowercase kebab-case
-and unique within <code>.ai/plans/</code>.</p>
-<p>In generated repos, see .ai/plans/AGENTS.md for the plan lifecycle. In this
-scaffold repo, see <code>templates/.ai/plans/AGENTS.md</code> and
-<code>templates/.ai/plans/_example/</code>.</p>
-<hr />
-<h2 id="verify">verify<a class="headerlink" href="#verify" title="Permanent link">&para;</a></h2>
-<p>Heavy validation that is <strong>too slow for <code>check</code></strong>. Run before releases or on dedicated CI jobs.</p>
-<p>Phases:</p>
-<ol>
-<li><strong>check</strong> — runs the full quality gate first</li>
-<li><strong>Integration tests</strong> — if the generated project has integration tests</li>
-<li><strong>Docker build</strong> — if <code>Dockerfile</code> exists</li>
-</ol>
-<p>Rust generated projects rerun <code>cargo test --all-features</code> during <code>verify</code>, then
-run the Docker build when a Dockerfile is present.</p>
-<p>Web generated projects run <code>npm run build</code> and <code>npm run deploy:dry-run</code> after
-the fast quality gate.</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-45-1" name="__codelineno-45-1" href="#__codelineno-45-1"></a>mise<span class="w"> </span>run<span class="w"> </span>verify
-</code></pre></div>
+<p>An agent or engineer chooses relevant routes from code and product context, then
+records why those routes cover the change and which material routes were skipped.
+Each route follows <strong>Surface, Run, Drive, Observe, Isolate</strong> and owns launch,
+readiness, drive, observation, cleanup, and useful artifacts. Manual or
+credentialed procedures are handoff obligations rather than automated success.</p>
+<p>Plain <code>mise run verify</code> deliberately runs the full quality gate and stack-specific
+verification without guessing which custom product routes apply. <code>--all</code> is an
+explicit broad choice, not the default.</p>
+<p>Harness Kit is optional for generated repositories. It can record a plan,
+validation, independent review, and handoff when a team adopts it, but the
+scaffold does not require a local HK ledger in CI.</p>
 
 
 

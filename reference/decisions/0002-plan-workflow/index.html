@@ -495,7 +495,7 @@
   <span class="md-ellipsis">
     
   
-    Harness Kit Design
+    Harness Kit Design (draft)
   
 
     
@@ -635,7 +635,7 @@
   <span class="md-ellipsis">
     
   
-    Scripts Contract Prototype
+    Scripts Contract Prototype (draft)
   
 
     
@@ -1767,6 +1767,41 @@
 
               
             
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../0014-retire-slice-plans/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    ADR 0014 — Retire generated slice plans
+  
+
+    
+  </span>
+  
+  
+    
+  
+  
+    <span class="md-status md-status--accepted"></span>
+  
+
+  
+
+      </a>
+    </li>
+  
+
+              
+            
           </ul>
         </nav>
       
@@ -1883,8 +1918,9 @@
 docs current, but had no convention for <strong>how to start work</strong>. Agents picking up
 a task would jump straight to coding without scoping, and there was no structured
 place to capture problems, adaptations, or validation evidence during development.</p>
-<p>The user's personal AGENTS.md had a plan convention (<code>.ai/plans/</code> with SPEC, TODO,
-IMPLEMENTATION, LEARNING_LOG) but it wasn't part of harness-scaffold's generated repos.</p>
+<p>The user's personal AGENTS.md had a plan convention (the now-retired <code>.ai/plans/</code>
+directory with SPEC, TODO, IMPLEMENTATION, LEARNING_LOG) but it wasn't part of
+harness-scaffold's generated repos.</p>
 <h2 id="decision">Decision<a class="headerlink" href="#decision" title="Permanent link">&para;</a></h2>
 <p>Add a plan-based workflow to harness-scaffold:</p>
 <ul>
@@ -1892,8 +1928,8 @@ IMPLEMENTATION, LEARNING_LOG) but it wasn't part of harness-scaffold's generated
 <li><strong>4 required files</strong>: META.yaml (machine-readable metadata), TODO.md (task list),
   LEARNING_LOG.md (dev diary), VALIDATION.md (verification log)</li>
 <li><strong>2 optional files</strong>: SPEC.md (requirements), IMPLEMENTATION.md (approach)</li>
-<li><strong>Example plan</strong> in <code>templates/.ai/plans/_example/</code> showing the full lifecycle
-  for agent reference</li>
+<li><strong>Example plan</strong> in the historical scaffold plan-template directory, now
+  retired, showing the full lifecycle for agent reference</li>
 <li><strong><code>/plan-sync</code> skill</strong> validates plan artifacts are current before pushing</li>
 <li><strong>META.yaml</strong> is structured YAML with required fields (slug, created, status)
   for future tooling (Groundskeeper, dashboards)</li>

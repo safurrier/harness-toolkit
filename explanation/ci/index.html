@@ -500,7 +500,7 @@
   <span class="md-ellipsis">
     
   
-    Harness Kit Design
+    Harness Kit Design (draft)
   
 
     
@@ -748,7 +748,7 @@
   <span class="md-ellipsis">
     
   
-    Scripts Contract Prototype
+    Scripts Contract Prototype (draft)
   
 
     
@@ -1776,6 +1776,41 @@
 
               
             
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../reference/decisions/0014-retire-slice-plans/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    ADR 0014 — Retire generated slice plans
+  
+
+    
+  </span>
+  
+  
+    
+  
+  
+    <span class="md-status md-status--accepted"></span>
+  
+
+  
+
+      </a>
+    </li>
+  
+
+              
+            
           </ul>
         </nav>
       
@@ -1924,33 +1959,28 @@ delegates validation to mise task entrypoints.</p>
 <a id="__codelineno-0-20" name="__codelineno-0-20" href="#__codelineno-0-20"></a><span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Check</span>
 <a id="__codelineno-0-21" name="__codelineno-0-21" href="#__codelineno-0-21"></a><span class="w">        </span><span class="nt">run</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">mise run ci</span>
 <a id="__codelineno-0-22" name="__codelineno-0-22" href="#__codelineno-0-22"></a>
-<a id="__codelineno-0-23" name="__codelineno-0-23" href="#__codelineno-0-23"></a><span class="w">  </span><span class="nt">sync-check</span><span class="p">:</span>
-<a id="__codelineno-0-24" name="__codelineno-0-24" href="#__codelineno-0-24"></a><span class="w">    </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Sync Contract</span>
+<a id="__codelineno-0-23" name="__codelineno-0-23" href="#__codelineno-0-23"></a><span class="w">  </span><span class="nt">verify</span><span class="p">:</span>
+<a id="__codelineno-0-24" name="__codelineno-0-24" href="#__codelineno-0-24"></a><span class="w">    </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Full Validation</span>
 <a id="__codelineno-0-25" name="__codelineno-0-25" href="#__codelineno-0-25"></a><span class="w">    </span><span class="nt">runs-on</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ubuntu-latest</span>
-<a id="__codelineno-0-26" name="__codelineno-0-26" href="#__codelineno-0-26"></a><span class="w">    </span><span class="nt">steps</span><span class="p">:</span>
-<a id="__codelineno-0-27" name="__codelineno-0-27" href="#__codelineno-0-27"></a><span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">uses</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">actions/checkout@v4</span>
-<a id="__codelineno-0-28" name="__codelineno-0-28" href="#__codelineno-0-28"></a><span class="w">        </span><span class="nt">with</span><span class="p">:</span>
-<a id="__codelineno-0-29" name="__codelineno-0-29" href="#__codelineno-0-29"></a><span class="w">          </span><span class="nt">fetch-depth</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">0</span>
+<a id="__codelineno-0-26" name="__codelineno-0-26" href="#__codelineno-0-26"></a><span class="w">    </span><span class="nt">needs</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">check</span><span class="p p-Indicator">]</span>
+<a id="__codelineno-0-27" name="__codelineno-0-27" href="#__codelineno-0-27"></a><span class="w">    </span><span class="nt">if</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">github.event_name == &#39;pull_request&#39;</span>
+<a id="__codelineno-0-28" name="__codelineno-0-28" href="#__codelineno-0-28"></a><span class="w">    </span><span class="nt">steps</span><span class="p">:</span>
+<a id="__codelineno-0-29" name="__codelineno-0-29" href="#__codelineno-0-29"></a><span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">uses</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">actions/checkout@v4</span>
 <a id="__codelineno-0-30" name="__codelineno-0-30" href="#__codelineno-0-30"></a><span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Install mise</span>
 <a id="__codelineno-0-31" name="__codelineno-0-31" href="#__codelineno-0-31"></a><span class="w">        </span><span class="nt">uses</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">jdx/mise-action@v2</span>
 <a id="__codelineno-0-32" name="__codelineno-0-32" href="#__codelineno-0-32"></a><span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Setup</span>
 <a id="__codelineno-0-33" name="__codelineno-0-33" href="#__codelineno-0-33"></a><span class="w">        </span><span class="nt">run</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">mise run setup</span>
-<a id="__codelineno-0-34" name="__codelineno-0-34" href="#__codelineno-0-34"></a><span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Sync check</span>
-<a id="__codelineno-0-35" name="__codelineno-0-35" href="#__codelineno-0-35"></a><span class="w">        </span><span class="nt">run</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">|</span>
-<a id="__codelineno-0-36" name="__codelineno-0-36" href="#__codelineno-0-36"></a><span class="w">          </span><span class="no">if [ &quot;${{ github.event_name }}&quot; = &quot;pull_request&quot; ]; then</span>
-<a id="__codelineno-0-37" name="__codelineno-0-37" href="#__codelineno-0-37"></a><span class="w">            </span><span class="no">mise run sync-check -- --changed-plans &quot;origin/${{ github.base_ref }}...HEAD&quot;</span>
-<a id="__codelineno-0-38" name="__codelineno-0-38" href="#__codelineno-0-38"></a><span class="w">          </span><span class="no">else</span>
-<a id="__codelineno-0-39" name="__codelineno-0-39" href="#__codelineno-0-39"></a><span class="w">            </span><span class="no">mise run sync-check</span>
-<a id="__codelineno-0-40" name="__codelineno-0-40" href="#__codelineno-0-40"></a><span class="w">          </span><span class="no">fi</span>
+<a id="__codelineno-0-34" name="__codelineno-0-34" href="#__codelineno-0-34"></a><span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Verify stack behavior</span>
+<a id="__codelineno-0-35" name="__codelineno-0-35" href="#__codelineno-0-35"></a><span class="w">        </span><span class="nt">run</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">mise run verify</span>
 </code></pre></div>
 <p><code>mise-action</code> installs mise and runs <code>mise install</code> automatically, pulling tool versions from <code>.mise.toml</code>.</p>
-<p>Quality gate logic lives in <code>mise run ci</code> → <code>mise run check</code>. Handoff contract
-logic lives in <code>mise run sync-check</code>. Local runs validate the active plan. Pull
-request CI calls <code>mise run sync-check -- --changed-plans origin/&lt;base&gt;...HEAD</code>
-so changed plans must be marked complete and their artifacts are validated. The
-repository CI also runs generated-project smoke tests across the supported
-stacks so Python, Go, Rust, and Web scaffolds prove they can initialize and pass
-<code>mise run check</code>.</p>
+<p>Quality gate logic lives in <code>mise run ci</code> → <code>mise run check</code>. Generated pull
+request CI also runs plain <code>mise run verify</code>, which retains the full quality gate
+and stack-specific checks without guessing which custom product journeys apply.
+Agents and engineers inspect named routes and run relevant ones explicitly during
+implementation and closeout. The Harness Toolkit source repository separately
+runs generated-project smoke tests across the standard stacks so Python, Go,
+Rust, and Web scaffolds prove they can initialize and pass <code>mise run check</code>.</p>
 <h2 id="pre-commit-hooks">Pre-commit hooks<a class="headerlink" href="#pre-commit-hooks" title="Permanent link">&para;</a></h2>
 <p>Pre-commit hooks mirror CI exactly — every hook calls a <code>mise run</code> task:</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="c1"># .pre-commit-config.yaml</span>
@@ -1975,9 +2005,9 @@ stacks so Python, Go, Rust, and Web scaffolds prove they can initialize and pass
 <a id="__codelineno-1-20" name="__codelineno-1-20" href="#__codelineno-1-20"></a><span class="w">        </span><span class="nt">entry</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">mise run test</span>
 <a id="__codelineno-1-21" name="__codelineno-1-21" href="#__codelineno-1-21"></a><span class="w">        </span><span class="c1"># ...</span>
 </code></pre></div>
-<p>This guarantees <strong>CI parity</strong> for the fast quality gate: if pre-commit passes,
-the <code>check</code> job should pass. <code>sync-check</code> remains the explicit handoff gate for
-slice evidence and review completeness, with PR CI using changed-plan mode.</p>
+<p>This keeps <strong>CI parity</strong> for the fast quality gate: if pre-commit passes, the
+<code>check</code> job should pass. The heavier pull-request job then runs stack-specific
+verification. Custom product routes remain an explicit, evidence-backed choice.</p>
 <h3 id="installing-hooks">Installing hooks<a class="headerlink" href="#installing-hooks" title="Permanent link">&para;</a></h3>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>mise<span class="w"> </span>run<span class="w"> </span>setup<span class="w">   </span><span class="c1"># installs hooks automatically if pre-commit is available</span>
 <a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="c1"># or manually:</span>
@@ -1990,9 +2020,9 @@ slice evidence and review completeness, with PR CI using changed-plan mode.</p>
 <h2 id="design-rationale">Design rationale<a class="headerlink" href="#design-rationale" title="Permanent link">&para;</a></h2>
 <p><strong>Why keep CI YAML thin?</strong> GitHub Actions chooses the CI context, such as
 whether a run is a pull request or a main-branch push. The validation logic
-still lives in mise tasks: CI calls <code>mise run ci</code>, <code>mise run sync-check</code>, or
-<code>mise run sync-check -- --changed-plans ...</code>, and pre-commit calls
-<code>mise run &lt;task&gt;</code>.</p>
+still lives in mise tasks: CI calls <code>mise run ci</code> and plain <code>mise run verify</code>,
+while pre-commit calls <code>mise run &lt;task&gt;</code>. Named product routes can be added to a
+project's closeout policy when that policy has an actual consumer and owner.</p>
 <p><strong>Why <code>always_run: true</code>?</strong> The tasks (<code>ruff</code>, <code>ty</code>, <code>pytest</code>) are fast enough that running them unconditionally is cheaper than filtering by changed files. It also prevents edge cases where a change to a config file doesn't trigger re-checking source files.</p>
 
 

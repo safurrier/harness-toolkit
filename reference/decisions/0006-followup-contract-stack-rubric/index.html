@@ -495,7 +495,7 @@
   <span class="md-ellipsis">
     
   
-    Harness Kit Design
+    Harness Kit Design (draft)
   
 
     
@@ -635,7 +635,7 @@
   <span class="md-ellipsis">
     
   
-    Scripts Contract Prototype
+    Scripts Contract Prototype (draft)
   
 
     
@@ -1767,6 +1767,41 @@
 
               
             
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../0014-retire-slice-plans/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    ADR 0014 — Retire generated slice plans
+  
+
+    
+  </span>
+  
+  
+    
+  
+  
+    <span class="md-status md-status--accepted"></span>
+  
+
+  
+
+      </a>
+    </li>
+  
+
+              
+            
           </ul>
         </nav>
       
@@ -1890,10 +1925,10 @@ plumbing.</p>
 Python, Go, and Rust all cover a broad happy path, but the project did not yet
 state what future stacks must provide before they count as supported.</p>
 <h2 id="decision">Decision<a class="headerlink" href="#decision" title="Permanent link">&para;</a></h2>
-<p>The <code>mise</code> tasks remain the stable agent-facing interface. Their implementation
-now delegates to the skill-local CLI at
-<code>templates/.agent/skills/slice-workflow/cli</code> in scaffold source and
-<code>.agent/skills/slice-workflow/cli</code> in generated repositories.</p>
+<p>The <code>mise</code> tasks remained the stable agent-facing interface. Their implementation
+then delegated to the skill-local slice-workflow CLI in scaffold source and
+generated repositories. Those CLI paths were retired with the generated
+slice-plan workflow; this is historical architecture, not a live path reference.</p>
 <p>The CLI uses a tiny uv project and the <code>slice_workflow_cli</code> package:</p>
 <ul>
 <li><code>plan.py</code> creates plan directories from templates.</li>

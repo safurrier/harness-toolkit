@@ -509,7 +509,7 @@
   <span class="md-ellipsis">
     
   
-    Harness Kit Design
+    Harness Kit Design (draft)
   
 
     
@@ -527,7 +527,7 @@
   <span class="md-ellipsis">
     
   
-    Harness Kit Design
+    Harness Kit Design (draft)
   
 
     
@@ -1007,7 +1007,7 @@
   <span class="md-ellipsis">
     
   
-    Scripts Contract Prototype
+    Scripts Contract Prototype (draft)
   
 
     
@@ -2035,6 +2035,41 @@
 
               
             
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../reference/decisions/0014-retire-slice-plans/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    ADR 0014 — Retire generated slice plans
+  
+
+    
+  </span>
+  
+  
+    
+  
+  
+    <span class="md-status md-status--accepted"></span>
+  
+
+  
+
+      </a>
+    </li>
+  
+
+              
+            
           </ul>
         </nav>
       
@@ -2417,6 +2452,9 @@
 
 
 <h1 id="harness-kit-design">Harness Kit Design<a class="headerlink" href="#harness-kit-design" title="Permanent link">&para;</a></h1>
+<blockquote>
+<p><strong>Historical note:</strong> The generated slice-plan workflow described below was retired for new projects by <a href="../../reference/decisions/0014-retire-slice-plans/">ADR 0014</a>. Existing generated repositories remain legacy.</p>
+</blockquote>
 <h2 id="status">Status<a class="headerlink" href="#status" title="Permanent link">&para;</a></h2>
 <p>Draft implementation design, amended by
 <code>docs/reference/decisions/0009-harness-kit-lifecycle-first-cli.md</code> after product review. This is
@@ -2566,11 +2604,11 @@ not appropriate. Validation/review freshness accepts unchanged source diffs acro
 agent-local sync skips so local-only state does not force false stale evidence.</p>
 <p>Adopted/scaffolded repos may configure stricter checks later.</p>
 <h3 id="readiness-is-separate-from-sync-freshness">Readiness is separate from sync freshness<a class="headerlink" href="#readiness-is-separate-from-sync-freshness" title="Permanent link">&para;</a></h3>
-<p>The existing scaffold task contract's <code>mise run sync-check</code> is a handoff
-readiness gate, not only a freshness check. It aggregates <code>plan-check</code>,
-<code>spec-check</code>, <code>evidence-check</code>, and <code>review-check</code> over plan artifacts. Harness Kit
-should preserve those guarantees before the plan-artifact workflow is demoted or
-removed.</p>
+<p>The current scaffold task contract uses native quality and product-verification
+commands, not plan-artifact readiness checks. New generated repositories run
+<code>mise run check</code> for quality and <code>mise run verify</code> for heavier, path-selected
+product proof. Existing generated repositories that retain plan artifacts are
+legacy; Harness Kit's own <code>hk ready</code> remains the lifecycle handoff gate.</p>
 <p>The target split is:</p>
 <ul>
 <li><code>hk sync --check</code>: answers "has work changed since the last checkpoint?"</li>
@@ -2619,7 +2657,7 @@ handoff guarantees.</p>
 <thead>
 <tr>
 <th>Phase</th>
-<th>Current plan artifact</th>
+<th>Legacy plan artifact (existing generated repos)</th>
 <th>Harness Kit target</th>
 </tr>
 </thead>
@@ -2651,7 +2689,7 @@ handoff guarantees.</p>
 </tr>
 <tr>
 <td>Handoff gate</td>
-<td><code>mise run sync-check</code></td>
+<td>HK export integrity check</td>
 <td><code>hk ready</code> plus <code>hk sync --check</code></td>
 </tr>
 </tbody>
@@ -2823,9 +2861,11 @@ explicitly marking it advanced.</p>
 <a id="__codelineno-8-4" name="__codelineno-8-4" href="#__codelineno-8-4"></a>hk<span class="w"> </span>evidence<span class="w"> </span>list<span class="w">                        </span><span class="c1"># inspection/debugging</span>
 <a id="__codelineno-8-5" name="__codelineno-8-5" href="#__codelineno-8-5"></a>hk<span class="w"> </span><span class="nb">export</span><span class="w"> </span>--format<span class="w"> </span>handoff<span class="w"> </span><span class="o">[</span>--target<span class="w"> </span>PATH<span class="o">]</span>
 </code></pre></div>
-<p>Portable plan-artifact commands have been removed from <code>hk</code>. Scaffold/task-contract
-repos still use <code>mise run plan</code> and <code>mise run sync-check</code> through the separate
-slice-workflow CLI.</p>
+<p>Portable plan-artifact commands have been removed from <code>hk</code>. New scaffolded
+repositories use native <code>mise run check</code> and <code>mise run verify</code> with optional
+named verification routes chosen explicitly by an agent or engineer; only legacy
+generated repositories retain the
+separate slice-workflow CLI.</p>
 <p>Deferred commands also include state cleanup, deep spec impact, profile
 validation, skill validation, and compatibility link helpers.</p>
 <h2 id="state-model">State model<a class="headerlink" href="#state-model" title="Permanent link">&para;</a></h2>
@@ -2868,7 +2908,7 @@ notes are planned follow-ups.</p>
 <h2 id="rollout-strategy">Rollout strategy<a class="headerlink" href="#rollout-strategy" title="Permanent link">&para;</a></h2>
 <p>This is a staged breaking change. Compatibility does not need to be preserved
 as a product promise, but the ledger workflow should not replace plan artifacts
-until Harness Kit closes the readiness gaps that <code>mise run sync-check</code> currently
+until Harness Kit closes the readiness gaps that HK export integrity check currently
 covers.</p>
 <p>Each phase must include behavior-focused tests and parity fixtures where
 conceptually relevant.</p>

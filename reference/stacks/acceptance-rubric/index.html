@@ -495,7 +495,7 @@
   <span class="md-ellipsis">
     
   
-    Harness Kit Design
+    Harness Kit Design (draft)
   
 
     
@@ -635,7 +635,7 @@
   <span class="md-ellipsis">
     
   
-    Scripts Contract Prototype
+    Scripts Contract Prototype (draft)
   
 
     
@@ -1778,6 +1778,41 @@
 
               
             
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../decisions/0014-retire-slice-plans/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    ADR 0014 — Retire generated slice plans
+  
+
+    
+  </span>
+  
+  
+    
+  
+  
+    <span class="md-status md-status--accepted"></span>
+  
+
+  
+
+      </a>
+    </li>
+  
+
+              
+            
           </ul>
         </nav>
       
@@ -1938,19 +1973,21 @@ documented in the stack page and accepted in review.</p>
 <td><code>mise run build</code> performs the stack's release/build path, even if that is a lightweight package build for interpreted stacks.</td>
 </tr>
 <tr>
-<td>Handoff</td>
-<td>A fresh generated repo passes <code>mise run sync-check</code> with no active slice after setup.</td>
+<td>Product verification</td>
+<td>Plain <code>mise run verify</code> completes stack-specific heavy checks. Named product routes run only when explicitly requested.</td>
 </tr>
 </tbody>
 </table>
 <h2 id="smoke-matrix">Smoke Matrix<a class="headerlink" href="#smoke-matrix" title="Permanent link">&para;</a></h2>
 <p>Repository CI must include every supported stack in the generated-project smoke
-matrix. The smoke entry should init a generated repo, run setup, run the fast
-gate, and run sync-check:</p>
+matrix. The smoke entry should initialize a generated repo, run setup, and run
+the fast gate. Add stack-specific <code>verify</code> coverage when the stack introduces a
+new runtime, browser, or artifact path:</p>
 <div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>mise<span class="w"> </span>run<span class="w"> </span>init<span class="w"> </span>--<span class="w"> </span>--non-interactive<span class="w"> </span>--name<span class="w"> </span>&lt;name&gt;<span class="w"> </span>--stack<span class="w"> </span>&lt;stack&gt;
 <a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>mise<span class="w"> </span>run<span class="w"> </span>setup
 <a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>mise<span class="w"> </span>run<span class="w"> </span>check
-<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>mise<span class="w"> </span>run<span class="w"> </span>sync-check
+<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>scripts/verify-routes<span class="w"> </span>--list
+<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>mise<span class="w"> </span>run<span class="w"> </span>verify<span class="w"> </span>--<span class="w"> </span>--route<span class="w"> </span>&lt;relevant-route-id&gt;
 </code></pre></div>
 <p>A planned stack may stay out of the smoke matrix only while it is clearly marked
 as planned and is not offered as a supported <code>init --stack</code> value.</p>
@@ -1960,7 +1997,7 @@ as planned and is not offered as a supported <code>init --stack</code> value.</p
 <ul>
 <li>single-project init layout and scaffold cleanup</li>
 <li>generated docs, <code>SPEC.md</code>, <code>AGENTS.md</code>, skills, and generated CI contract</li>
-<li><code>mise run check</code> and <code>mise run sync-check</code> after setup</li>
+<li><code>mise run check</code> and applicable <code>mise run verify</code> behavior after setup</li>
 <li>apps-shape init layout and apps-shape <code>mise run check</code></li>
 </ul>
 <p>The gate tests must prove the stack tooling fails on real problems:</p>
