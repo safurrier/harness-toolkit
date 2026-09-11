@@ -1,4 +1,4 @@
-"""Contract tests for path-selective product verification routes."""
+"""Contract tests for explicitly selected product verification routes."""
 
 from __future__ import annotations
 
@@ -9,7 +9,7 @@ from pathlib import Path
 
 import pytest
 
-from tests._support import SCAFFOLD_ROOT, _generated_project_env
+from tests._support import SCAFFOLD_ROOT
 
 pytestmark = pytest.mark.unit
 
@@ -36,23 +36,16 @@ def make_repo(
 CONFIG = """version = 1
 [[routes]]
 id = "api"
-paths = ["src/api/**"]
+title = "Exercise the API journey"
 script = "scripts/verify/api"
-required = true
-kind = "runtime"
 [[routes]]
 id = "browser"
-paths = ["web/**"]
+title = "Exercise the browser journey"
 script = "scripts/verify/browser"
-required = true
-kind = "browser"
 [[routes]]
 id = "shared"
-always = true
-paths = []
+title = "Exercise shared behavior"
 script = "scripts/verify/shared"
-required = true
-kind = "runtime"
 """
 
 
@@ -65,232 +58,119 @@ def run(repo: Path, *args: str) -> subprocess.CompletedProcess[str]:
     )
 
 
-def run_git(repo: Path, *args: str) -> None:
-    subprocess.run(
-        ["git", *args],
-        cwd=repo,
-        check=True,
-        capture_output=True,
-        env=_generated_project_env(),
-    )
-
-
-def test_routes_select_matching_and_always_paths(tmp_path: Path) -> None:
-    repo = make_repo(
-        tmp_path,
-        CONFIG,
-        {
-            "scripts/verify/api": "echo api >> result",
-            "scripts/verify/browser": "echo browser >> result",
-            "scripts/verify/shared": "echo shared >> result",
-        },
-    )
-    result = run(repo, "--path", "src/api/server.py", "--path", "src/api/server.py")
-    assert result.returncode == 0, result.stderr
-    assert (repo / "result").read_text().splitlines() == ["api", "shared"]
-
-
-def test_routes_without_selector_run_all_required(tmp_path: Path) -> None:
-    repo = make_repo(
-        tmp_path,
-        CONFIG,
-        {
-            "scripts/verify/api": "echo api >> result",
-            "scripts/verify/browser": "echo browser >> result",
-            "scripts/verify/shared": "echo shared >> result",
-        },
-    )
-    assert run(repo).returncode == 0
-    assert set((repo / "result").read_text().splitlines()) == {
-        "api",
-        "browser",
-        "shared",
+def scripts() -> dict[str, str]:
+    return {
+        "scripts/verify/api": "echo api >> result",
+        "scripts/verify/browser": "echo browser >> result",
+        "scripts/verify/shared": "echo shared >> result",
     }
 
 
-def test_routes_select_paths_from_git_ref(
-    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
-) -> None:
-    repo = make_repo(
-        tmp_path,
-        CONFIG,
-        {
-            "scripts/verify/api": "echo api >> result",
-            "scripts/verify/browser": "echo browser >> result",
-            "scripts/verify/shared": "echo shared >> result",
-        },
-    )
-    run_git(repo, "init")
-    run_git(repo, "add", ".")
-    run_git(
-        repo,
-        "-c",
-        "user.name=test",
-        "-c",
-        "user.email=test@example.com",
-        "commit",
-        "-m",
-        "base",
-    )
-    (repo / "web" / "page.ts").parent.mkdir()
-    (repo / "web" / "page.ts").write_text("changed")
-    run_git(repo, "add", "web/page.ts")
-    monkeypatch.setenv("GIT_DIR", str(tmp_path / "hostile.git"))
-    monkeypatch.setenv("GIT_WORK_TREE", str(tmp_path / "hostile-worktree"))
-    monkeypatch.setenv("GIT_INDEX_FILE", str(tmp_path / "hostile.index"))
-    result = run(repo, "--changed-from", "HEAD")
+def test_list_describes_routes_without_running_them(tmp_path: Path) -> None:
+    repo = make_repo(tmp_path, CONFIG, scripts())
+    result = run(repo, "--list")
     assert result.returncode == 0, result.stderr
-    assert (repo / "result").read_text().splitlines() == ["browser", "shared"]
+    assert result.stdout.splitlines() == [
+        "api\tExercise the API journey",
+        "browser\tExercise the browser journey",
+        "shared\tExercise shared behavior",
+    ]
+    assert not (repo / "result").exists()
 
 
-def test_renamed_path_selects_routes_for_old_and_new_locations(tmp_path: Path) -> None:
-    repo = make_repo(
-        tmp_path,
-        CONFIG,
-        {
-            "scripts/verify/api": "echo api >> result",
-            "scripts/verify/browser": "echo browser >> result",
-            "scripts/verify/shared": "echo shared >> result",
-        },
-    )
-    source = repo / "src" / "api" / "page.ts"
-    source.parent.mkdir(parents=True)
-    source.write_text("original")
-    run_git(repo, "init")
-    run_git(repo, "add", ".")
-    run_git(
-        repo,
-        "-c",
-        "user.name=test",
-        "-c",
-        "user.email=test@example.com",
-        "commit",
-        "-m",
-        "base",
-    )
-    destination = repo / "web" / "page.ts"
-    destination.parent.mkdir()
-    source.rename(destination)
-    run_git(repo, "add", "-A")
+def test_repeated_route_runs_only_named_routes_once(tmp_path: Path) -> None:
+    repo = make_repo(tmp_path, CONFIG, scripts())
+    result = run(repo, "--route", "api", "--route", "api", "--route", "shared")
+    assert result.returncode == 0, result.stderr
+    assert (repo / "result").read_text().splitlines() == ["api", "shared"]
+    assert "Verified 2 route(s)." in result.stdout
 
-    result = run(repo, "--changed-from", "HEAD")
 
+def test_all_runs_every_registered_route(tmp_path: Path) -> None:
+    repo = make_repo(tmp_path, CONFIG, scripts())
+    result = run(repo, "--all")
     assert result.returncode == 0, result.stderr
     assert (repo / "result").read_text().splitlines() == ["api", "browser", "shared"]
 
 
-def test_empty_changed_from_runs_only_always_routes(tmp_path: Path) -> None:
-    repo = make_repo(
-        tmp_path,
-        CONFIG,
-        {
-            "scripts/verify/api": "echo api >> result",
-            "scripts/verify/browser": "echo browser >> result",
-            "scripts/verify/shared": "echo shared >> result",
-        },
-    )
-    run_git(repo, "init")
-    run_git(repo, "add", ".")
-    run_git(
-        repo,
-        "-c",
-        "user.name=test",
-        "-c",
-        "user.email=test@example.com",
-        "commit",
-        "-m",
-        "base",
-    )
+def test_explicit_mode_is_required(tmp_path: Path) -> None:
+    repo = make_repo(tmp_path, CONFIG, scripts())
+    result = run(repo)
+    assert result.returncode != 0
+    assert "one of the arguments --list --route --all is required" in result.stderr
 
-    result = run(repo, "--changed-from", "HEAD")
 
-    assert result.returncode == 0, result.stderr
-    assert (repo / "result").read_text().splitlines() == ["shared"]
+def test_modes_are_mutually_exclusive(tmp_path: Path) -> None:
+    repo = make_repo(tmp_path, CONFIG, scripts())
+    result = run(repo, "--all", "--route", "api")
+    assert result.returncode != 0
+    assert "not allowed with argument" in result.stderr
+
+
+def test_unknown_route_fails(tmp_path: Path) -> None:
+    repo = make_repo(tmp_path, CONFIG, scripts())
+    result = run(repo, "--route", "missing")
+    assert result.returncode != 0
+    assert "unknown verification route(s): missing" in result.stderr
 
 
 @pytest.mark.parametrize(
     "config, expected",
     [
+        ("version = 2\n", "requires version = 1"),
+        ("version = 1\nextra = true\n", "unsupported top-level fields"),
         (
-            "version = 1\n[[routes]]\nid='x'\npaths=[]\nscript='scripts/verify/x'\nrequired=true\n",
-            "needs paths or always = true",
+            "version = 1\n[[routes]]\nid='x'\ntitle='X'\nscript='scripts/verify/x'\npaths=['src/**']\n",
+            "unsupported fields: paths",
         ),
         (
-            "version = 1\n[[routes]]\nid='x'\npaths=['x']\nscript='scripts/verify/missing'\nrequired=true\n",
-            "missing or not executable",
+            "version = 1\n[[routes]]\nid='x'\nscript='scripts/verify/x'\n",
+            "requires a non-empty title",
         ),
         (
-            "version = 1\n[[routes]]\nid='x'\npaths=['x']\nscript='scripts/a'\nrequired=true\nkind='manual'\n",
-            "manual route",
+            "version = 1\n[[routes]]\nid='x'\ntitle='X'\nscript='scripts/verify/x'\n[[routes]]\nid='x'\ntitle='X2'\nscript='scripts/verify/x2'\n",
+            "route IDs must be unique",
         ),
     ],
 )
-def test_routes_reject_invalid_automated_contracts(
+def test_routes_reject_invalid_registry(
     tmp_path: Path, config: str, expected: str
 ) -> None:
     repo = make_repo(tmp_path, config)
-    result = run(repo)
+    result = run(repo, "--list")
     assert result.returncode != 0 and expected in result.stderr
 
 
-def test_selector_rejects_unmatched_required_route_with_missing_script(
-    tmp_path: Path,
-) -> None:
+def test_routes_reject_non_utf8_registry(tmp_path: Path) -> None:
+    repo = make_repo(tmp_path, "version = 1\n")
+    (repo / ".harness" / "verification.toml").write_bytes(b"\xff\xfe")
+    result = run(repo, "--list")
+    assert result.returncode != 0
+    assert "malformed verification config" in result.stderr
+
+
+def test_unselected_broken_route_does_not_block_selected_route(tmp_path: Path) -> None:
     repo = make_repo(
         tmp_path,
-        """version = 1
-[[routes]]
-id = "selected"
-paths = ["src/**"]
-script = "scripts/verify/selected"
-required = true
-kind = "runtime"
-[[routes]]
-id = "unmatched"
-paths = ["web/**"]
-script = "scripts/verify/missing"
-required = true
-kind = "browser"
-""",
-        {"scripts/verify/selected": "exit 0"},
+        CONFIG,
+        {"scripts/verify/api": "exit 0"},
     )
+    result = run(repo, "--route", "api")
+    assert result.returncode == 0, result.stderr
 
-    result = run(repo, "--path", "src/app.py")
 
+def test_selected_missing_script_fails(tmp_path: Path) -> None:
+    repo = make_repo(tmp_path, CONFIG, {"scripts/verify/api": "exit 0"})
+    result = run(repo, "--route", "browser")
     assert result.returncode != 0
-    assert "route 'unmatched' script is missing or not executable" in result.stderr
+    assert "missing or not executable" in result.stderr
 
 
-def test_selector_rejects_unmatched_required_route_with_non_executable_script(
-    tmp_path: Path,
-) -> None:
-    repo = make_repo(
-        tmp_path,
-        """version = 1
-[[routes]]
-id = "selected"
-paths = ["src/**"]
-script = "scripts/verify/selected"
-required = true
-kind = "runtime"
-[[routes]]
-id = "unmatched"
-paths = ["web/**"]
-script = "scripts/verify/unmatched"
-required = true
-kind = "browser"
-""",
-        {
-            "scripts/verify/selected": "exit 0",
-            "scripts/verify/unmatched": "exit 0",
-        },
-    )
-    (repo / "scripts" / "verify" / "unmatched").chmod(0o644)
-
-    result = run(repo, "--path", "src/app.py")
-
+def test_all_validates_every_script(tmp_path: Path) -> None:
+    repo = make_repo(tmp_path, CONFIG, {"scripts/verify/api": "exit 0"})
+    result = run(repo, "--all")
     assert result.returncode != 0
-    assert "route 'unmatched' script is missing or not executable" in result.stderr
+    assert "route 'browser' script is missing or not executable" in result.stderr
 
 
 @pytest.mark.parametrize(
@@ -308,15 +188,11 @@ def test_routes_reject_script_paths_outside_owned_directory(
         f"""version = 1
 [[routes]]
 id = "x"
-paths = ["src/**"]
+title = "X"
 script = "{script}"
-required = true
-kind = "runtime"
 """,
     )
-
-    result = run(repo)
-
+    result = run(repo, "--route", "x")
     assert result.returncode != 0
     assert expected in result.stderr
 
@@ -327,10 +203,8 @@ def test_routes_reject_symlink_escape(tmp_path: Path) -> None:
         """version = 1
 [[routes]]
 id = "x"
-paths = ["src/**"]
+title = "X"
 script = "scripts/verify/escape"
-required = true
-kind = "runtime"
 """,
     )
     outside = tmp_path / "outside"
@@ -338,95 +212,44 @@ kind = "runtime"
     outside.chmod(0o755)
     (repo / "scripts" / "verify").mkdir(parents=True)
     (repo / "scripts" / "verify" / "escape").symlink_to(outside)
-
-    result = run(repo)
-
+    result = run(repo, "--route", "x")
     assert result.returncode != 0
     assert "must resolve beneath scripts/verify" in result.stderr
 
 
 def test_routes_reject_symlinked_config_directory(tmp_path: Path) -> None:
-    repo = make_repo(
-        tmp_path,
-        """version = 1
-[[routes]]
-id = "x"
-paths = ["src/**"]
-script = "scripts/verify/x"
-required = true
-kind = "runtime"
-""",
-        {"scripts/verify/x": "exit 0"},
-    )
+    repo = make_repo(tmp_path, CONFIG, scripts())
     external = tmp_path / "outside-config"
     (repo / ".harness").rename(external)
     (repo / ".harness").symlink_to(external)
-
-    result = run(repo)
-
+    result = run(repo, "--list")
     assert result.returncode != 0
     assert "repository-owned regular file" in result.stderr
 
 
 def test_routes_reject_symlinked_verification_directory(tmp_path: Path) -> None:
-    repo = make_repo(
-        tmp_path,
-        """version = 1
-[[routes]]
-id = "x"
-paths = ["src/**"]
-script = "scripts/verify/x"
-required = true
-kind = "runtime"
-""",
-    )
+    repo = make_repo(tmp_path, CONFIG)
     outside = tmp_path / "outside-routes"
     outside.mkdir()
-    script = outside / "x"
-    script.write_text("#!/bin/sh\nexit 0\n")
-    script.chmod(0o755)
     (repo / "scripts" / "verify").symlink_to(outside)
-
-    result = run(repo)
-
+    result = run(repo, "--route", "api")
     assert result.returncode != 0
     assert "repository-owned directory, not a symlink" in result.stderr
 
 
 def test_routes_reject_symlinked_scripts_directory(tmp_path: Path) -> None:
-    repo = make_repo(
-        tmp_path,
-        """version = 1
-[[routes]]
-id = "x"
-paths = ["src/**"]
-script = "scripts/verify/x"
-required = true
-kind = "runtime"
-""",
-        {"scripts/verify/x": "exit 0"},
-    )
+    repo = make_repo(tmp_path, CONFIG, scripts())
     external = tmp_path / "outside-scripts"
     (repo / "scripts").rename(external)
     (repo / "scripts").symlink_to(external)
-
-    result = run(repo)
-
+    result = run(repo, "--route", "api")
     assert result.returncode != 0
     assert "repository-owned directory, not a symlink" in result.stderr
 
 
 def test_route_failure_propagates(tmp_path: Path) -> None:
-    repo = make_repo(
-        tmp_path,
-        CONFIG,
-        {
-            "scripts/verify/api": "exit 7",
-            "scripts/verify/browser": "exit 0",
-            "scripts/verify/shared": "exit 0",
-        },
-    )
-    assert run(repo, "--path", "src/api/x.py").returncode == 7
+    repo = make_repo(tmp_path, CONFIG, {"scripts/verify/api": "exit 7"})
+    assert run(repo, "--route", "api").returncode == 7
 
 
 def test_runtime_route_exercises_server_side_effect_and_cleanup(tmp_path: Path) -> None:
@@ -436,10 +259,8 @@ def test_runtime_route_exercises_server_side_effect_and_cleanup(tmp_path: Path) 
         """version = 1
 [[routes]]
 id = "record-journey"
-paths = ["src/records/**"]
+title = "Create and retrieve a record"
 script = "scripts/verify/record-journey"
-required = true
-kind = "runtime"
 """,
     )
     route = repo / "scripts" / "verify" / "record-journey"
@@ -478,7 +299,7 @@ kind = "runtime"
                 try:
                     urllib.request.urlopen(base + "/record")
                 except urllib.error.HTTPError as error:
-                    assert error.code == 404  # negative control: absent record is not success
+                    assert error.code == 404
                 else:
                     raise AssertionError("negative control unexpectedly found a record")
                 request = urllib.request.Request(base + "/record", data=b'{"name":"Ada"}', method="POST")
@@ -489,13 +310,13 @@ kind = "runtime"
                 output.parent.mkdir(parents=True, exist_ok=True); output.write_text(json.dumps(observed))
             finally:
                 server.shutdown(); thread.join(); server.server_close()
-                state.unlink(missing_ok=True); state.parent.rmdir()  # cleanup only state this route owns
+                state.unlink(missing_ok=True); state.parent.rmdir()
             """
         )
     )
     route.chmod(0o755)
 
-    result = run(repo, "--path", "src/records/api.py")
+    result = run(repo, "--route", "record-journey")
     assert result.returncode == 0, result.stderr
     assert (
         repo / "test-results/verification/record-journey/observed.json"

@@ -52,6 +52,9 @@ def test_verification_route_contract_exists() -> None:
     assert (SCAFFOLD_ROOT / ".harness" / "verification.toml").exists()
     runner = SCAFFOLD_ROOT / "scripts" / "verify-routes"
     assert runner.exists() and os.access(runner, os.X_OK)
+    verify_task = (SCAFFOLD_ROOT / ".mise" / "tasks" / "verify").read_text()
+    assert "if route_args:" in verify_task
+    assert "no product verification routes requested" in verify_task
 
 
 def test_generated_skills_include_verification_lifecycle() -> None:
@@ -61,11 +64,12 @@ def test_generated_skills_include_verification_lifecycle() -> None:
     assert not (skills / "slice-workflow").exists()
 
 
-def test_generated_ci_selects_changed_verification_routes() -> None:
+def test_generated_ci_runs_stack_verification_without_route_heuristics() -> None:
     content = (
         SCAFFOLD_ROOT / "templates" / ".github" / "workflows" / "ci.yml.tmpl"
     ).read_text()
-    assert "--changed-from" in content and "mise run verify" in content
+    assert "run: mise run verify" in content
+    assert "--changed-from" not in content and "--path" not in content
     assert "changed-plans" not in content and "sync-check" not in content
 
 

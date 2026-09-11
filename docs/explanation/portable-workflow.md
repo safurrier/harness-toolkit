@@ -84,8 +84,9 @@ hk handoff --target . --format markdown
 
 Portable plan-artifact commands were removed from `hk`: there is no `hk
 attach`, `hk legacy plan`, or `hk legacy sync-check`. New scaffolded repositories
-use native `mise run check` and `mise run verify`, with optional path-selected
-verification routes and durable guidance in `AGENTS.md` and `docs/`. Existing
+use native `mise run check` and `mise run verify`, with optional named
+verification routes chosen explicitly from code and product context. Durable
+guidance lives in `AGENTS.md` and `docs/`. Existing
 generated repositories that retain plan packages are legacy.
 
 Conceptually, the intended agent/human lifecycle is:

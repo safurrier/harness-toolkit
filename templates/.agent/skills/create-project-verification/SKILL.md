@@ -13,15 +13,16 @@ user journey without observing the claimed outcome.
 2. Define **Surface, Run, Drive, Observe, Isolate**: public interface; launch and
    readiness; caller action; distinguishing output or side effect; owned state,
    credentials, and cleanup.
-3. Reuse an existing test or script where it proves the claim. Otherwise add the
-   narrowest route script under `scripts/verify/` and register it in
-   `.harness/verification.toml` with source/dependency path globs.
+3. Inspect existing routes with `scripts/verify-routes --list`. Reuse a route or
+   existing test when it proves the claim. Otherwise add the narrowest executable
+   script under `scripts/verify/` and register only its stable ID, title, and script
+   in `.harness/verification.toml`.
 4. Exercise launch → readiness → drive → observation → cleanup. Keep logs or
    useful artifacts outside disposable state. Add a safe bad input or failing
    control so the observation is known to be sensitive.
-5. Mark a route `required = true` only after it has run successfully. Use
-   `scripts/verify-routes --path <changed-path>` while iterating; no selector
-   runs every required automated route.
+5. Run the route explicitly with `scripts/verify-routes --route <id>` while
+   iterating and `mise run verify -- --route <id>` for heavy closeout. Explain why
+   this route is relevant; the registry does not prove coverage by itself.
 6. Keep manual or credentialed validation as an explicit operator procedure in
    `VALIDATION.md` or `docs/reference/verification.md`; never put it in the
    automated registry as a pass.

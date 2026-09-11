@@ -8,7 +8,7 @@ starter-template CLI: it generates projects with a stable mise task contract,
 native quality and product-verification checks, plus stack templates. `hk` / `harness-kit` is the portable CLI
 for applying the workflow to existing repos without committing scaffold files.
 Generated repos receive native `mise run check` and `mise run verify` task
-surfaces, with optional path-selected product verification routes.
+surfaces, with optional explicitly selected product verification routes.
 
 ## How to Work Here
 
@@ -62,6 +62,8 @@ use it only in a copied scaffold or throwaway init target.
   task definitions. **BECAUSE** the command contract is file-based task scripts.
 
 - **DO** keep generated verification skills, route runner, and `mise run verify` aligned. **NOT** treat a green build or unit test exit as proof of a user journey. **BECAUSE** route scripts must observe the claimed behavior.
+
+- **DO** keep deterministic verification tasks dumb: expose stable named-route and explicit all-route primitives, then let the agent choose relevant journeys from code and product context. **NOT** make brittle path matching authoritative for which product routes are required or skipped. **BECAUSE** static mappings grow stale, miss semantic dependencies, and can trigger broad verification loops that consume time without improving judgment.
 
 - **DO** update the stack registry package, stack templates, and affected mise
   task dispatch handlers together when adding stack behavior. **NOT** by editing
@@ -216,6 +218,6 @@ use it only in a copied scaffold or throwaway init target.
 | `docs/reference/decisions/` | ADRs for scaffold workflow and contract choices |
 | `.agent/skills/hk-pr-sized-dogfood/` | Repo-local skill for PR-sized HK dogfood replay studies |
 | `templates/.agent/skills/create-project-verification/` | Skill shipped to generated repos |
-| `.harness/verification.toml` | Optional path map for generated product verification routes |
+| `.harness/verification.toml` | Stable registry of named product verification routes |
 
 <!-- generated-by: context-engineering@2.2.0 | last-updated: 2026-04-30 -->

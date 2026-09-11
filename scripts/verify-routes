@@ -1,40 +1,18 @@
 #!/usr/bin/env python3
-"""Run required product verification routes selected by paths or a Git diff."""
+"""List or run explicitly selected product verification routes."""
 
 from __future__ import annotations
 
 import argparse
-import fnmatch
-import os
 import subprocess
 import tomllib
 from pathlib import Path
 
+ALLOWED_ROUTE_KEYS = {"id", "title", "script"}
+
 
 def fail(message: str) -> None:
     raise SystemExit(f"error: {message}")
-
-
-def paths_from_ref(root: Path, ref: str) -> list[str]:
-    env = os.environ.copy()
-    for name in ("GIT_DIR", "GIT_WORK_TREE", "GIT_INDEX_FILE"):
-        env.pop(name, None)
-    result = subprocess.run(
-        ["git", "diff", "--name-only", "--no-renames", ref],
-        cwd=root,
-        env=env,
-        text=True,
-        capture_output=True,
-    )
-    if result.returncode:
-        fail(f"cannot read changed paths for {ref}: {result.stderr.strip()}")
-    return [path for path in result.stdout.splitlines() if path]
-
-
-def matches(path: str, pattern: str) -> bool:
-    return fnmatch.fnmatchcase(path, pattern) or fnmatch.fnmatchcase(
-        path, f"**/{pattern}"
-    )
 
 
 def route_script(root: Path, route_id: str, configured_path: str) -> Path:
@@ -61,20 +39,7 @@ def route_script(root: Path, route_id: str, configured_path: str) -> Path:
     return script
 
 
-def main() -> int:
-    parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument(
-        "--path",
-        action="append",
-        default=[],
-        help="Changed repo-relative path (repeatable)",
-    )
-    parser.add_argument(
-        "--changed-from", help="Git diff range/ref used to select routes"
-    )
-    args = parser.parse_args()
-
-    root = Path.cwd().resolve()
+def load_routes(root: Path) -> list[dict[str, str]]:
     config_parent = root / ".harness"
     config = config_parent / "verification.toml"
     if config_parent.is_symlink() or config.is_symlink():
@@ -88,84 +53,79 @@ def main() -> int:
 
     try:
         data = tomllib.loads(config.read_text())
-    except tomllib.TOMLDecodeError as exc:
+    except (tomllib.TOMLDecodeError, UnicodeDecodeError) as exc:
         fail(f"malformed verification config: {exc}")
+    if set(data) - {"version", "routes"}:
+        fail("verification config contains unsupported top-level fields")
     if data.get("version") != 1 or not isinstance(data.get("routes", []), list):
         fail("verification config requires version = 1 and optional [[routes]] entries")
 
-    has_selector = bool(args.path) or args.changed_from is not None
-    changed_paths = args.path.copy()
-    if args.changed_from is not None:
-        changed_paths.extend(paths_from_ref(root, args.changed_from))
-    selected_paths = list(dict.fromkeys(changed_paths))
-
-    routes: list[dict[str, object]] = []
+    routes: list[dict[str, str]] = []
     ids: set[str] = set()
     for route in data.get("routes", []):
         if not isinstance(route, dict):
             fail("each route must be a table")
+        unknown = set(route) - ALLOWED_ROUTE_KEYS
+        if unknown:
+            fail(
+                f"route {route.get('id', '<unknown>')!r} contains unsupported fields: "
+                + ", ".join(sorted(unknown))
+            )
         route_id = route.get("id")
+        title = route.get("title")
         script = route.get("script")
-        patterns = route.get("paths", [])
         if not isinstance(route_id, str) or not route_id or route_id in ids:
             fail("route IDs must be unique non-empty strings")
         ids.add(route_id)
-        if route.get("kind") == "manual":
-            fail(f"manual route {route_id!r} cannot be an automated verification route")
-        if (
-            not isinstance(script, str)
-            or not script
-            or not isinstance(patterns, list)
-            or not all(isinstance(pattern, str) and pattern for pattern in patterns)
-        ):
-            fail(f"route {route_id!r} requires script and paths")
-        always = route.get("always") is True
-        required = route.get("required", False)
-        if always and patterns:
-            fail(f"route {route_id!r} cannot combine always with paths")
-        if required and not always and not patterns:
-            fail(f"required route {route_id!r} needs paths or always = true")
-        validated_script = route_script(root, route_id, script)
-        if required:
-            if (
-                not validated_script.is_file()
-                or not validated_script.stat().st_mode & 0o111
-            ):
-                fail(
-                    f"route {route_id!r} script is missing or not executable: {script}"
-                )
-            routes.append(route)
+        if not isinstance(title, str) or not title:
+            fail(f"route {route_id!r} requires a non-empty title")
+        if not isinstance(script, str) or not script:
+            fail(f"route {route_id!r} requires a script")
+        route_script(root, route_id, script)
+        routes.append({"id": route_id, "title": title, "script": script})
+    return routes
 
-    chosen = [
-        route
-        for route in routes
-        if not has_selector
-        or route.get("always") is True
-        or any(
-            matches(path, pattern)
-            for path in selected_paths
-            for pattern in route["paths"]  # type: ignore[union-attr]
-        )
-    ]
-    if not chosen:
-        print("No required verification routes selected.")
+
+def main() -> int:
+    parser = argparse.ArgumentParser(description=__doc__)
+    mode = parser.add_mutually_exclusive_group(required=True)
+    mode.add_argument("--list", action="store_true", help="List available routes")
+    mode.add_argument("--route", action="append", help="Route ID to run (repeatable)")
+    mode.add_argument("--all", action="store_true", help="Run every registered route")
+    args = parser.parse_args()
+
+    root = Path.cwd().resolve()
+    routes = load_routes(root)
+    if args.list:
+        if not routes:
+            print("No product verification routes registered.")
+        for route in routes:
+            print(f"{route['id']}\t{route['title']}")
         return 0
 
+    by_id = {route["id"]: route for route in routes}
+    if args.all:
+        chosen = routes
+    else:
+        requested = list(dict.fromkeys(args.route))
+        unknown = [route_id for route_id in requested if route_id not in by_id]
+        if unknown:
+            fail("unknown verification route(s): " + ", ".join(unknown))
+        chosen = [by_id[route_id] for route_id in requested]
+
     for route in chosen:
-        route_id = route["id"]  # type: ignore[assignment]
-        configured_path = route["script"]  # type: ignore[assignment]
-        script = route_script(root, route_id, configured_path)
+        script = route_script(root, route["id"], route["script"])
         if not script.is_file() or not script.stat().st_mode & 0o111:
             fail(
-                f"route {route_id!r} script is missing or not executable: "
-                f"{configured_path}"
+                f"route {route['id']!r} script is missing or not executable: "
+                f"{route['script']}"
             )
-        print(f"==> Verification route: {route_id}")
+        print(f"==> Verification route: {route['id']}")
         result = subprocess.run([str(script)], cwd=root)
         if result.returncode:
             return result.returncode
 
-    print(f"Verified {len(chosen)} required route(s).")
+    print(f"Verified {len(chosen)} route(s).")
     return 0
 
 

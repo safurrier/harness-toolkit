@@ -5,7 +5,8 @@ target repo actually exposes the same contract.
 
 ## Scaffolded Harness Toolkit Repo
 
-Pattern: native quality tasks with path-selected product verification.
+Pattern: native quality and stack-verification tasks. Product journeys are named
+routes chosen explicitly from code and product context, not inferred by a profile.
 
 ```toml
 name = "example-scaffold-root"
@@ -13,7 +14,7 @@ title = "Example Scaffold Root"
 summary = "Validation contract for a repo initialized by harness-scaffold."
 target_hint = "Use --target <repo>."
 
-instructions = "Use this profile for a harness-scaffold repo. Use focused checks while iterating; run the heavier verification gate when changed paths select product routes or before merge-ready handoff."
+instructions = "Use this profile for a harness-scaffold repo. Use focused native checks while iterating and the heavier stack-verification gate before merge-ready handoff. Inspect scripts/verify-routes --list and explicitly run relevant product journeys separately."
 
 [[checks]]
 name = "fast-gate"
@@ -24,11 +25,11 @@ applies_when = ["src/**", "tests/**", "docs/**"]
 required_when = ["src/**", "tests/**"]
 
 [[checks]]
-name = "product-verification"
-purpose = "Run heavier product verification, selecting routes from changed paths."
-command_template = "mise run verify -- --changed-from origin/main...HEAD"
+name = "stack-verification"
+purpose = "Run heavier stack-specific verification without guessing custom product-route coverage."
+command_template = "mise run verify"
 run_from = "repo-root"
-notes = ["Use after source changes that select verification routes or for merge-ready handoff."]
+notes = ["Choose named product routes separately and record why they cover the change."]
 ```
 
 ## Rust mise Repo
@@ -36,95 +37,81 @@ notes = ["Use after source changes that select verification routes or for merge-
 Pattern: Rust project with fast and heavy mise gates.
 
 ```toml
-name = "example-rust-root"
-title = "Example Rust Root"
-summary = "Validation contract for a Rust repo with mise gates."
+name = "rust-mise"
+title = "Rust mise Repository"
+summary = "Rust repository with mise-owned quality and verification commands."
 target_hint = "Use --target <repo>."
 
-instructions = "Use focused checks while iterating, run fast-gate once before handoff, and reserve heavy checks for runtime-sensitive or merge-ready changes."
+instructions = "Prefer the repository's mise tasks over assembling cargo commands."
 
 [[checks]]
 name = "fast-gate"
-purpose = "Run the repo's final local validation gate before handoff."
+purpose = "Run formatting, linting, type checks, and unit tests."
 command_template = "mise run check"
 run_from = "repo-root"
-notes = ["If mise reports the checkout is untrusted, inspect `.mise.toml` and ask the user before running `mise trust .mise.toml`."]
+applies_when = ["src/**", "tests/**", "Cargo.toml", "Cargo.lock"]
+required_when = ["src/**", "tests/**", "Cargo.toml", "Cargo.lock"]
 
 [[checks]]
-name = "heavy-gate"
-purpose = "Run broader validation for runtime-sensitive or merge-ready changes."
+name = "full-verification"
+purpose = "Run integration and all-feature verification."
 command_template = "mise run verify"
 run_from = "repo-root"
-
-[[checks]]
-name = "handoff"
-purpose = "Validate portable workflow evidence and review state."
-command_template = "hk sync --target <target> --json && hk ready --target <target> --json"
-run_from = "current-directory"
+required_when = ["src/**", "tests/**", "Cargo.toml", "Cargo.lock"]
 ```
 
-## Dotfiles Repo
+## Python uv Repo
 
-Pattern: dotfiles repo with CI parity, local apply steps, and config drift checks.
-Do not treat the built-in `python` profile as authoritative when the repo has
-custom lint/typecheck/test/apply checks.
+Pattern: Python project using uv and pytest directly.
 
 ```toml
-name = "example-dotfiles-root"
-title = "Example Dotfiles Root"
-summary = "Validation contract for a dotfiles repo."
+name = "python-uv"
+title = "Python uv Repository"
+summary = "Python repository with uv-owned test and lint commands."
 target_hint = "Use --target <repo>."
 
-instructions = "Use fast unit/lint validation for most changes; run broader setup or apply checks when provisioning, shell, AI config, or generated config output changes. Do not chase final readiness after every edit; after small review fixes, prefer targeted validation/review."
+instructions = "Keep direct commands aligned with pyproject.toml and the checked-in lockfile."
 
 [[checks]]
-name = "fast-gate"
-purpose = "Fast final validation before handoff."
-command_template = "uv run pytest tests/unit/ -v && uv run ruff check ."
+name = "ruff"
+purpose = "Run formatting and lint checks."
+command_template = "uv run ruff format --check . && uv run ruff check ."
 run_from = "repo-root"
+applies_when = ["**/*.py", "pyproject.toml", "uv.lock"]
+required_when = ["**/*.py", "pyproject.toml", "uv.lock"]
 
 [[checks]]
-name = "ci-lint"
-purpose = "Run CI-scoped lint and format checks."
-command_template = "mise run lint && mise run lint:format"
+name = "pytest"
+purpose = "Run the project test suite."
+command_template = "uv run pytest"
 run_from = "repo-root"
+required_when = ["src/**", "tests/**", "pyproject.toml", "uv.lock"]
+```
+
+## Monorepo With Module-Scoped Tasks
+
+Pattern: repository-root coordination with module-local commands.
+
+```toml
+name = "module-monorepo"
+title = "Module Monorepo"
+summary = "Monorepo whose root task dispatches to module-native checks."
+target_hint = "Use --target <repo>."
+
+instructions = "Use module-specific commands for focused work and the root command for handoff."
 
 [[checks]]
-name = "typecheck"
-purpose = "Run repo type checks."
-command_template = "mise run typecheck"
+name = "module-check"
+purpose = "Run a focused module gate while iterating."
+command_template = "mise run check -- {module}"
 run_from = "repo-root"
+applies_when = ["apps/**", "packages/**"]
+required_when = ["apps/**", "packages/**"]
 
 [[checks]]
-name = "apply-config"
-purpose = "Apply managed config changes after dotfile edits."
-command_template = "mise run dotfiles"
+name = "root-check"
+purpose = "Run the repository-wide gate before handoff."
+command_template = "mise run check"
 run_from = "repo-root"
-notes = ["Use when changes affect deployed dotfiles or generated config."]
-applies_when = ["home/**", "config/**", "dotfiles/**"]
-
-[[reviews]]
-name = "agent-friendly-cli-review"
-purpose = "Review CLI changes against agent-facing CLI design principles."
-backend = "fresh-context-subagent"
-dispatch_hint = "Use a fresh-context reviewer near handoff. For small later fixes, prefer targeted follow-up review for changed paths instead of rerunning the full review."
-applies_when = ["src/**/cli*.py", "docs/**"]
-required_when = ["src/**/cli*.py"]
-
-[reviews.instructions]
-type = "file"
-path = "prompts/agent-friendly-cli-review.md"
-
-[[checks]]
-name = "ci-parity-tests"
-purpose = "Run the same pytest selectors used by CI's tests job."
-command_template = "uv run pytest tests/unit/ -m \"not fixme\" && uv run pytest -m \"integration and not fixme and not network and not slow\" --maxfail=1 --durations=10"
-run_from = "repo-root"
-
-[[checks]]
-name = "handoff"
-purpose = "Validate portable workflow evidence and review state."
-command_template = "hk sync --target <target> --json && hk ready --target <target> --json"
-run_from = "current-directory"
-notes = ["This checks recorded evidence; it does not rerun validation."]
+required_when = ["apps/**", "packages/**", ".mise/**", "mise.toml"]
 ```

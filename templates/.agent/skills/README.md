@@ -35,18 +35,19 @@ Each skill follows this structure:
 Use `create-project-verification` when a feature or caller journey lacks a
 trustworthy proof route. Use `maintain-project-verification` when a changed
 public surface, dependency, readiness step, observation, or cleanup rule may
-make an existing route stale. Routes belong in `scripts/verify/`, map affected
-paths in `.harness/verification.toml`, and must observe the claimed behavior or
+make an existing route stale. Routes belong in `scripts/verify/`, have stable
+names in `.harness/verification.toml`, and must observe the claimed behavior or
 side effect. A green build, test count, screenshot, or exit code alone is not
 proof of a user journey.
 
-Run only affected routes while iterating:
+Inspect the registry, reason about relevant journeys, and run them explicitly:
 
 ```bash
-scripts/verify-routes --path src/records/api.py
+scripts/verify-routes --list
+scripts/verify-routes --route create-record
 ```
 
-No selector runs every required automated route. Manual or credentialed checks
+Use `--all` only for an intentional broad run. Manual or credentialed checks
 remain explicit operator obligations rather than automated passes.
 
 ## Adding a Skill

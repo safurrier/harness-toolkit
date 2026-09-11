@@ -3,7 +3,7 @@
 ## Unreleased
 
 - Retire generated `.ai/plans` and slice-workflow tasks for new scaffolded projects; existing generated repositories remain legacy.
-- Add path-selected product verification routes, portable create/maintain verification skills, and CI routing from changed paths.
+- Add named product verification routes and portable create/maintain verification skills. Agents choose relevant journeys explicitly; deterministic tasks do not infer route coverage from changed paths.
 - Clarify the HK versus scaffold product choice and document visual stacks in public onboarding.
 
 - Fix generated Blender `build.py` import ordering so its pinned Ruff quality gate passes after formatting.

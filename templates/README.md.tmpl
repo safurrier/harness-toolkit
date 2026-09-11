@@ -19,21 +19,22 @@ mise run check
 
 `mise run check` is the fast quality gate. Use `mise run verify` for product,
 integration, browser, artifact, or other claims that need more than formatting,
-static analysis, and unit tests. It runs `check`, stack-specific verification,
-and any required product routes.
+static analysis, and unit tests. It runs `check` and stack-specific verification.
+Custom product routes run only when you name them.
 
-Add a route only after exercising a real feature or caller journey. Register its
-source and dependency paths in `.harness/verification.toml`, then use a focused
-route while iterating:
+Inspect available routes, choose relevant journeys from code and product context,
+and run them explicitly:
 
 ```bash
-scripts/verify-routes --path src/records/api.py
-mise run verify -- --path src/records/api.py
+scripts/verify-routes --list
+scripts/verify-routes --route create-record
+mise run verify -- --route create-record
 ```
 
-With no path selector, `mise run verify` runs every required automated route.
-Keep manual or credentialed checks as explicit operator evidence; do not mark
-them as automated passes.
+Use repeated `--route` arguments for several journeys and `--all` only for an
+intentional broad run. Explain why selected routes cover the change and note
+material routes skipped. Keep manual or credentialed checks as explicit operator
+evidence; do not mark them as automated passes.
 
 ## Task Reference
 
@@ -46,7 +47,7 @@ them as automated passes.
 | `mise run test` | Run unit tests |
 | `mise run build` | Build artifacts |
 | `mise run check` | Fast quality gate (fmt + lint + typecheck + test) |
-| `mise run verify` | Heavy validation and selected product verification routes |
+| `mise run verify` | Heavy quality and stack validation; add explicit product route arguments when needed |
 {% if project_shape == "apps" %}| `mise run dev -- <module>` | Start local development for a module |{% else %}| `mise run dev` | Start local development |{% endif %}
 | `mise run ci` | CI entrypoint (= check) |
 
@@ -57,5 +58,6 @@ them as automated passes.
 ## Development
 
 This project uses [mise](https://mise.jdx.dev/) as the task runner. All quality gates
-are accessible via `mise run <task>`. Pull request CI runs the fast quality gate
-and uses path-selected product verification routes for affected source paths.
+are accessible via `mise run <task>`. Pull request CI runs the fast quality gate and stack-specific verification.
+Product routes are selected explicitly during implementation and closeout rather
+than inferred from changed paths.

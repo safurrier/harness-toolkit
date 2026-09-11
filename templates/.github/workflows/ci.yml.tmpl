@@ -51,9 +51,4 @@ jobs:
         run: mise run setup
 
       - name: Verify
-        run: |
-          if [ "{% raw %}${{ github.event_name }}{% endraw %}" = "pull_request" ]; then
-            mise run verify -- --changed-from "origin/{% raw %}${{ github.base_ref }}{% endraw %}...HEAD"
-          else
-            mise run verify
-          fi
+        run: mise run verify

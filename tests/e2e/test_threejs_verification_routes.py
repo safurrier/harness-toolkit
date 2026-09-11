@@ -21,10 +21,8 @@ def _configure_browser_route(project: Path) -> None:
         """version = 1
 [[routes]]
 id = "threejs-browser-journey"
-paths = ["src/**", "test/e2e.mjs"]
+title = "Play and replay the browser journey"
 script = "scripts/verify/threejs-browser-journey"
-required = true
-kind = "browser"
 """
     )
 
@@ -46,14 +44,14 @@ def test_generated_threejs_browser_route_observes_journey_and_negative_control(
     _configure_browser_route(scaffold_copy)
 
     verified = subprocess.run(
-        ["scripts/verify-routes", "--path", "src/main.js"],
+        ["scripts/verify-routes", "--route", "threejs-browser-journey"],
         cwd=scaffold_copy,
         text=True,
         capture_output=True,
         timeout=300,
     )
     assert verified.returncode == 0, verified.stderr
-    assert "Verified 1 required route(s)." in verified.stdout
+    assert "Verified 1 route(s)." in verified.stdout
     assert (scaffold_copy / "test-results" / "portrait-delivered.png").is_file()
 
     main = scaffold_copy / "src" / "main.js"
@@ -66,7 +64,7 @@ def test_generated_threejs_browser_route_observes_journey_and_negative_control(
     assert corrupted != original
     main.write_text(corrupted)
     negative = subprocess.run(
-        ["scripts/verify-routes", "--path", "src/main.js"],
+        ["scripts/verify-routes", "--route", "threejs-browser-journey"],
         cwd=scaffold_copy,
         text=True,
         capture_output=True,

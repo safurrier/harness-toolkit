@@ -34,7 +34,7 @@ documented in the stack page and accepted in review.
 | Typecheck | `mise run typecheck` runs the stack's closest static type or compile check. |
 | Tests | `mise run test` runs generated tests and writes a CI artifact under the generated test-results directory. |
 | Build | `mise run build` performs the stack's release/build path, even if that is a lightweight package build for interpreted stacks. |
-| Product verification | `mise run verify` completes the stack's heavier checks and runs any required product routes selected from changed paths. |
+| Product verification | Plain `mise run verify` completes stack-specific heavy checks. Named product routes run only when explicitly requested. |
 
 ## Smoke Matrix
 
@@ -47,7 +47,8 @@ new runtime, browser, or artifact path:
 mise run init -- --non-interactive --name <name> --stack <stack>
 mise run setup
 mise run check
-mise run verify -- --path <changed-product-path>
+scripts/verify-routes --list
+mise run verify -- --route <relevant-route-id>
 ```
 
 A planned stack may stay out of the smoke matrix only while it is clearly marked

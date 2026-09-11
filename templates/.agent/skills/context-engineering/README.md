@@ -15,5 +15,5 @@ durable knowledge can evolve with the code.
 ## Relationship To The Task Contract
 
 This workflow keeps durable guidance discoverable. It complements `mise run
-check` for quality and `mise run verify` for heavier, path-selected product
+check` for quality and explicit named routes for heavier product
 verification; it does not replace either command.

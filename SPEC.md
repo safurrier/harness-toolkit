@@ -60,12 +60,13 @@ Non-goals:
   ci` MUST run the same quality gate. Generated CI and hooks MUST use this task
   surface.
 - New projects MUST include `.harness/verification.toml` and
-  `scripts/verify-routes`. The route map MAY start with no routes.
-- Each required automated route MUST have a unique ID, path patterns, and an
+  `scripts/verify-routes`. The route registry MAY start with no routes.
+- Each automated route MUST have a unique ID, a descriptive title, and an
   executable script below `scripts/verify`.
-- A route run with no selector MUST run all required routes. `--path` and
-  `--changed-from` MUST run matching required routes and required `always`
-  routes. Manual or credentialed work MUST NOT count as an automated pass.
+- Route execution MUST require an explicit `--route <id>` or `--all` choice.
+  `--list` MUST discover routes without running them. The runner MUST NOT infer
+  route applicability from changed paths. Manual or credentialed work MUST NOT
+  count as an automated pass.
 - A product route MUST observe the behavior it claims to prove. It MUST own
   launch, readiness, isolation, cleanup, and useful output. It SHOULD include a
   negative control when that control can disprove a false success.
@@ -84,7 +85,8 @@ Non-goals:
   artifacts that were attached explicitly. Integrity checks MUST reject stale,
   malformed, unsafe, or modified exports.
 - `mise run check` SHOULD stay fast. Teams SHOULD reserve product proof for
-  `mise run verify` and selected routes.
+  explicitly selected routes and use `mise run verify -- --route <id>` when
+  heavy quality and stack validation belong in the same closeout.
 - Generated docs SHOULD keep their machine-readable frontmatter. Architecture
   decision records SHOULD follow the repository's ADR structure.
 - HK profiles SHOULD guide focused checks and follow-up reviews. They MUST NOT
@@ -98,12 +100,14 @@ Non-goals:
 - `harness-scaffold init` accepts a project name, shape, and stack in
   non-interactive mode. It writes a repository-owned Mise task surface. Stack
   references define stack-specific options.
-- `mise run check` is the fast quality entrypoint. `mise run verify` adds heavy
-  product checks and verification routes.
-- `scripts/verify-routes --path <path>` accepts repeatable repository-relative
-  paths. `scripts/verify-routes --changed-from <range>` reads paths from Git.
-- `.harness/verification.toml` uses version 1. It declares route IDs, scripts,
-  path patterns, whether routes are required, and optional `always` behavior.
+- `mise run check` is the fast quality entrypoint. Plain `mise run verify` adds
+  heavy stack checks. Product routes run only when explicit runner arguments are
+  passed after `--`.
+- `scripts/verify-routes` supports `--list`, repeatable `--route <id>`, and
+  explicit `--all`; these modes are mutually exclusive.
+- `.harness/verification.toml` uses version 1. It declares only stable route IDs,
+  descriptive titles, and scripts. Agents and engineers choose relevant routes
+  from code and product context.
 - `hk` is an optional, shell-first lifecycle interface. Profiles and repository
   scripts guide native work. `hk sync --check` reports checkpoint freshness,
   while `hk ready` reports lifecycle readiness.

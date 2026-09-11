@@ -473,7 +473,8 @@ hk export --format handoff [--target PATH]
 
 Portable plan-artifact commands have been removed from `hk`. New scaffolded
 repositories use native `mise run check` and `mise run verify` with optional
-path-selected verification routes; only legacy generated repositories retain the
+named verification routes chosen explicitly by an agent or engineer; only legacy
+generated repositories retain the
 separate slice-workflow CLI.
 
 Deferred commands also include state cleanup, deep spec impact, profile

@@ -7,7 +7,7 @@ Harness Toolkit is a monorepo for two related but separate tools built around on
   state, and handoff output without forcing scaffold files into the repo.
 - **`harness-scaffold`** — a project generator for new agent-ready repositories.
   It creates a stable `mise` task contract, docs structure, CI wiring, and
-  path-selected product-verification defaults.
+  explicitly selected product-verification routes.
 
 Use `hk` when the repository already exists and you want safer agent handoff.
 Use `harness-scaffold` when you are starting a new repository and want the

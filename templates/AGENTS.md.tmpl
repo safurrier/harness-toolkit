@@ -4,15 +4,21 @@
 
 ## Working agreement
 
-Run `mise run check` before committing. Run `mise run verify` for integration, browser, artifact, or other product claims that need more than the fast gate.
+Run `mise run check` before committing. Plain `mise run verify` covers heavier
+stack-level integration, browser, and artifact checks. A registered product
+journey requires an explicit route.
 
 ```bash
 mise run setup
 mise run check
 mise run verify
+scripts/verify-routes --list
+mise run verify -- --route <route-id>
 ```
 
-`check` is the fast quality gate. `verify` first runs `check`, then stack-specific work and selected product verification routes from `.harness/verification.toml`. Use `scripts/verify-routes --path path/to/change` while iterating; no selector runs every required automated route.
+`check` is the fast quality gate. Choose relevant product routes from code and
+product context; use repeated `--route` arguments for several journeys and
+`--all` only for an intentional broad run.
 
 Do not call a green build or test exit proof of a user journey without observing the relevant result or side effect. Keep manual or credentialed checks as explicit handoff obligations.
 

@@ -13,7 +13,8 @@ index:
 
 New projects no longer receive `.ai/plans`, slice prompt skills, plan-directory
 checks, or plan-specific mise tasks. The stable generated contract is native
-quality tasks plus optional path-selected product verification routes.
+quality tasks plus optional named product verification routes selected explicitly
+from code and product context.
 
 Harness Kit remains an optional lifecycle and handoff tool; it is not required in
 generated CI because its ledger can be local or external. Existing generated

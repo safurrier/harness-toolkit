@@ -309,7 +309,8 @@ class TestPythonAppsGolden:
 
     def test_agents_md_documents_verification_contract(self) -> None:
         content = (self._root / "AGENTS.md").read_text()
-        assert "scripts/verify-routes --path" in content
+        assert "scripts/verify-routes --list" in content
+        assert "mise run verify -- --route" in content
         assert "mise run plan" not in content
 
     def test_ci_workflow_apps_artifacts(self) -> None:
@@ -528,7 +529,8 @@ class TestGoAppsGolden:
 
     def test_agents_md_documents_verification_contract(self) -> None:
         content = (self._root / "AGENTS.md").read_text()
-        assert "scripts/verify-routes --path" in content
+        assert "scripts/verify-routes --list" in content
+        assert "mise run verify -- --route" in content
         assert "mise run plan" not in content
 
     def test_ci_workflow_apps_artifacts(self) -> None:
@@ -745,7 +747,8 @@ class TestRustAppsGolden:
 
     def test_agents_md_documents_verification_contract(self) -> None:
         content = (self._root / "AGENTS.md").read_text()
-        assert "scripts/verify-routes --path" in content
+        assert "scripts/verify-routes --list" in content
+        assert "mise run verify -- --route" in content
         assert "mise run plan" not in content
 
     def test_ci_workflow_apps_artifacts(self) -> None:

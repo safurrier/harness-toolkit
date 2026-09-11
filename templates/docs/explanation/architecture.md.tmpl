@@ -86,13 +86,14 @@ index:
 ### Validation Loop
 
 ```bash
-mise run check       # fast code quality gate
-mise run verify      # stack-specific and selected product verification
+mise run check                              # fast code quality gate
+mise run verify                             # stack-specific heavy verification
+mise run verify -- --route <route-id>       # include an explicit product journey
 ```
 
-Use `scripts/verify-routes --path path/to/change` to exercise required routes
-that match an affected public surface or dependency. Without a selector,
-`mise run verify` runs every required automated route.
+Use `scripts/verify-routes --list` to discover named journeys. Choose relevant
+routes from code and product context, then run them with repeated `--route`
+arguments. Use `--all` only when broad product verification is intentional.
 
 ### Artifact-First Debugging
 
